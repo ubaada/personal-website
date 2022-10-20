@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>
+         Ubaada
+      </title>
+      <link rel="icon" type="image/x-icon" href="images/favicon.png">
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <!-- Font(s) -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
+  
+      <!-- Main css file-->
+      <link href="css/custom.css" rel="stylesheet">
+
+
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-6YFPNXLP2B"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         
+         gtag('config', 'G-6YFPNXLP2B');
+      </script>
+   </head>
+   <body>
+      <!-- Entire About page along with picture and introduction -->
+      <div class="screenbox scrollspy" id="about">
+         <div class="container">
+            <h1>About</h1>
+            <div id="about-card">
+               <div class="row" id="about-card-row">
+                  <!-- Image goes here -->
+                  <div class="col s12 m6" id="about-img-side"> 
+                     <img id="my-picture" src="images/me.jpg" alt="me">
+                  </div>
+                  <!-- bevel (not visible on mob) -->
+                  <div class="col m1 hide-on-small-only" id="bevel-strip"> 
+
+                  </div>
+                  <!-- Introduction goes here -->
+                  <div class="col s12 m5" id="about-text-side">
+                     <div class="row">
+                        <div class="col s12">
+                           <div id="intro-section">
+                              <h2 id="my-name">Ubaada</h2>
+                              <p>
+                                 Hi, I'm Ubaada Altaf Qureshi. I'm a recently graduated Software Engineer.
+                                 If you want to contact me just shoot me a DM on one of the social media links below. That's me on the <span id="pic-pos">left</span> :)
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- Intro: Location info line -->
+                     <div class="row">
+                        <div class="col s12" id="location-row">
+                           <span id="location-icon"></span>
+                           <span>Dunedin, New Zealand</span>
+                        </div>
+                     </div>
+                     <!-- Intro: Row for social media buttons -->
+                     <div class="row">
+                        <div class="col s12" id="sm-bar">
+                           <a href="https://github.com/ubaada" class="tooltipped" data-position="bottom" data-tooltip="My Github" target="_blank">
+                           <span class="sm-icon" id="github-icon"></span>
+                           </a>  
+                           <a href="https://www.linkedin.com/in/ubaada-qureshi-995815228" class="tooltipped" data-position="bottom" data-tooltip="My LinkedIn" target="_blank">
+                           <span class="sm-icon" id="linkedin-icon"></span>
+                           </a>  
+                           <a href="https://twitter.com/ubaada/" class="tooltipped" data-position="bottom" data-tooltip="My Twitter" target="_blank">
+                           <span class="sm-icon" id="twitter-icon"></span>
+                           </a>  
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+      <!-- Projects page -->
+      <div class="screenbox scrollspy" id="projects">
+         <div class="container">
+            <h1>Projects</h1>
+
+            <!-- Projecy Entries Row -->
+            <div id="projects-card-row" class="center-align">
+
+                <!-- Project no.1: VM + AI project -->
+                  <div class="project-entry">
+                              <div class="project-entry-image" style="background-image: url('images/bird.jpg');">
+                                 <div class="project-entry-title">Bird Watching Diary</div>
+                              </div>
+                              <div class="project-entry-tag-line">
+                                <div class="project-entry-tag">Virtual Machine</div>
+                                <div class="project-entry-tag">AWS Cloud</div>
+                                <div class="project-entry-tag">A.I.</div>
+                                <div class="project-entry-tag">Python</div>
+                                <div class="project-entry-tag">HTML | CSS | JS</div>
+                                <div class="project-entry-tag">PHP</div>
+                                <div class="project-entry-tag">SQL</div>
+                              </div>
+                              <div class="project-entry-content">
+                                <div>Automatically recognizes and stores the bird species in diary. Three VM instances (Webserver, DB serve and Python AI instance) running collaboratively.</div>
+                              </div>
+                              <div class="project-entry-foot">
+                                <a href="https://github.com/ubaada/AI-Birdwatcher-Diary-AWS" class="tooltipped" data-position="bottom" data-tooltip="See project on GitHub" target="_blank">
+                                  <span class="git-detail-btn"></span>
+                                </a>  
+                                <!-- <span class="tooltipped project-details-btn" data-position="bottom" data-tooltip="More Details" target="_blank" onclick="showPopup('#pd1')"  ></span> -->
+                              </div>
+                  </div>
+
+                <!-- Project no.2: website ubaada.com -->
+                  <div class="project-entry">
+                              <div class="project-entry-image" style="background-image: url('images/ubcom.png');background-color: #7F0000;">
+                                 <div class="project-entry-title">Website: ubaada.com</div>
+                              </div>
+                              <div class="project-entry-tag-line">
+                                <div class="project-entry-tag">Virtual Machine</div>
+                                <div class="project-entry-tag">Oracle Cloud</div>
+                                <div class="project-entry-tag">Linux</div>
+                                <div class="project-entry-tag">HTML | CSS | JS</div>
+                                <div class="project-entry-tag">Deployment</div>
+                                <div class="project-entry-tag">Apache</div>
+                                <div class="project-entry-tag">Full Stack</div>
+                              </div>
+
+                              <div class="project-entry-content">
+                                <div>
+                                 A responsive portfolio website built from scratch hosted on an Oracle Cloud virtual machine instance. The instance is running an Apache server.
+
+                                   </div>
+                              </div>
+                              <div class="project-entry-foot">
+                               <!--  <a href="https://github.com/ubaada" class="tooltipped" data-position="bottom" data-tooltip="See project on GitHub" target="_blank">
+                                  <span class="git-detail-btn"></span>
+                                </a>   -->
+                                <!-- <span class="tooltipped project-details-btn" data-position="bottom" data-tooltip="More Details" target="_blank" onclick="showPopup('#pd1')"  ></span> -->
+                              </div>
+                  </div>
+
+
+                <!-- Project no.3: BoozeApp  -->
+                  <div class="project-entry">
+                              <div class="project-entry-image" style="background-image: url('images/bapp.png');background-color: #3e4497;">
+                                 <div class="project-entry-title">Boozespy App</div>
+                              </div>
+                              <div class="project-entry-tag-line">
+                                <div class="project-entry-tag">Java</div>
+                                <div class="project-entry-tag">Android</div>
+                                <div class="project-entry-tag">Web scrapping</div>
+                                 <div class="project-entry-tag">Maps API</div>
+                                  <div class="project-entry-tag">CI / CD</div>
+                              </div>
+
+                              <div class="project-entry-content">
+                                <div>
+                                Course project. An Android App that searches for the cheapest offering of a given product 
+                                across various online stores and sorts by nearest locations (Maps API).
+                                   </div>
+                              </div>
+                              <div class="project-entry-foot">
+                                <a href="https://github.com/ubaada/COSC345-Project" class="tooltipped" data-position="bottom" data-tooltip="See project on GitHub" target="_blank">
+                                  <span class="git-detail-btn"></span>
+                                </a>  
+                                <!-- <span class="tooltipped project-details-btn" data-position="bottom" data-tooltip="More Details" target="_blank" onclick="showPopup('#pd1')"  ></span> -->
+                              </div>
+                  </div>
+
+                <!-- Project no.4: Database Project -->
+                  <div class="project-entry">
+                              <div class="project-entry-image" style="background-image: url('images/dbp.png');background-color: #ffb655;">
+                                 <div class="project-entry-title">Database Modelling</div>
+                              </div>
+                              <div class="project-entry-tag-line">
+                                <div class="project-entry-tag">SQL</div>
+                                <div class="project-entry-tag">ERD</div>
+                                <div class="project-entry-tag">Relational Modelling</div>
+                              </div>
+
+                              <div class="project-entry-content">
+                                <div>
+                                Course Project. An organizational structure converted to an ER diagram then modelled into a database
+                                and written in SQL.
+                                   </div>
+                              </div>
+                              <div class="project-entry-foot">
+                                <a href="https://github.com/ubaada/Database-Modelling-Project-344" class="tooltipped" data-position="bottom" data-tooltip="See project on GitHub" target="_blank">
+                                  <span class="git-detail-btn"></span>
+                                </a>  
+                                <!-- <span class="tooltipped project-details-btn" data-position="bottom" data-tooltip="More Details" target="_blank" onclick="showPopup('#pd1')"  ></span> -->
+                              </div>
+                  </div>
+
+
+                   <!-- Project no.5: Hopfield Network implementation-->
+                  <div class="project-entry">
+                              <div class="project-entry-image" style="background-image: url('images/hop.png');background-color: #55ffd3;">
+                                 <div class="project-entry-title">Hopfield Network implementation-</div>
+                              </div>
+                              <div class="project-entry-tag-line">
+                                <div class="project-entry-tag">Python</div>
+                                <div class="project-entry-tag">Data Science</div>
+                                <div class="project-entry-tag">Neural Networks</div>
+                                 <div class="project-entry-tag">NumPy</div>
+                              </div>
+
+                              <div class="project-entry-content">
+                                <div>
+                                Hopfield Network implemented in python from scratch. Both training and inference.
+                                   </div>
+                              </div>
+                              <div class="project-entry-foot">
+                                <a href="https://github.com/ubaada/Hopfield-Net-Implementation" class="tooltipped" data-position="bottom" data-tooltip="See project on GitHub" target="_blank">
+                                  <span class="git-detail-btn"></span>
+                                </a>  
+                               <!--  <span class="tooltipped project-details-btn" data-position="bottom" data-tooltip="More Details" target="_blank" onclick="showPopup('#pd1')"  ></span> -->
+                              </div>
+                  </div>
+
+
+                  <!-- Project no.6: Examining GPT -->
+                  <div class="project-entry">
+                              <div class="project-entry-image" style="background-image: url('images/gpt2.png');background-color: #55d2ff;">
+                                 <div class="project-entry-title">GPT-2: Examining</div>
+                              </div>
+                              <div class="project-entry-tag-line">
+                              <div class="project-entry-tag">TensorFlow</div>
+                                <div class="project-entry-tag">CDO</div>
+                                <div class="project-entry-tag">Neural Networks</div>
+                                <div class="project-entry-tag">Python</div>
+                                <div class="project-entry-tag">Data Science</div>
+                              </div>
+
+                              <div class="project-entry-content">
+                                <div>
+                                Exploring gender bias in language modelling with GPT-2 using Counterfactual Data Augmentation.
+                                   </div>
+                              </div>
+                              <div class="project-entry-foot">
+                                <a href="https://github.com/ubaada/GPT2-Examining" class="tooltipped" data-position="bottom" data-tooltip="See project on GitHub" target="_blank">
+                                  <span class="git-detail-btn"></span>
+                                </a>  
+                               <!--  <span class="tooltipped project-details-btn" data-position="bottom" data-tooltip="More Details" target="_blank" onclick="showPopup('#pd1')"  ></span> -->
+                              </div>
+                  </div>
+                
+
+            </div>
+         </div>
+      </div>
+
+
+      <!-- Hidden projects details popup page; hidden for now -->
+      <div id="details-pop-up" onhashchange="alert('sd');" class="hidden">
+        <div id="details-centre-box" class="container">
+          <div id="details-popup-contents">
+            <p>
+              <div style="color:#039be5;cursor:pointer;" onclick="hidePopup()">< Go back to homepage</div>
+            </p>
+            <h1 style="color:gray">Project Details</h1>
+
+            <div id="pd1">
+            <h2>#1: Bird Watching Diary</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+            </div>
+            <hr/>
+
+            <div id="pd2">
+            <h2>#2: Booze App</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+            </div>
+            <hr/>
+
+            <div id="pd3">
+            <h2>#3: Ubaada.com</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+            </div>
+            <hr/>
+
+            <div id="pd4">
+            <h2>#4: JSON Paring Project</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+            </div>
+
+          </div>
+          <div id="popup-close-btn" onclick="hidePopup()">X</div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+         <div class="container">
+            <div class="row">
+               <div class="col s12">
+                  <p>Copyright © Ubaada 2022... ig :P</p>
+               </div>
+            </div>
+         </div>
+      </footer>
+
+
+      <!-- For optimised loading -->
+      <!-- Compiled and minified JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <!--
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+
+
+      <!-- Main JS for this page -->
+      <script src="js/custom.js"></script>
+   </body>
+</html>

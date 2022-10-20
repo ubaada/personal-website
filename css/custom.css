@@ -1,0 +1,675 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background-color: #ffffff;
+  margin: 0px;
+  /* background: url('../images/bg.png'); */
+}
+hr { 
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-top: 1px solid #c0c0c0;
+} 
+:target {
+  animation: anchor-in 2s;
+}
+
+.project-card {
+  border-radius: 10px;
+}
+
+/* Css for screen/slide/page */
+.screenbox {
+  width: 100%;
+  min-height: -webkit-fill-available;
+  float: left;
+  clear: none;
+}
+
+#about {
+  min-height: 100vh;
+}
+
+#projects {}
+
+#about-card {
+  background-color: inherit;
+  animation: fade-in 1s forwards;
+  /* From https://css.glass */
+  /* box-shadow: 16px 20px 30px 20px rgb(0 0 0 / 10%); */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display:flex;
+}
+
+#about-card-row{
+	margin-bottom: 0px;
+	perspective:800px;
+	padding:0px;
+}
+
+#about-img-side {
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+  box-shadow: -19px 7px 18px 10px rgb(0 0 0 / 10%);
+}
+
+#my-picture {
+  width: 100%;
+  /* height:auto; */
+  display: block;
+  color: inherit;
+}
+
+#bevel-strip {
+	background-color: rgb(180 180 180 / 58%);
+	height: 100%;
+	padding:0px;
+	transform: rotateY(90deg);
+	transform-origin: top left;
+  animation: bevel-turn 1s forwards;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation-delay: 0.6s;
+  box-shadow: -7px 4px 16px 10px rgb(0 0 0 / 10%);
+}
+
+#about-text-side {
+	 box-shadow: 4px 0px 9px 4px rgb(0 0 0 / 10%);
+	 height: 100%;
+/*
+============  Aligning with bevel strip ============
+X: intial width of bevel without rotation
+Xs: shrunk width due to rotation. 
+d: the difference, need to move about-text by this much.
+<AL angle of bevel rotation.
+
+
+Xs = X * cos(<A)
+X  = 100% / 12
+
+d  = X - Xs
+d  = X - Xcos(<A)
+d  = X(1 - cos(<A))
+
+d  = (100% / 12)(1 - cos(<A))   [Bevel = 1 of 12 Materialize columns]
+or
+d = (100% / 12) - (100% / 12) * cos(<A)
+or
+d = (100% / 12)(1 - 0.76604444311)     [cos40deg = 0.76604444311]
+
+
+or     
+transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
+[about-text is 5 col wide]
+
+====================================================
+*/
+   
+   transform: translate3d(calc(-1 * (100% / 5)), 0, -45px);
+   animation: about-text-move 1s forwards; /* diff form set in end anim frame */
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+    animation-delay: 0.6s;
+}
+
+#intro-section {
+  opacity: 0%;
+  transform: translateY(-100%);
+  -webkit-transform: translateY(-100%);
+  animation: slide-up 250ms forwards;
+  animation-delay: 0.3s;
+  text-align: justify;
+}
+
+#my-name {
+  font-family: 'Comfortaa', cursive;
+}
+
+
+/* Location icon not part of social media icons */
+
+#location-icon {
+  background: url(../images/icons.png) -120px -82px;
+  background-size: 293px 218px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+#location-row {
+  opacity: 0%;
+  transform: translateY(-100%);
+  -webkit-transform: translateY(-100%);
+  animation: slide-up 250ms forwards;
+  animation-delay: 0.7s;
+}
+
+
+/* sprite sheet size = 820 W x 612 H */
+
+#sm-bar a {
+  text-decoration: none;
+  padding: 3px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+  opacity: 0%;
+  transform: translateY(-100%);
+  -webkit-transform: translateY(-100%);
+  animation: slide-up 250ms forwards;
+  animation-delay: 1s;
+}
+
+.sm-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+#github-icon {
+  background: url(../images/icons.png) -2px -258px;
+  background-size: 205px 153px;
+}
+
+#linkedin-icon {
+  background: url(../images/icons.png) -362px -2px;
+  background-size: 205px 153px;
+}
+
+#twitter-icon {
+  background: url(../images/icons.png) -28px -2px;
+  background-size: 205px 153px;
+}
+
+
+
+#projects-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content:center;
+  margin-right: -30px; /*taking out the extra margin from the last div in row*/
+  margin:20px 0px;
+}
+.project-entry {
+  width:250px;
+  margin: 0px 20px 20px 0px;
+  text-align:left;
+
+  /* background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .2s;
+  cursor: default;
+
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 8px 8px 20px 7px rgb(0 0 0 / 10%);
+  backdrop-filter: blur(5px);
+}
+
+
+.project-entry:hover,
+.project-entry:focus-within {
+  box-shadow: 6px 13px 14px 6px rgb(0 0 0 / 33%);
+}
+
+.project-entry .project-entry-image {
+  width: 100%;
+  height: 130px;
+  position: relative;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: white;
+}
+.project-entry .project-entry-title {
+  padding: 108px 8px 3px 8px;
+  background-image: linear-gradient(76deg, rgb(0 0 0 / 43%), rgb(255 255 255 / 0%));
+  width: 100%;
+  height: 100%;
+  color: white;
+}
+.project-entry .project-entry-tag-line {
+  width: 100%;
+  height: 14px;
+  padding-top: 2px;
+}
+.project-entry .project-entry-tag {
+    font-size: 8px;
+    /* background-color: #e4e4e4; */
+    border-radius: 7px;
+    display: inline;
+    padding: 0 5px 0px 5px;
+    float: left;
+    margin: 2px 2px 1px 3px;
+    transition: color 200ms;
+    border: 1px solid rgb(0 0 0 / 14%);
+}
+.project-entry .project-entry-tag:hover {
+  background-color: #efefef;
+}
+
+.project-entry .project-entry-content {
+  margin: 3px 0 30px 0;
+  padding: 10px;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  clear: left;
+  font-size: .8em;
+  color: darkslategrey;
+}
+
+/* Content overflow scrollbar style */
+.project-entry-content::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
+}
+.project-entry-content::-webkit-scrollbar {
+  width: 5px;
+  background-color: #F5F5F5;
+}
+.project-entry-content::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  width: 10px;
+}
+
+.project-entry .project-entry-foot {
+  padding:0 8px 0px 8px;
+  width: 100%;
+  height:20px;
+  margin-bottom: 7px;
+  position: absolute;
+  bottom: 0px; 
+  text-align: right;
+}
+.project-entry .project-entry-foot a {
+  color:black;
+
+}
+.project-entry .git-detail-btn {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(../images/github-icon.svg);
+    background-size: 20px 20px;
+
+
+}
+
+.project-entry .project-details-btn {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background: url(../images/project-details-icon.png);
+  margin-left: 3px;
+  border-radius: 4px;
+
+}
+.project-entry .project-details-btn:hover {
+  background-color: #e6e6e6;
+
+}
+
+/* When more details is clicked on a project */
+#details-pop-up {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0,0,0,75%);
+}
+#details-centre-box { /*currently done by container materialise class*/
+
+}
+#details-popup-contents {
+  background-color: white;
+  box-shadow: 0px 0px 12px 6px rgb(0 0 0 / 51%);
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  padding: 1em;
+}
+/* Content overflow scrollbar style */
+#details-popup-contents::-webkit-scrollbar-track {
+  /* background-color: #c2c2c2; */
+  border: 5px solid white;
+}
+#details-popup-contents::-webkit-scrollbar {
+  width: 12px;
+}
+#details-popup-contents::-webkit-scrollbar-thumb {
+  background-color: #706f6f;
+  border-radius: 10px;
+  border-right: 2px solid white;
+    border-left: 2px solid white;
+}
+#details-popup-contents::-webkit-scrollbar-thumb:hover {
+  background-color: #2e2d2d;
+}
+#popup-close-btn {
+  color: black;
+  background-color: white;
+  padding: 1em 1.46em;
+  border-radius: .8em;
+  cursor: pointer;
+  width: fit-content;
+  box-shadow: 0px 0px 12px 6px rgb(0 0 0 / 51%);
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  transition: background-color 250ms;
+}
+#popup-close-btn:hover {
+  background-color: #444;
+  color: white;
+}
+.hidden {
+  display: none;
+}
+
+
+
+
+footer {
+  clear: both;
+  width: 100%;
+  background-color: #e2e8f091;
+  color: #9da1a6;
+  padding: 2em 0 2em 0;
+}
+
+
+/* Animations ---------------  */
+
+/* ============================= */
+
+@keyframes fade-in {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 100%;
+  }
+  to {
+    opacity: 0%;
+  }
+}
+
+@-webkit-keyframes fade-out {
+  from {
+    opacity: 100%;
+  }
+  to {
+    opacity: 0%;
+  }
+}
+
+@keyframes small-flyin-animation {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@-webkit-keyframes slide-in {
+  100% {
+    -webkit-transform: translateX(0%);
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@-webkit-keyframes slide-out {
+  0% {
+    -webkit-transform: translateX(0%);
+  }
+  100% {
+    -webkit-transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0%;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 100%;
+  }
+}
+
+@-webkit-keyframes slide-up {
+  0% {
+    -webkit-transform: translateY(-100%);
+    opacity: 0%;
+  }
+  100% {
+    -webkit-transform: translateY(0%);
+    opacity: 100%;
+  }
+}
+
+
+
+@keyframes popup-in {
+  from {
+    display:none;
+    visibility: hidden;
+    opacity: 0%;
+  }
+  to {
+    display: inherit;
+    opacity: 100%;
+    
+  }
+}
+@keyframes popup-out {
+  from {
+    display: inherit;
+    opacity: 100%;
+  }
+  to {
+    display:none;
+    visibility: hidden;
+    opacity: 0%;
+  }
+}
+
+
+
+
+@keyframes popup-contents-in {
+  0% {
+    transform: translateY(100%);
+    opacity: 0%;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 100%;
+  }
+}
+
+@-webkit-keyframes popup-contents-in {
+  0% {
+    transform: translateY(100%);
+    opacity: 0%;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 100%;
+  }
+}
+
+@keyframes popup-contents-out {
+  0% {
+    transform: translateY(0%);
+    opacity: 100%;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0%;
+  }
+}
+
+@-webkit-keyframes popup-contents-out {
+  0% {
+    transform: translateY(0%);
+    opacity: 100%;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0%;
+  }
+}
+
+@keyframes anchor-in {
+  0% {
+    border: 1px solid green;
+    border-radius: 10px;
+    background-color: green;
+  }
+  100% {
+    border: 0px solid white;
+    background-color: transparent;
+  }
+}
+
+@keyframes bevel-turn {
+  0% {
+    
+  }
+  100% {
+    transform: rotateY(40deg);
+  }
+}
+
+@keyframes about-text-move {
+  0% {
+    
+  }
+  100% {
+    transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)), 0, -45px);
+  }
+}
+
+
+/*
+-------- Tablet/MidSized Css or lower (mobile)------
+*/
+@media only screen and (max-width: 992px) {
+
+  #sm-bar a {
+    width: 40px;
+    height: 40px;
+  }
+  .sm-icon {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+  }
+  #github-icon {
+    background: url(../images/icons.png) -4px 95px;
+    background-size: 410px 306px;
+  }
+  #linkedin-icon {
+    background: url(../images/icons.png) -315px -4px;
+    background-size: 410px 306px;
+  }
+  #twitter-icon {
+    background: url(../images/icons.png) -55px -4px;
+    background-size: 410px 306px;
+}
+
+.project-entry .project-entry-foot {
+    height: 25px;
+}
+
+.project-entry .git-detail-btn {
+    width: 25px;
+    height: 25px;
+    background-size: 25px;
+}
+}
+
+
+
+/* 
+------- Mobile CSS --------
+*/
+@media only screen and (max-width: 600px) {
+	
+  /* For mobile phones: */
+  #about-img-side {
+    box-shadow: none;
+  }
+  
+  /* No perspective effect on mobile */ 
+  #about-text-side {
+	 box-shadow: 16px 20px 30px 20px rgb(0 0 0 / 10%);
+	 height:auto;
+	 transform: translateZ(0px);
+   margin: 0px;
+   animation:none;
+  }
+  
+  #projects-card-row {
+    width: 100%;
+  }
+
+  .project-entry {
+    width: 100%;
+    margin: 10px 10%;
+  }
+
+  .project-entry .project-entry-image {
+    width: 100%;
+    height: 152px;
+  }
+
+  .project-entry .project-entry-title {
+    padding: 128px 8px 3px 8px;
+  }
+}
