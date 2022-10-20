@@ -13,7 +13,6 @@ window.addEventListener('hashchange', function() {
 window.onresize = adjust_image;
 
 
-
 function adjust_image() {
     var im_elem = document.getElementById("my-picture");
     var text_elem = document.getElementById("about-text-side");
