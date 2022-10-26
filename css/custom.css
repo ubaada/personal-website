@@ -19,6 +19,8 @@ body {
   --tag-hover-color: #efefef;
   --footer-bg-color: #e2e8f091;
   --footer-txt-color: #9da1a6;
+  --about-text-inset: -45px;
+  --bevel-rotation: 40deg;
 
   background-color: var(--bgcolor);
   color: var(--textcolor);
@@ -101,6 +103,7 @@ hr {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   display:flex;
+  transition: all 1s;
 }
 
 #about-card-row{
@@ -129,10 +132,14 @@ hr {
 	padding:0px;
 	transform: rotateY(90deg);
 	transform-origin: top left;
-  animation: bevel-turn 1s forwards;
-  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-  animation-delay: 0.6s;
-  box-shadow: -7px 4px 16px 10px var(--shadow-color);
+	box-shadow: -7px 4px 16px 10px var(--shadow-color);
+}
+
+/*to be added by JS after calc aboutTextAngle*/
+#bevel-strip.anim {
+	animation: bevel-turn 1s forwards;
+	animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+	animation-delay: 0.6s;
 }
 
 #about-text-side {
@@ -167,10 +174,15 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 ====================================================
 */
    
-   transform: translate3d(calc(-1 * (100% / 5)), 0, -45px);
-   animation: about-text-move 1s forwards; /* diff form set in end anim frame */
-    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-    animation-delay: 0.6s;
+   transform: translate3d(calc(-1 * (100% / 5)), 0, var(--about-text-inset));
+   overflow-wrap: anywhere;
+}
+
+/*to be added by JS after calc aboutText inset*/
+#about-text-side.anim{
+	animation: about-text-move 1s forwards; /* diff form set in end anim frame */
+	animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+	animation-delay: 0.6s;
 }
 
 #intro-section {
@@ -633,7 +645,7 @@ footer {
     
   }
   100% {
-    transform: rotateY(40deg);
+    transform: rotateY(var(--bevel-rotation));
   }
 }
 
@@ -642,7 +654,7 @@ footer {
     
   }
   100% {
-    transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)), 0, -45px);
+    transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)), 0, var(--about-text-inset));
   }
 }
 
@@ -702,11 +714,16 @@ footer {
   
   /* No perspective effect on mobile */ 
   #about-text-side {
-	 box-shadow: 16px 20px 30px 20px rgb(0 0 0 / 10%);
+	 box-shadow: 16px 20px 30px 20px var(--shadow-color);
 	 height:auto;
-	 transform: translateZ(0px);
    margin: 0px;
    animation:none;
+   transform: translate3d(0,0,0);
+   width:100%;
+  }
+  /* Remove animation */
+  #about-text-side.anim{
+		animation: none;
   }
   
   #projects-card-row {

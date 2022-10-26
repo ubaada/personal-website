@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     M.AutoInit();
     adjust_image();
-    checkHiddenAchors();
+    checkHiddenAnchors();
 
     var ld_sel = document.querySelector('#lightdark-checkbox');
     ld_sel.addEventListener('change', colorCheckboxPressed);
@@ -12,38 +12,42 @@ document.addEventListener('DOMContentLoaded', function() {
     // Use matchMedia to check the system wide preference for light/dark mode
     startupColorPreference();
 
+	// set how much about text div moves on Z axis to match the bevel
+	// And Add animation
+	setAboutTextInset();
 }, false);
 
 
 window.addEventListener('hashchange', function() {
-    checkHiddenAchors();
+    checkHiddenAnchors();
 }, false);
 
 window.onresize = adjust_image;
 
-
 function adjust_image() {
     var im_elem = document.getElementById("my-picture");
     var text_elem = document.getElementById("about-text-side");
-    var picpos_elem = document.getElementById("pic-pos");
 
     // check if page is in desktop size or mobile size. 
     // In mobile size screen the sides are stacked so same width
-    if (im_elem.offsetWidth != text_elem.offsetWidth) {
+    if (window.matchMedia("(min-width: 600px)").matches) {
         // Desktop mode.
         // check if gap is showing below image
         if (im_elem.offsetHeight < text_elem.offsetHeight) {
             //adjust image height
             im_elem.setAttribute("style", "width:auto;height:" + text_elem.offsetHeight + "px");
         }
+		//recalc aboutext inset
+		setAboutTextInset();
     } else {
         // mobile mode. no need to adjust image height
-        picpos_elem.outerText = "top";
+        im_elem.setAttribute("style", "");
     }
+	console.log("______");
 }
 
 
-function checkHiddenAchors() {
+function checkHiddenAnchors() {
     let id = window.location.hash;
     const popup = document.querySelector('#details-pop-up');
     if (id !== "" && popup.querySelector(id) !== null) { //check if anchor is child of hidden popup
@@ -106,5 +110,31 @@ function changeColorMode(isDark) {
     });
         
     document.querySelector('#lightdark-checkbox').checked = isDark;
+}
+
+// How much about text div moves on Z axis to match the bevel
+// And Add animation
+function setAboutTextInset() {
+	var body = document.querySelector('body');
+	var bevelElem = document.getElementById("bevel-strip");
+	var aboutTextElem = document.getElementById("about-text-side");
+	
+	var bevelElemComp = getComputedStyle(bevelElem);
+	var bevelWidth = parseFloat(bevelElemComp.width);
+	var bevelAngle = parseFloat(bevelElemComp.getPropertyValue('--bevel-rotation'));
+	
+	console.log(bevelElemComp);
+	console.log(bevelWidth);
+	console.log(bevelAngle);
+	
+	var calcInset = bevelWidth * Math.cos(bevelAngle);
+	console.log(calcInset);
+	
+	body.style.setProperty('--about-text-inset', calcInset + 'px');
+	
+	//Begin animation
+	bevelElem.classList.add("anim");
+	aboutTextElem.classList.add("anim");
+	
 }
 
