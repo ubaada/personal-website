@@ -21,6 +21,7 @@ body {
   --footer-txt-color: #9da1a6;
   --about-text-inset: -45px;
   --bevel-rotation: 40deg;
+  --bevel-color: rgb(180 180 180 / 58%);
 
   background-color: var(--bgcolor);
   color: var(--textcolor);
@@ -37,6 +38,7 @@ body.dark {
   --tag-hover-color: #727272;
   --footer-bg-color: #5f5f5f91;
   --footer-txt-color: #9da1a6;
+  --bevel-color: rgb(71 71 71 / 58%);
 
 }
 hr { 
@@ -49,6 +51,9 @@ hr {
 } 
 :target {
   animation: anchor-in 2s;
+}
+h1 {
+  transition: all 1s;
 }
 
 .project-card {
@@ -79,8 +84,11 @@ hr {
   position: absolute;
   right: 0px;
   top: 50%;
-  
   cursor: pointer;
+  transition: all 0.6s;
+}
+#lightdark-container:active {
+    transform: rotateZ(360deg);
 }
 #lightdark-container input {
   display: none;
@@ -127,7 +135,7 @@ hr {
 }
 
 #bevel-strip {
-	background-color: rgb(180 180 180 / 58%);
+	background-color: var(--bevel-color);
 	height: 100%;
 	padding:0px;
 	transform: rotateY(90deg);
