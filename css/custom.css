@@ -692,6 +692,9 @@ footer {
 */
 @media only screen and (max-width: 600px) {
 	
+  #lightdark-container {
+	transform: translateY(-50%);
+  }
   /* For mobile phones: */
   #about-img-side {
     box-shadow: none;
