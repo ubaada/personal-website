@@ -22,28 +22,45 @@ window.addEventListener('hashchange', function() {
     checkHiddenAnchors();
 }, false);
 
-window.onresize = adjust_image;
+window.addEventListener("resize", function() {
+  adjust_image();
+  setAboutTextInset();
+});
 
 function adjust_image() {
-    var im_elem = document.getElementById("my-picture");
-    var text_elem = document.getElementById("about-text-side");
-
+	var im_elem = document.getElementById("my-picture");
+	var im_cont = document.getElementById("about-img-side");
+	//----------------wrapper for unstretched size-\/
+    var text_elem = document.getElementById("about-text-wrapper"); 
+	
+	var im_cont_width = im_cont.offsetWidth;
+	var text_height = text_elem.offsetHeight;
+	// to calculate img height if its set to width 100%
+	var im_ratio = im_elem.offsetWidth / im_elem.offsetHeight;
+	var h_if_full_width = im_cont_width / im_ratio;
+	
     // check if page is in desktop size or mobile size. 
     // In mobile size screen the sides are stacked so same width
     if (window.matchMedia("(min-width: 600px)").matches) {
-        // Desktop mode.
-        // check if gap is showing below image
-        if (im_elem.offsetHeight < text_elem.offsetHeight) {
-            //adjust image height
-            im_elem.setAttribute("style", "width:auto;height:" + text_elem.offsetHeight + "px");
-        }
-		//recalc aboutext inset
-		setAboutTextInset();
-    } else {
+		// 2 image expanding scenarios:
+		//	i. Width: 100%, height: auto (when about image is longer, default)
+		//	ii.Width: auto, height: abouttxt height (when abttxt is longer, here)
+		if (h_if_full_width > text_height) {
+			// revert to default (to fill the width)
+			im_elem.setAttribute("style", "width:100%;height:auto");
+			
+			// console.log("width:100% fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
+		} else {
+			//adjust image height to match text box
+            im_elem.setAttribute("style", "width:auto;height:" + parseInt(text_height) + "px");
+			
+			// console.log("height:match fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
+		}
+	} else {
         // mobile mode. no need to adjust image height
         im_elem.setAttribute("style", "");
-    }
-	console.log("______");
+	}	
+		
 }
 
 

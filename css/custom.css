@@ -161,9 +161,10 @@ h1 {
 
 #my-picture {
   width: 100%;
-  /* height:auto; */
+  height:auto;
   display: block;
   color: inherit;
+  tranistion: all 1s;
 }
 
 #bevel-strip {
@@ -215,7 +216,11 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 */
    
    transform: translate3d(calc(-1 * (100% / 5)), 0, var(--about-text-inset));
-   overflow-wrap: anywhere;
+
+}
+
+#about-text-wrapper {
+	
 }
 
 /*to be added by JS after calc aboutText inset*/
@@ -268,6 +273,7 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
   -webkit-transform: translateY(-100%);
   animation: slide-up 250ms forwards;
   animation-delay: 0.7s;
+  margin-bottom:1em;
 }
 
 
@@ -281,6 +287,7 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
     -webkit-transform: translateY(-100%);
     animation: slide-up 250ms forwards;
     animation-delay: 1s;
+	margin-bottom:1em;
 }
 
 #sm-bar a {
