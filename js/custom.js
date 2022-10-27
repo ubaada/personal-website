@@ -123,12 +123,7 @@ function setAboutTextInset() {
 	var bevelWidth = parseFloat(bevelElemComp.width);
 	var bevelAngle = parseFloat(bevelElemComp.getPropertyValue('--bevel-rotation'));
 	
-	console.log(bevelElemComp);
-	console.log(bevelWidth);
-	console.log(bevelAngle);
-	
 	var calcInset = bevelWidth * Math.cos(bevelAngle);
-	console.log(calcInset);
 	
 	body.style.setProperty('--about-text-inset', calcInset + 'px');
 	

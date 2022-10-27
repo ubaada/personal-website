@@ -1,4 +1,15 @@
-
+/* font for icons */
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../icon-fonts/icomoon.eot?dk60am');
+  src:  url('../icon-fonts/icomoon.eot?dk60am#iefix') format('embedded-opentype'),
+    url('../icon-fonts/icomoon.ttf?dk60am') format('truetype'),
+    url('../icon-fonts/icomoon.woff?dk60am') format('woff'),
+    url('../icon-fonts/icomoon.svg?dk60am#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
 * {
   margin: 0;
   padding: 0;
@@ -79,8 +90,6 @@ h1 {
 }
 
 #lightdark-container{
-  width: 30px;
-  height: 30px;
   position: absolute;
   right: 0px;
   top: 50%;
@@ -94,13 +103,27 @@ h1 {
   display: none;
 }
 #lightdark-btn {
-  background-image: url(../images/moon.svg);
-  width: 30px;
-  height: 30px;
-}
-#lightdark-container input:checked ~ #lightdark-btn {
-  background-image: url(../images/sun.svg);
+   /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
 
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  font-size: 27px;
+  color: var(--textcolor);
+}
+#lightdark-btn:before {
+	content:'\e900';
+}
+#lightdark-container input:checked ~ #lightdark-btn:before {
+	content:'\e901';
 }
 
 #about-card {
@@ -210,11 +233,24 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 /* Location icon not part of social media icons */
 
 #location-icon {
-  background: url(../images/icons.png) -120px -82px;
-  background-size: 293px 218px;
+   /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  
+}
+#location-icon:before {
+  content:'\e947';
 }
 
 #location-row {
@@ -228,48 +264,47 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 
 /* sprite sheet size = 820 W x 612 H */
 
-#sm-bar a {
-  text-decoration: none;
-  padding: 3px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  padding: 0px;
-  margin: 0px;
-  overflow: hidden;
-  opacity: 0%;
-  transform: translateY(-100%);
-  -webkit-transform: translateY(-100%);
-  animation: slide-up 250ms forwards;
-  animation-delay: 1s;
+#sm-bar {
+    text-decoration: none;
+    display: inline-block;
+    opacity: 0%;
+    transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
+    animation: slide-up 250ms forwards;
+    animation-delay: 1s;
 }
 
-#sm-bar a.dark {
-  background-color: var(--textcolor);
-  border-radius: 10px;
+#sm-bar a {
+   color:var(--textcolor);
 }
 
 .sm-icon {
+   /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  margin-right:10px;
 }
 
-#github-icon {
-  background: url(../images/icons.png) -2px -258px;
-  background-size: 205px 153px;
+#github-icon:before {
+  content:'\eab0';
 }
 
-#linkedin-icon {
-  background: url(../images/icons.png) -362px -2px;
-  background-size: 205px 153px;
+#linkedin-icon:before {
+  content:'\eaca';
 }
 
-#twitter-icon {
-  background: url(../images/icons.png) -28px -2px;
-  background-size: 205px 153px;
+#twitter-icon:before {
+  content:'\ea96';
 }
-
 
 
 #projects-card-row {
@@ -374,13 +409,22 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 
 }
 .project-entry .git-detail-btn {
+	font-family: 'icomoon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+	
+	color:var(--textcolor);
     display: inline-block;
     width: 20px;
     height: 20px;
-    background: url(../images/github-icon.svg);
-    background-size: 20px 20px;
-
-
+}
+.project-entry .git-detail-btn:before {
+	content: '\eab0';
 }
 
 .project-entry .project-details-btn {
@@ -672,26 +716,8 @@ footer {
 */
 @media only screen and (max-width: 992px) {
 
-  #sm-bar a {
-    width: 40px;
-    height: 40px;
-  }
-  .sm-icon {
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-  }
-  #github-icon {
-    background: url(../images/icons.png) -4px 95px;
-    background-size: 410px 306px;
-  }
-  #linkedin-icon {
-    background: url(../images/icons.png) -315px -4px;
-    background-size: 410px 306px;
-  }
-  #twitter-icon {
-    background: url(../images/icons.png) -55px -4px;
-    background-size: 410px 306px;
+.sm-icon {
+	font-size: 1.6em;
 }
 
 .project-entry .project-entry-foot {
@@ -699,10 +725,9 @@ footer {
 }
 
 .project-entry .git-detail-btn {
-    width: 25px;
-    height: 25px;
-    background-size: 25px;
+	font-size: 1.6em;
 }
+
 }
 
 
