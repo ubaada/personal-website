@@ -27,6 +27,11 @@ window.addEventListener("resize", function() {
   setAboutTextInset();
 });
 
+// When phone is flipped into a different orientation
+window.addEventListener("deviceorientation", function() {
+  adjust_image();
+  setAboutTextInset();
+});
 function adjust_image() {
 	var im_elem = document.getElementById("my-picture");
 	var im_cont = document.getElementById("about-img-side");
@@ -132,21 +137,25 @@ function changeColorMode(isDark) {
 // How much about text div moves on Z axis to match the bevel
 // And Add animation
 function setAboutTextInset() {
-	var body = document.querySelector('body');
-	var bevelElem = document.getElementById("bevel-strip");
-	var aboutTextElem = document.getElementById("about-text-side");
-	
-	var bevelElemComp = getComputedStyle(bevelElem);
-	var bevelWidth = parseFloat(bevelElemComp.width);
-	var bevelAngle = parseFloat(bevelElemComp.getPropertyValue('--bevel-rotation'));
-	
-	var calcInset = bevelWidth * Math.cos(bevelAngle);
-	
-	body.style.setProperty('--about-text-inset', calcInset + 'px');
-	
-	//Begin animation
-	bevelElem.classList.add("anim");
-	aboutTextElem.classList.add("anim");
-	
+
+    // Only calculate in non-mobile device.
+	// Otherwise the inset is undefined.
+    if (window.matchMedia("(min-width: 600px)").matches) {
+		var body = document.querySelector('body');
+		var bevelElem = document.getElementById("bevel-strip");
+		var aboutTextElem = document.getElementById("about-text-side");
+		
+		var bevelElemComp = getComputedStyle(bevelElem);
+		var bevelWidth = parseFloat(bevelElemComp.width);
+		var bevelAngle = parseFloat(bevelElemComp.getPropertyValue('--bevel-rotation'));
+		
+		var calcInset = bevelWidth * Math.cos(bevelAngle);
+		
+		body.style.setProperty('--about-text-inset', calcInset + 'px');
+		
+		//Begin animation
+		bevelElem.classList.add("anim");
+		aboutTextElem.classList.add("anim");
+	}
 }
 
