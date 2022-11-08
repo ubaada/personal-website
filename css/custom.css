@@ -813,7 +813,6 @@ footer {
   
   /* No perspective effect on mobile */ 
   #about-text-side {
-	 box-shadow: 16px 20px 30px 20px var(--shadow-color);
 	 height:auto;
    margin: 0px;
    animation:none;
