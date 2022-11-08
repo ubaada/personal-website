@@ -33,6 +33,7 @@ body {
   --about-text-inset: -45px;
   --bevel-rotation: 40deg;
   --bevel-color: rgb(180 180 180 / 58%);
+  --btn-hover-color : orange;
 
   background-color: var(--bgcolor);
   color: var(--textcolor);
@@ -119,6 +120,10 @@ h1 {
   color: var(--textcolor);
   border-radius: 15px;
   overflow: hidden;
+}
+
+#lightdark-btn:hover {
+	color:var(--btn-hover-color);
 }
 
 #lightdark-btn:before {
@@ -310,6 +315,9 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
   display: inline-block;
   margin-right:10px;
 }
+.sm-icon:hover {
+	color:var(--btn-hover-color);
+}
 
 #github-icon:before {
   content:'\eab0';
@@ -443,6 +451,9 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 .project-entry .git-detail-btn:before {
 	content: '\eab0';
 }
+.project-entry .git-detail-btn:hover {
+	color:var(--btn-hover-color);
+}
 
 .project-entry .project-details-btn {
   display: inline-block;
@@ -454,10 +465,8 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
   border-radius: 4px;
 
 }
-.project-entry .project-details-btn:hover {
-  background-color: #e6e6e6;
 
-}
+
 
 /* When more details is clicked on a project */
 #details-pop-up {
