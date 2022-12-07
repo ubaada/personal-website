@@ -15,6 +15,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	// set how much about text div moves on Z axis to match the bevel
 	// And Add animation
 	setAboutTextInset();
+	
+	//email-icon on click event
+	var em_sel = document.querySelector('#email-icon');
+    em_sel.addEventListener('click', emailShow);
+	
+	//hide-email form
+	var canc_em_sel = document.querySelector('#cancel-email-btn');
+    canc_em_sel.addEventListener('click', emailHide);
+	
 }, false);
 
 
@@ -159,3 +168,15 @@ function setAboutTextInset() {
 	}
 }
 
+
+function emailShow() {
+	var er_sel = document.querySelector('#email-panel');
+	er_sel.classList.toggle('hidden');
+	er_sel.classList.toggle('show');
+}
+
+function emailHide() {
+	
+	var er_sel = document.querySelector('#email-panel');
+	er_sel.classList.toggle('hidden');
+}

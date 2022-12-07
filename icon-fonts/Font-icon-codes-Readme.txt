@@ -45,3 +45,4 @@ Font icon codes list: (Prefix'\u' for css and '&#' for html)
     'brand71': '\uead0',
     'html-five': '\ueae4',
     'w3c': '\ueae4',
+    'email': '\ue902'
