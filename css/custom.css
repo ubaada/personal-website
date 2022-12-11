@@ -33,6 +33,7 @@ body {
   --about-text-inset: -45px;
   --bevel-rotation: 40deg;
   --bevel-color: rgb(180 180 180 / 58%);
+  --accent-color : orange;
 
   background-color: var(--bgcolor);
   color: var(--textcolor);
@@ -128,6 +129,10 @@ h1 {
   overflow: hidden;
 }
 
+#lightdark-btn:hover {
+	color:var(--accent-color);
+}
+
 #lightdark-btn:before {
 	content:'\e900';
 	display:inline-block;
@@ -147,8 +152,8 @@ h1 {
   animation: fade-in 1s forwards;
   /* From https://css.glass */
   /* box-shadow: 16px 20px 30px 20px rgb(0 0 0 / 10%); */
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
+  /* -webkit-backdrop-filter: blur(5px); */
   display:flex;
   transition: all 1s;
   
@@ -254,7 +259,9 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 #my-name {
   font-family: 'Comfortaa', cursive;
 }
-
+#intro-para{
+	
+}
 
 /* Location icon not part of social media icons */
 
@@ -306,6 +313,10 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
    color:var(--textcolor);
 }
 
+#sm-bar a:hover {
+	color:var(--accent-color);
+}
+
 .sm-icon {
    /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
@@ -333,7 +344,47 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 #twitter-icon:before {
   content:'\ea96';
 }
+#email-icon:before {
+  content:'\e902';
+}
+.hidden {
+  display: none !important;
+}
 
+#email-panel {
+	float: left;
+    position: absolute;
+    top: 0;
+    height: 100%;
+	background-color:var(--bgcolor);
+    opacity: 0%;
+	padding:10px;
+}
+#email-btn-panel.show {
+	display: inline;
+	transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
+    animation: slide-up 250ms forwards;
+}
+#email-btn-panel .hide {
+    animation: slide-out 250ms forwards;
+}
+#send-btn {
+	padding:10px 15px 10px 15px;
+	margin:5px;
+	background-color: var(--textcolor);
+	color: var(--bgcolor);
+	cursor: pointer;
+}
+#send-btn:hover {
+	background-color: var(--accent-color);
+}
+#cancel-email-btn {
+	padding:5px 15px 5px 15px;
+	margin 5px;
+	color: var(--textcolor);
+	cursor: pointer;
+}
 
 #projects-card-row {
   display: flex;
@@ -357,7 +408,7 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 
   background: rgb(255 255 255 / 10%);
   box-shadow: 8px 8px 20px 7px rgb(0 0 0 / 10%);
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
 }
 
 
@@ -454,6 +505,9 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 .project-entry .git-detail-btn:before {
 	content: '\eab0';
 }
+.project-entry .git-detail-btn:hover {
+	color:var(--accent-color);
+}
 
 .project-entry .project-details-btn {
   display: inline-block;
@@ -465,10 +519,8 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
   border-radius: 4px;
 
 }
-.project-entry .project-details-btn:hover {
-  background-color: #e6e6e6;
 
-}
+
 
 /* When more details is clicked on a project */
 #details-pop-up {
@@ -523,9 +575,6 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 #popup-close-btn:hover {
   background-color: #444;
   color: white;
-}
-.hidden {
-  display: none;
 }
 
 
@@ -831,7 +880,6 @@ footer {
   
   /* No perspective effect on mobile */ 
   #about-text-side {
-	 box-shadow: 16px 20px 30px 20px var(--shadow-color);
 	 height:auto;
    margin: 0px;
    animation:none;

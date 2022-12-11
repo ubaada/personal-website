@@ -57,10 +57,12 @@
 							<div class="col s12">
 							   <div id="intro-section">
 								  <h2 id="my-name">Ubaada</h2>
-								  <p>
-									 Hi, I'm Ubaada Altaf Qureshi. I'm a recently graduated Software Engineer.
-									 If you want to contact me just shoot me a DM on one of the social media links below. That's me on the <span id="pic-pos">left</span> :)
-								  </p>
+								  <div id="intro-para">
+									  <p>
+										 Hi, I'm Ubaada Altaf Qureshi. I'm a recently graduated Software Engineer.
+										 If you want to contact me just shoot me a DM on one of the social media links below. That's me on the <span id="pic-pos">left</span> :)
+									  </p>
+								  </div>
 							   </div>
 							</div>
 						 </div>
@@ -79,8 +81,19 @@
 							   </a>  
 							   <a href="https://twitter.com/ubaada/" class="tooltipped" data-position="bottom" data-tooltip="My Twitter" target="_blank">
 							   <span class="sm-icon" id="twitter-icon"></span>
-							   </a>  
+							   </a> 
+							   <!-- <a href="#email-div" class="tooltipped" data-position="bottom" data-tooltip="Email me"> -->
+							   <!-- <span class="sm-icon" id="email-icon"></span> -->
+							   <!-- </a>   -->
 							</div>
+						<!-- Email button (hidden until invoked) -->
+						<div id="email-panel" class="hidden">
+							<input type="text" id="emailfrom"></input>
+							<textarea id="emailmsg" name="Text1" cols="40" rows="5"></textarea>
+
+							<button id="send-btn"">Send</button>
+							<input type="button" id="cancel-email-btn">Cancel</input>
+						</div>
 					 </div>
                   </div>
                
