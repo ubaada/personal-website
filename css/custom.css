@@ -65,6 +65,8 @@ hr {
 }
 h1 {
   transition: all 1s;
+  margin: 0;
+  padding: 2.8rem 0 1.68rem 0;
 }
 
 .project-card {
@@ -81,6 +83,11 @@ h1 {
 
 #about {
   min-height: 100vh;
+}
+
+#about .container {
+	position: relative;
+    height: 100vh;
 }
 
 #projects {}
@@ -144,6 +151,10 @@ h1 {
   -webkit-backdrop-filter: blur(5px);
   display:flex;
   transition: all 1s;
+  
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
 }
 
 #about-card-row{
@@ -802,10 +813,17 @@ footer {
 ------- Mobile CSS --------
 */
 @media only screen and (max-width: 600px) {
-	
+	#about .container {
+		height: fit-content;
+	}
   #lightdark-container {
 	transform: translateY(-50%);
   }
+  #about-card {
+	top: 0;
+    transform: translateY(0);
+    position: relative;
+	}
   /* For mobile phones: */
   #about-img-side {
     box-shadow: none;
