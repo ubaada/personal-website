@@ -277,7 +277,7 @@
       </div>
 
 
-      <!-- Hidden projects details popup page; hidden for now -->
+      <!-- Hidden popup page; hidden for now -->
       <div id="details-pop-up" onhashchange="alert('sd');" class="hidden">
         <div id="details-centre-box" class="container">
           <div id="details-popup-contents">
@@ -285,35 +285,20 @@
               <div style="color:#039be5;cursor:pointer;" onclick="hidePopup()">< Go back to homepage</div>
             </p>
             <h1 style="color:gray">Project Details</h1>
-
+		
+     	    <!-- If the root URL has #anchor at the end. The Javascript will show 
+	      the popup and scroll to div with the id. -->
             <div id="pd1">
-            <h2>#1: Bird Watching Diary</h2>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </p>
             </div>
             <hr/>
 
             <div id="pd2">
-            <h2>#2: Booze App</h2>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </p>
             </div>
             <hr/>
-
-            <div id="pd3">
-            <h2>#3: Ubaada.com</h2>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </p>
-            </div>
-            <hr/>
-
-            <div id="pd4">
-            <h2>#4: JSON Paring Project</h2>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </p>
-            </div>
 
           </div>
+			 
+	  <!-- Close btn for the popup-->
           <div id="popup-close-btn" onclick="hidePopup()">X</div>
         </div>
       </div>
