@@ -1,6 +1,5 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-    M.AutoInit();
     adjust_image();
     checkHiddenAnchors();
 
@@ -17,12 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	setAboutTextInset();
 	
 	//email-icon on click event
-	var em_sel = document.querySelector('#email-icon');
-    em_sel.addEventListener('click', emailShow);
+	//var em_sel = document.querySelector('#email-icon');
+    //em_sel.addEventListener('click', emailShow);
 	
 	//hide-email form
-	var canc_em_sel = document.querySelector('#cancel-email-btn');
-    canc_em_sel.addEventListener('click', emailHide);
+	//var canc_em_sel = document.querySelector('#cancel-email-btn');
+    //canc_em_sel.addEventListener('click', emailHide);
 	
 }, false);
 
@@ -45,7 +44,7 @@ function adjust_image() {
 	var im_elem = document.getElementById("my-picture");
 	var im_cont = document.getElementById("about-img-side");
 	//----------------wrapper for unstretched size-\/
-    var text_elem = document.getElementById("about-text-wrapper"); 
+    var text_elem = document.getElementById("about-text-side"); 
 	
 	var im_cont_width = im_cont.offsetWidth;
 	var text_height = text_elem.offsetHeight;
