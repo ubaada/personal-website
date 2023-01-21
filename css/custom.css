@@ -303,7 +303,7 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 }
 
 #about-text-wrapper {
-	
+	overflow: hidden;
 }
 
 /*to be added by JS after calc aboutText inset*/
