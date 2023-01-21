@@ -44,7 +44,7 @@ function adjust_image() {
 	var im_elem = document.getElementById("my-picture");
 	var im_cont = document.getElementById("about-img-side");
 	//----------------wrapper for unstretched size-\/
-    var text_elem = document.getElementById("about-text-side"); 
+    var text_elem = document.getElementById("about-text-wrapper"); 
 	
 	var im_cont_width = im_cont.offsetWidth;
 	var text_height = text_elem.offsetHeight;
@@ -62,12 +62,12 @@ function adjust_image() {
 			// revert to default (to fill the width)
 			im_elem.setAttribute("style", "width:100%;height:auto");
 			
-			// console.log("width:100% fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
+			console.log("width:100% fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
 		} else {
 			//adjust image height to match text box
             im_elem.setAttribute("style", "width:auto;height:" + parseInt(text_height) + "px");
 			
-			// console.log("height:match fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
+			console.log("height:match fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
 		}
 	} else {
         // mobile mode. no need to adjust image height

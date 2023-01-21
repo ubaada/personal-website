@@ -7,7 +7,6 @@
 .row {
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 20px;
 }
 .col {
 	float: left;
@@ -245,7 +244,7 @@ h1 {
   height:auto;
   display: block;
   color: inherit;
-  tranistion: all 1s;
+  transition: all 1s;
 }
 
 #bevel-strip {
@@ -448,7 +447,7 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 }
 #cancel-email-btn {
 	padding:5px 15px 5px 15px;
-	margin 5px;
+	margin: 5px;
 	color: var(--textcolor);
 	cursor: pointer;
 }
