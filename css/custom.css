@@ -100,6 +100,7 @@ body {
   color: var(--textcolor);
   margin: 0px;
   /* background: url('../images/bg.png'); */
+  min-height: 100vh;
 }
 
 body.dark {
@@ -658,6 +659,8 @@ footer {
   background-color: var(--footer-bg-color);
   color: var(--footer-txt-color);
   padding: 2em 0 2em 0;
+  height: 200px;
+  margin-top: -200px;
 }
 
 
