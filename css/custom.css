@@ -1,13 +1,19 @@
-/* Helper function (Materialize replacement) ============ */
+/* ===================================================== 
+
+                    Main Style File
+
+   ===================================================== */
 .container{
-	width: 70%;
+	width: 90%;
 	margin: 0 auto;
     max-width: 1280px;
 }
+/* Takes 100% of the width inside a container */
 .row {
     margin-left: auto;
     margin-right: auto;
 }
+/* Share the 100% row width among columns */
 .col {
 	float: left;
     -webkit-box-sizing: border-box;
@@ -15,18 +21,20 @@
     min-height: 1px;	
 }
 
+.row .col.s1{width:8.3333333333%;}.row .col.s2{width:16.6666666667%;}.row .col.s3{width:25%;}.row .col.s4{width:33.3333333333%;}.row .col.s5{width:41.6666666667%;}.row .col.s6{width:50%;}.row .col.s7{width:58.3333333333%;}.row .col.s8{width:66.6666666667%;}.row .col.s9{width:75%;}.row .col.s10{width:83.3333333333%;}.row .col.s11{width:91.6666666667%;}.row .col.s12{width:100%;}
 
-
-
-@media only screen and (max-width: 992px) {
+@media only screen and (min-width: 600px) {
 .container{
 	width: 85%;
 }
+.row .col.m1{width:8.3333333333%;}.row .col.m2{width:16.6666666667%;}.row .col.m3{width:25%;}.row .col.m4{width:33.3333333333%;}.row .col.m5{width:41.6666666667%;}.row .col.m6{width:50%;}.row .col.m7{width:58.3333333333%;}.row .col.m8{width:66.6666666667%;}.row .col.m9{width:75%;}.row .col.m10{width:83.3333333333%;}.row .col.m11{width:91.6666666667%;}.row .col.m12{width:100%;}
+
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (min-width: 992px) {
 .container{
-	width: 90%;
+	width: 70%;
 }
+.row .col.l1{width:8.3333333333%;}.row .col.l2{width:16.6666666667%;}.row .col.l3{width:25%;}.row .col.l4{width:33.3333333333%;}.row .col.l5{width:41.6666666667%;}.row .col.l6{width:50%;}.row .col.l7{width:58.3333333333%;}.row .col.l8{width:66.6666666667%;}.row .col.l9{width:75%;}.row .col.l10{width:83.3333333333%;}.row .col.l11{width:91.6666666667%;}.row .col.l12{width:100%;}
 }	
 
 html {
@@ -46,6 +54,18 @@ h2 {
     margin: 2.3733333333rem 0 1.424rem 0;
 }
 
+h1 {
+  transition: all 1s;
+  margin: 0;
+  padding: 2.8rem 0 1.68rem 0;
+  font-size: 4.2rem;
+  line-height: 110%;
+}
+a {
+	color:var(--textcolor);
+	background-color: --var(--bgcolor);
+}
+
 p {
     display: block;
     margin-block-start: 1em;
@@ -53,11 +73,7 @@ p {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
 }
-/* =======END HELPER CSS===================================*/
 
-
-
-/* Custom CSS ===========================================*/
 /* font for icons */
 @font-face {
   font-family: 'icomoon';
@@ -126,41 +142,9 @@ hr {
 :target {
   animation: anchor-in 2s;
 }
-h1 {
-  transition: all 1s;
-  margin: 0;
-  padding: 2.8rem 0 1.68rem 0;
-  font-size: 4.2rem;
-  line-height: 110%;
-}
 
-.project-card {
-  border-radius: 10px;
-}
 
-/* Css for screen/slide/page */
-.screenbox {
-  width: 100%;
-  min-height: -webkit-fill-available;
-  float: left;
-  clear: none;
-}
-
-#about {
-  min-height: 100vh;
-}
-
-#about .container {
-	position: relative;
-    height: 100vh;
-}
-
-#projects {}
-
-#about-lightdark-row {
-  position: relative;
-}
-
+/* Lightmode | Darkmode button =============== */
 #lightdark-container{
   position: absolute;
   right: 0px;
@@ -209,662 +193,6 @@ h1 {
 	animation: sun-set 0.7s forwards;
 	animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-
-
-#about-card {
-  background-color: inherit;
-  animation: fade-in 1s forwards;
-  /* From https://css.glass */
-  /* box-shadow: 16px 20px 30px 20px rgb(0 0 0 / 10%); */
-  /* backdrop-filter: blur(5px); */
-  /* -webkit-backdrop-filter: blur(5px); */
-  display:flex;
-  transition: all 1s;
-  
-  top: 50%;
-  transform: translateY(-50%);
-  position: absolute;
-}
-
-#about-card-row{
-	margin-bottom: 0px;
-	perspective:800px;
-	padding:0px;
-}
-
-#about-img-side {
-  padding: 0px;
-  margin: 0px;
-  overflow: hidden;
-  box-shadow: -19px 7px 18px 10px var(--shadow-color);
-  background-color: var(--bevel-color);
-  width:50%;
-}
-
-#my-picture {
-  width: 100%;
-  height:auto;
-  display: block;
-  color: inherit;
-  transition: all 1s;
-}
-
-#bevel-strip {
-	background-color: var(--bevel-color);
-	height: 100%;
-	padding:0px;
-	transform: rotateY(90deg);
-	transform-origin: top left;
-	box-shadow: -7px 4px 16px 10px var(--shadow-color);
-	width:calc(100%/12);
-}
-
-/*to be added by JS after calc aboutTextAngle*/
-#bevel-strip.anim {
-	animation: bevel-turn 1s forwards;
-	animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-	animation-delay: 0.6s;
-}
-
-#about-text-side {
-	 box-shadow: 4px 0px 9px 4px var(--shadow-color);
-	 height: 100%;
-/*
-============  Aligning with bevel strip ============
-X: intial width of bevel without rotation
-Xs: shrunk width due to rotation. 
-d: the difference, need to move about-text by this much.
-<AL angle of bevel rotation.
-
-
-Xs = X * cos(<A)
-X  = 100% / 12
-
-d  = X - Xs
-d  = X - Xcos(<A)
-d  = X(1 - cos(<A))
-
-d  = (100% / 12)(1 - cos(<A))   [Bevel = 1 of 12 Materialize columns]
-or
-d = (100% / 12) - (100% / 12) * cos(<A)
-or
-d = (100% / 12)(1 - 0.76604444311)     [cos40deg = 0.76604444311]
-
-
-or     
-transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
-[about-text is 5 col wide]
-
-====================================================
-*/
-   
-   transform: translate3d(calc(-1 * (100% / 5)), 0, var(--about-text-inset));
-   /* overflow-wrap: anywhere; */
-   width:calc(100%/(12/5));
-   padding: 0 0.75rem;
-}
-
-#about-text-wrapper {
-	overflow: hidden;
-}
-
-/*to be added by JS after calc aboutText inset*/
-#about-text-side.anim{
-	animation: about-text-move 1s forwards; /* diff form set in end anim frame */
-	animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-	animation-delay: 0.6s;
-}
-
-#intro-section {
-  opacity: 0%;
-  transform: translateY(-100%);
-  -webkit-transform: translateY(-100%);
-  animation: slide-up 250ms forwards;
-  animation-delay: 0.3s;
-  text-align: justify;
-}
-
-#my-name {
-  font-family: 'Comfortaa', cursive;
-}
-#intro-para{
-	
-}
-
-/* Location icon not part of social media icons */
-
-#location-icon {
-   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
-  speak: never;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  
-  display: inline-block;
-  
-}
-#location-icon:before {
-  content:'\e947';
-}
-
-#location-row {
-  opacity: 0%;
-  transform: translateY(-100%);
-  -webkit-transform: translateY(-100%);
-  animation: slide-up 250ms forwards;
-  animation-delay: 0.7s;
-  margin-bottom:1em;
-}
-
-
-/* sprite sheet size = 820 W x 612 H */
-
-#sm-bar {
-    text-decoration: none;
-    display: inline-block;
-    opacity: 0%;
-    transform: translateY(-100%);
-    -webkit-transform: translateY(-100%);
-    animation: slide-up 250ms forwards;
-    animation-delay: 1s;
-	margin-bottom:1em;
-}
-
-#sm-bar a {
-   color:var(--textcolor);
-}
-
-#sm-bar a:hover {
-	color:var(--accent-color);
-}
-
-.sm-icon {
-   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
-  speak: never;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: inline-block;
-  margin-right:10px;
-}
-
-#github-icon:before {
-  content:'\eab0';
-}
-
-#linkedin-icon:before {
-  content:'\eaca';
-}
-
-#twitter-icon:before {
-  content:'\ea96';
-}
-#email-icon:before {
-  content:'\e902';
-}
-.hidden {
-  display: none !important;
-}
-
-#email-panel {
-	float: left;
-    position: absolute;
-    top: 0;
-    height: 100%;
-	background-color:var(--bgcolor);
-    opacity: 0%;
-	padding:10px;
-}
-#email-btn-panel.show {
-	display: inline;
-	transform: translateY(-100%);
-    -webkit-transform: translateY(-100%);
-    animation: slide-up 250ms forwards;
-}
-#email-btn-panel .hide {
-    animation: slide-out 250ms forwards;
-}
-#send-btn {
-	padding:10px 15px 10px 15px;
-	margin:5px;
-	background-color: var(--textcolor);
-	color: var(--bgcolor);
-	cursor: pointer;
-}
-#send-btn:hover {
-	background-color: var(--accent-color);
-}
-#cancel-email-btn {
-	padding:5px 15px 5px 15px;
-	margin: 5px;
-	color: var(--textcolor);
-	cursor: pointer;
-}
-
-#projects-card-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content:center;
-  margin-right: -30px; /*taking out the extra margin from the last div in row*/
-  margin:20px 0px;
-}
-.project-entry {
-  width:250px;
-  margin: 0px 20px 20px 0px;
-  text-align:left;
-
-  /* background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
-  position: relative;
-  overflow: hidden;
-  transition: box-shadow .2s;
-  cursor: default;
-
-  background: rgb(255 255 255 / 10%);
-  box-shadow: 8px 8px 20px 7px rgb(0 0 0 / 10%);
-  /* backdrop-filter: blur(5px); */
-}
-
-
-.project-entry:hover,
-.project-entry:focus-within {
-  box-shadow: 6px 13px 14px 6px rgb(0 0 0 / 33%);
-}
-
-.project-entry .project-entry-image {
-  width: 100%;
-  height: 130px;
-  position: relative;
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: white;
-}
-.project-entry .overlay {
-	background-image: linear-gradient(76deg, rgb(0 0 0 / 43%), rgb(255 255 255 / 0%));
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-.project-entry .project-title {
-	position: absolute;
-    bottom: 0;
-    padding-left: 0.4em;
-}
-.project-entry .project-entry-tag-line {
-  padding-top: 2px;
-  float: left;
-}
-.project-entry .project-entry-tag {
-    font-size: 8px;
-    /* background-color: #e4e4e4; */
-    border-radius: 7px;
-    display: inline;
-    padding: 0 5px 0px 5px;
-    float: left;
-    margin: 2px 2px 1px 3px;
-    transition: color 200ms;
-    border: 1px solid var(--tag-border-color);
-}
-.project-entry .project-entry-tag:hover {
-  background-color: var(--tag-hover-color);
-}
-
-.project-entry .project-entry-content {
-  padding: 10px;
-  overflow-x: hidden; /* Hide horizontal scrollbar */
-  clear: left;
-  font-size: .8em;
-}
-
-/* Content overflow scrollbar style */
-.project-entry-content::-webkit-scrollbar-track {
-  background-color: #F5F5F5;
-}
-.project-entry-content::-webkit-scrollbar {
-  width: 5px;
-  background-color: #F5F5F5;
-}
-.project-entry-content::-webkit-scrollbar-thumb {
-  background-color: #000000;
-  width: 10px;
-}
-
-/* Makes a gap between content div and floating footer at the bottom.
-
-   Floating footer is needed to pin the footer at the bottom of the
-   project entry in case it dynamicaly extends to match other boxes
-   in the flexbox
-*/
-.project-entry .footer-spacer {
-	height: 37px;
-}
-.project-entry .project-entry-foot {
-    width: 100%;
-    float: right;
-	position: absolute;
-    bottom: 0px;
-}
-.project-entry .project-entry-foot a {
-  color:black;
-
-}
-.project-entry .git-detail-btn {
-    font-family: 'icomoon' !important;
-    speak: never;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    color: var(--textcolor);
-    float: right;
-	margin: 11px;
-}
-.project-entry .git-detail-btn:before {
-	content: '\eab0';
-}
-.project-entry .git-detail-btn:hover {
-	color:var(--accent-color);
-}
-
-.project-entry .project-details-btn {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  background: url(../images/project-details-icon.png);
-  margin-left: 3px;
-  border-radius: 4px;
-}
-
-
-
-/* When more details is clicked on a project */
-#details-pop-up {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: rgba(0,0,0,75%);
-}
-#details-centre-box { /*currently done by container materialise class*/
-
-}
-#details-popup-contents {
-  background-color: var(--bgcolor);
-  box-shadow: 0px 0px 12px 6px var(--shadow-color);
-  width: 100%;
-  height: 100vh;
-  overflow: auto;
-  padding: 1em;
-}
-/* Content overflow scrollbar style */
-#details-popup-contents::-webkit-scrollbar-track {
-  /* background-color: #c2c2c2; */
-  border: 5px solid var(--bgcolor);
-}
-#details-popup-contents::-webkit-scrollbar {
-  width: 12px;
-}
-#details-popup-contents::-webkit-scrollbar-thumb {
-  background-color: #706f6f;
-  border-radius: 10px;
-  border-right: 2px solid var(--bgcolor);
-    border-left: 2px solid var(--bgcolor);
-}
-#details-popup-contents::-webkit-scrollbar-thumb:hover {
-  background-color: #2e2d2d;
-}
-#popup-close-btn {
-  color: black;
-  background-color: white;
-  padding: 1em 1.46em;
-  border-radius: .8em;
-  cursor: pointer;
-  width: fit-content;
-  box-shadow: 0px 0px 12px 6px rgb(0 0 0 / 51%);
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  transition: background-color 250ms;
-}
-#popup-close-btn:hover {
-  background-color: #444;
-  color: white;
-}
-
-
-
-
-footer {
-  clear: both;
-  width: 100%;
-  background-color: var(--footer-bg-color);
-  color: var(--footer-txt-color);
-  padding: 2em 0 2em 0;
-  height: 200px;
-  margin-top: -200px;
-}
-
-
-/* Animations ---------------  */
-
-/* ============================= */
-
-@keyframes fade-in {
-  from {
-    opacity: 0%;
-  }
-  to {
-    opacity: 100%;
-  }
-}
-
-@keyframes fade-out {
-  from {
-    opacity: 100%;
-  }
-  to {
-    opacity: 0%;
-  }
-}
-
-@-webkit-keyframes fade-out {
-  from {
-    opacity: 100%;
-  }
-  to {
-    opacity: 0%;
-  }
-}
-
-@keyframes small-flyin-animation {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0%);
-  }
-}
-
-@keyframes slide-in {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
-@-webkit-keyframes slide-in {
-  100% {
-    -webkit-transform: translateX(0%);
-  }
-}
-
-@keyframes slide-out {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@-webkit-keyframes slide-out {
-  0% {
-    -webkit-transform: translateX(0%);
-  }
-  100% {
-    -webkit-transform: translateX(-100%);
-  }
-}
-
-@keyframes slide-up {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0%;
-  }
-  100% {
-    transform: translateY(0%);
-    opacity: 100%;
-  }
-}
-
-@-webkit-keyframes slide-up {
-  0% {
-    -webkit-transform: translateY(-100%);
-    opacity: 0%;
-  }
-  100% {
-    -webkit-transform: translateY(0%);
-    opacity: 100%;
-  }
-}
-
-
-
-@keyframes popup-in {
-  from {
-    display:none;
-    visibility: hidden;
-    opacity: 0%;
-  }
-  to {
-    display: inherit;
-    opacity: 100%;
-    
-  }
-}
-@keyframes popup-out {
-  from {
-    display: inherit;
-    opacity: 100%;
-  }
-  to {
-    display:none;
-    visibility: hidden;
-    opacity: 0%;
-  }
-}
-
-
-
-
-@keyframes popup-contents-in {
-  0% {
-    transform: translateY(100%);
-    opacity: 0%;
-  }
-  100% {
-    transform: translateY(0%);
-    opacity: 100%;
-  }
-}
-
-@-webkit-keyframes popup-contents-in {
-  0% {
-    transform: translateY(100%);
-    opacity: 0%;
-  }
-  100% {
-    transform: translateY(0%);
-    opacity: 100%;
-  }
-}
-
-@keyframes popup-contents-out {
-  0% {
-    transform: translateY(0%);
-    opacity: 100%;
-  }
-  100% {
-    transform: translateY(100%);
-    opacity: 0%;
-  }
-}
-
-@-webkit-keyframes popup-contents-out {
-  0% {
-    transform: translateY(0%);
-    opacity: 100%;
-  }
-  100% {
-    transform: translateY(100%);
-    opacity: 0%;
-  }
-}
-
-@keyframes anchor-in {
-  0% {
-    border: 1px solid green;
-    border-radius: 10px;
-    background-color: green;
-  }
-  100% {
-    border: 0px solid white;
-    background-color: transparent;
-  }
-}
-
-@keyframes bevel-turn {
-  0% {
-    
-  }
-  100% {
-    transform: rotateY(var(--bevel-rotation));
-  }
-}
-
-@keyframes about-text-move {
-  0% {
-    
-  }
-  100% {
-    transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)), 0, var(--about-text-inset));
-  }
-}
-
-
-
-
 @keyframes moon-set {
   0% {
 	opacity:100%;
@@ -912,75 +240,9 @@ footer {
 }
 
 
-/*
--------- Tablet/MidSized Css or lower (mobile)------
-*/
-@media only screen and (max-width: 992px) {
 
-.sm-icon {
-	font-size: 22px;
-}
+/* ====================================================
 
-.project-entry .git-detail-btn {
-	font-size: 22px;
-}
-
-}
-
-
-
-/* 
-------- Mobile CSS --------
-*/
-@media only screen and (max-width: 600px) {
-	.hide-on-small-only {
-		display: none;
-	}
-	#about .container {
-		height: fit-content;
-	}
-  #lightdark-container {
-	transform: translateY(-50%);
-  }
-  #about-card {
-	top: 0;
-    transform: translateY(0);
-    position: relative;
-	}
-  /* For mobile phones: */
-  #about-img-side {
-    box-shadow: none;
-	width:100%;
-  }
-  
-  /* No perspective effect on mobile */ 
-  #about-text-side {
-	 height:auto;
-   margin: 0px;
-   animation:none;
-   transform: translate3d(0,0,0);
-   width:100%;
-  }
-  /* Remove animation */
-  #about-text-side.anim{
-		animation: none;
-  }
-  
-  #projects-card-row {
-    width: 100%;
-  }
-
-  .project-entry {
-    width: 100%;
-    margin: 10px 10%;
-  }
-
-  .project-entry .project-entry-image {
-    width: 100%;
-    height: 152px;
-  }
-
-  .project-entry .project-entry-title {
-    padding: 128px 8px 3px 8px;
-  }
-}
+                         END COMMON 
+   
+   ====================================================*/
