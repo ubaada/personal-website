@@ -3,7 +3,18 @@
                   Homepage | index css 
 
    ===================================================== */
-
+body {
+  --about-text-inset: -45px;
+  --bevel-rotation: 40deg;
+  --bevel-color: rgb(180 180 180 / 58%);
+  --tag-border-color: rgb(0 0 0 / 14%);
+  --tag-hover-color: #efefef;
+}
+body.dark {
+  --bevel-color: rgb(71 71 71 / 58%);
+  --tag-border-color: rgb(255 255 255 / 18%);
+  --tag-hover-color: #727272;
+}
 .project-card {
   border-radius: 10px;
 }

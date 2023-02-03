@@ -1,7 +1,7 @@
 <?php
 function login($input_username, $input_pw) {
 	# Check if username exists in table users
-	$pdo = new PDO('sqlite:data/data.db');
+	$pdo = new PDO('sqlite:../../data.db');
 	$stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
 	$stmt->execute([$input_username]);
 
@@ -17,7 +17,7 @@ function login($input_username, $input_pw) {
 			$new_token = bin2hex(random_bytes(32));
 			
 			// Set the TTL interval (in seconds) + current time
-			$ttl = 3600;
+			$ttl = 604800;
 			$ttl = time() + $ttl;
 			
 			# Insert session into sessions table
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>
-    Post Editor
+    Login
   </title>
 
   <link rel="icon" type="image/x-icon" href="/images/favicon.png">
@@ -70,9 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
 
   <!-- Main css file-->
-  <link href="/css/custom.css" rel="stylesheet">
+  <link href="../css/custom.css" rel="stylesheet">
   
-    <link href="css/custom.css" rel="stylesheet">
 	<style>
         blockquote {
             color:redo;
@@ -132,18 +131,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   </div>
   </div>
-
-	
-	
+  
+	<!-- For light mode / darkmode -->
     <script src="/js/color-mode.js"></script>
-	
-
-	  <!-- Initialize text editor --->
-	  <script>
-		$(document).ready(function() {
-			$('#summernote').summernote();
-		});
-	  </script>
 </body>
 
 </html>
