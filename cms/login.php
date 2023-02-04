@@ -97,9 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </style>
 </head>
 
-<body>
-  <!-- Entire About page along with picture and introduction -->
-  <div>
+<body class="pg-flexbox">
+
+  <div class="pg-flexbox-content">
     <div class="container">
       <!-- Heading and the Light/Dark mode button-->
       <div style="height: 69px;border-bottom: 1px silver solid;;position:relative;">
@@ -132,6 +132,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
   </div>
   
+  <footer class="pg-flexbox-foot">
+    <div class="container" id="footnote">
+		Don't be doing anything funny here mister 
+		<span style="white-space: nowrap;">( ͡≖  ͟ʖ͡≖ )</span>
+	</div>
+  </footer>
 	<!-- For light mode / darkmode -->
     <script src="/js/color-mode.js"></script>
 </body>

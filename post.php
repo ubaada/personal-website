@@ -76,7 +76,8 @@ if (isset($_GET['key'])) {
   </script>
   <style>
   #article-info {
-	margin: 10px 0px;
+	color: var(--footer-txt-color);
+	display: flex;
   }
   #article-info span {
 	margin-right: 10px;
@@ -90,28 +91,34 @@ if (isset($_GET['key'])) {
   </style>
 </head>
 
-<body>
+<body class="pg-flexbox">
   <!-- Entire About page along with picture and introduction -->
-  <div>
+  <div class="pg-flexbox-content">
     <div class="container">
-      <!-- Heading and the Light/Dark mode button-->
-      <div style="height: 69px;border-bottom: 1px silver solid;;position:relative;">
-	  	<div style="padding-top: 24px;">Home</div>
-        <label id="lightdark-container" style="transform:translateY(-50%)">
-          <input type="checkbox" id="lightdark-checkbox">
-          <div id="lightdark-btn"></div>
-        </label>
-      </div>
-
         <h1><?php echo $post_details['title']; ?></h1>
 
 		<div id="article-info">
-			<span id="article-author"><?php echo $usr_details['display_name'] ?></span>
-			<span id="article-date"><?php echo $post_details['date'] ?></span>
-			<!-- <label id="lightdark-container"> -->
-			  <!-- <input type="checkbox" id="lightdark-checkbox"> -->
-			  <!-- <div id="lightdark-btn"></div> -->
-			<!-- </label> -->
+			<!-- Author name -->
+			<a href="/">
+			<span id="article-author">
+			<?php echo $usr_details['display_name'] ?>
+			</span>
+			</a>
+			<!-- arrow -->
+			<span>&#x25ba;</span>
+			<!-- Post date -->
+			<span id="article-date">
+			<?php echo date('d-m-Y', $post_details['date']); ?>
+			</span>
+			
+
+			<?php if (isset($_COOKIE["session_token"])): ?>
+			<a href="/cms/edit?key=<?php echo $_GET['key'] ?>" target="_blank"><span style="font-size: 20px;">🖉</span></a>
+			<?php endif; ?>
+			<label id="lightdark-container">
+			  <input type="checkbox" id="lightdark-checkbox">
+			  <div id="lightdark-btn"></div>
+			</label>
 		</div>
       <div class="article">
 		 <?php echo $post_details['content'] ?>
@@ -124,9 +131,9 @@ if (isset($_GET['key'])) {
 
 
     <!-- Footer -->
-    <footer>
+    <footer class="pg-flexbox-foot">
       <div class="container" id="footnote">
-        <p>Copyright © Ubaada 2022... ig :P</p>
+        <p style="text-align: center;"> ͡❛ ͜ʖ ͡❛</p>
       </div>
     </footer>
 

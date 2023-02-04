@@ -1,4 +1,9 @@
-CREATE TABLE "users" (
+/* ======================================
+
+           CMS DATABASE SCHEMA
+
+   ====================================== */
+CREATE TABLE IF NOT EXISTS "users" (
 	"user_id"	INTEGER NOT NULL UNIQUE,
 	"username"	TEXT NOT NULL UNIQUE,
 	"diplay_name"	TEXT NOT NULL,
@@ -6,7 +11,7 @@ CREATE TABLE "users" (
 	PRIMARY KEY("user_id" AUTOINCREMENT)
 );
 
-CREATE TABLE "posts" (
+CREATE TABLE IF NOT EXISTS "posts" (
 	"post_id"	INTEGER NOT NULL UNIQUE,
 	"user_id"	INTEGER NOT NULL,
 	"post_URL"	TEXT NOT NULL UNIQUE,
@@ -20,7 +25,7 @@ CREATE TABLE "posts" (
 	FOREIGN KEY("user_id") REFERENCES "users"("user_id")
 );
 
-CREATE TABLE "comments" (
+CREATE TABLE IF NOT EXISTS "comments" (
 	"comment_id"	INTEGER NOT NULL UNIQUE,
 	"post_id"	INTEGER NOT NULL,
 	"comment"	TEXT NOT NULL,
@@ -29,7 +34,7 @@ CREATE TABLE "comments" (
 	PRIMARY KEY("comment_id" AUTOINCREMENT)
 );
 
-CREATE TABLE "sessions" (
+CREATE TABLE IF NOT EXISTS "sessions" (
 	"session_id"	INTEGER NOT NULL UNIQUE,
 	"user_id"	INTEGER NOT NULL,
 	"token"	TEXT NOT NULL UNIQUE,

@@ -96,6 +96,10 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 } else { // Root / address
 	if ($_SERVER['REQUEST_METHOD']==='POST') {
 		// Insert new post into db.
+		
+		// Using base16 because of consistent result length
+		// only base(2^n) divide bytes(8bit) evenly.
+		// Base36 (26 alph + 10 nums) isn't a power of 2.
 		$rand_post_URL = bin2hex(random_bytes(4));
 		$dateimestamp = strtotime($_POST["date"]);
 		//replace old tmp img urls with KEY folder
@@ -305,19 +309,26 @@ function move_tmp_images($filenames, $key) {
 		all:inherit;
 		
 	}
+	/* Overide article container size in editor */
+	.article {
+		width:unset;
+	}
   </style>
 </head>
 
-<body>
+<body class="pg-flexbox">
+<!-- All content goes in here besides footer.
+     Expands to fill in empty space even with no content -->
+<div class="pg-flexbox-content">
     <div class="container">
       <!-- Heading and the Light/Dark mode button-->
-      <div style="height: 69px;border-bottom: 1px silver solid;;position:relative;">
-        <div style="padding-top: 24px;">
+      <div style="height: 69px;border-bottom: 1px silver solid;;display: flex;justify-content: space-between;align-items: center;">
+        <div>
 		<?php if ($edit_mode == true): ?>
 			<a href="edit.php">Go Back</a>
 		<?php endif; ?>
 		</div>
-        <label id="lightdark-container" style="transform:translateY(-50%)">
+        <label id="lightdark-container">
           <input type="checkbox" id="lightdark-checkbox">
           <div id="lightdark-btn"></div>
         </label>
@@ -405,8 +416,14 @@ function move_tmp_images($filenames, $key) {
 	 </div>
 
     </div>
-
-
+</div>
+    
+<!-- Footer -->
+<footer class="pg-flexbox-foot">
+    <div class="container" id="footnote">
+        <p style="text-align: center;"> ͡❛ ͜ʖ ͡❛</p>
+	</div>
+</footer>
 
   <script src="/js/color-mode.js"></script>
 

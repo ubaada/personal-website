@@ -54,10 +54,16 @@
   </script>
 </head>
 
-<body>
+<body class="pg-flexbox">
+<!-- All content goes in here besides footer.
+     Expands to fill in empty space even with no content -->
+<div class="pg-flexbox-content">
+
+
   <!-- Entire About page along with picture and introduction -->
   <div class="screenbox" id="about">
-    <div class="container">
+	<!-- Reusing full page flexbox stretcher -->
+    <div class="container pg-flexbox">
       <!-- Heading and the Light/Dark mode button-->
       <div id="about-lightdark-row">
         <h1>About</h1>
@@ -68,6 +74,13 @@
         </label>
       </div>
 
+
+	  <!-- Flexbox container that expands to fill remaining the pg: Reusing full page class-->
+	  <!-- itself a flexbox to center about card -->
+	  <div class="pg-flexbox-content" style="
+		display:flex;
+		align-items:center;
+	  ">
       <!-- Image and Intro card -->
       <div id="about-card">
         <div class="row" id="about-card-row">
@@ -129,7 +142,7 @@
                     <input type="text" id="emailfrom"></input>
                     <textarea id="emailmsg" name="Text1" cols="40" rows="5"></textarea>
 
-                    <button id="send-btn"">Send</button>
+                    <button id="send-btn">Send</button>
 							      <input type=" button" id="cancel-email-btn">Cancel</input>
                   </div>
                 </div>
@@ -140,6 +153,7 @@
 
         </div>
       </div>
+	  </div>
 
     </div>
   </div>
@@ -371,11 +385,13 @@
         <div id="popup-close-btn" onclick="hidePopup()">X</div>
       </div>
     </div>
+	
+</div>
 
     <!-- Footer -->
-    <footer>
+    <footer class="pg-flexbox-foot">
       <div class="container" id="footnote">
-        <p>Copyright © Ubaada 2022... ig :P</p>
+        <p style="text-align: center;"> ͡❛ ͜ʖ ͡❛</p>
       </div>
     </footer>
 

@@ -11,9 +11,10 @@ if ($_FILES['image']['name']) {
   if (!$_FILES['image']['error']) {
 	$tmp_folder = '/cms/images/tmp/';
 	if (!file_exists('images/tmp')) {
+		// Recurively creates both 'images' & 'tmp'
 		mkdir('images/tmp', 0777, true);
 	}
-    $name = md5(rand(100, 200));
+    $name = bin2hex(random_bytes(4));
     $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
     $filename = $name.'.'.$ext;
     $destination =  $_SERVER['DOCUMENT_ROOT'].$tmp_folder . $filename;

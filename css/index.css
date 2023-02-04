@@ -22,24 +22,19 @@ body.dark {
 /* Css for screen/slide/page */
 .screenbox {
   width: 100%;
-  min-height: -webkit-fill-available;
-  float: left;
-  clear: none;
-}
-
-#about {
   min-height: 100vh;
 }
 
-#about .container {
-	position: relative;
-    height: 100vh;
+#about {
+  
 }
 
 #projects {}
 
 #about-lightdark-row {
-  position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #about-card {
@@ -52,9 +47,6 @@ body.dark {
   display:flex;
   transition: all 1s;
   
-  top: 50%;
-  transform: translateY(-50%);
-  position: absolute;
 }
 
 #about-card-row{
@@ -479,19 +471,6 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 #popup-close-btn:hover {
   background-color: #444;
   color: white;
-}
-
-
-
-
-footer {
-  clear: both;
-  width: 100%;
-  background-color: var(--footer-bg-color);
-  color: var(--footer-txt-color);
-  padding: 2em 0 2em 0;
-  height: 200px;
-  margin-top: -200px;
 }
 
 
