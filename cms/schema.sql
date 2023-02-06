@@ -6,7 +6,7 @@
 CREATE TABLE IF NOT EXISTS "users" (
 	"user_id"	INTEGER NOT NULL UNIQUE,
 	"username"	TEXT NOT NULL UNIQUE,
-	"diplay_name"	TEXT NOT NULL,
+	"display_name"	TEXT NOT NULL,
 	"hash_pw_with_salt"	TEXT NOT NULL,
 	PRIMARY KEY("user_id" AUTOINCREMENT)
 );

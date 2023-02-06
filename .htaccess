@@ -1,16 +1,26 @@
 # To enable effects of this file.
-# Emable Rewrite in httpd.conf for your directory
+# Enable Rewrite in httpd.conf for your directory
 # Make sure Rewrite module is enabled by uncommenting it from config.
+#
+# OR
+#
+# Put these rules in 443 conf file.
+
 RewriteEngine On
 
-# Rewrite all post/[value] addrress to post?key=[value]
-RewriteRule ^post/([A-Za-z0-9]+)$ post.php/?key=$1
+
+# Rules put here for performance reasons.
+# %{REQUEST_FILENAME} under VirtualHost doesn't work.
+
+# Rewrite all post/[value] addrresses to post?key=[value]
+RewriteRule ^/post/([A-Za-z0-9]+)$ /post.php?key=$1
 
 # Tests whether the request is not a existing directory (1)
 # and whether it exists as a php file if .php is added (2)
 # Adds .php to the request string if  both are true
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
+#	L flag: prevents any further Rewrite rules being applied
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}\.php -f
 RewriteRule ^(.*)$ $1.php [NC,L]
 
 # Disallow directory traversing
