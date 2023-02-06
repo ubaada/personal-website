@@ -21,6 +21,11 @@ function authenticate_session() {
 				//return authenticated db connection.
 				return [$pdo, $session_match];
 			}
+		} else {
+			// Delete invalid cookie before redirecting to login
+			// Reason: To stop browser session check loop from login.php
+			unset($_COOKIE['session_token']); 
+			setcookie('session_token', null, -1, '/'); 
 		}
 	}
 	

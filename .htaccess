@@ -13,7 +13,12 @@ RewriteEngine On
 # %{REQUEST_FILENAME} under VirtualHost doesn't work.
 
 # Rewrite all post/[value] addrresses to post?key=[value]
-RewriteRule ^/post/([A-Za-z0-9]+)$ /post.php?key=$1
+# (Check for leading '/' char at the start).
+# Depending on server context (VirtualHost vs Directory),
+# it is missing.
+RewriteRule ^(\/?)post\/([A-Za-z0-9]+)$ $1post.php?key=$2
+
+
 
 # Tests whether the request is not a existing directory (1)
 # and whether it exists as a php file if .php is added (2)

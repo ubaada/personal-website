@@ -1,4 +1,16 @@
 <?php
+// ==== Authenticate Prev Session (if any) =============
+if(isset($_COOKIE["session_token"])) {
+	// Browser already has session cookie
+	// Check if valid
+	require('session_auth.php');
+	// Session valid: user already signed in.
+	// Redirect to edit page
+	$newDest = 'edit.php';
+	header('Location: '.$newDest);
+}
+
+
 function login($input_username, $input_pw) {
 	# Check if username exists in table users
 	$pdo = new PDO('sqlite:../../data.db');
