@@ -321,7 +321,8 @@ function move_tmp_images($filenames, $key) {
      Expands to fill in empty space even with no content -->
 <div class="pg-flexbox-content">
     <div class="container">
-      <!-- Heading and the Light/Dark mode button-->
+	
+      <!-- The Light/Dark mode button-->
       <div style="height: 69px;border-bottom: 1px silver solid;;display: flex;justify-content: space-between;align-items: center;">
         <div>
 		<?php if ($edit_mode == true): ?>

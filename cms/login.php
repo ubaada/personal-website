@@ -101,14 +101,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <div class="pg-flexbox-content">
     <div class="container">
-      <!-- Heading and the Light/Dark mode button-->
-      <div style="height: 69px;border-bottom: 1px silver solid;;position:relative;">
-	  	<div style="padding-top: 24px;">Home</div>
-        <label id="lightdark-container" style="transform:translateY(-50%)">
+	
+      <!-- The Light/Dark mode button-->
+      <div style="height: 69px;border-bottom: 1px silver solid;;display: flex;justify-content: space-between;align-items: center;">
+        <div>
+
+		</div>
+        <label id="lightdark-container">
           <input type="checkbox" id="lightdark-checkbox">
           <div id="lightdark-btn"></div>
         </label>
       </div>
+	  
 
 	  <div id="loginform">
 	  <h1>Login</h1>
