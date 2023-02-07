@@ -431,6 +431,9 @@ function move_tmp_images($filenames, $key) {
 
   <!-- Initialize text editor --->
   <script>
+	// ==========================================
+	//         Setup Summernote Editor
+	// ==========================================
 	$('#summernote').summernote({
 		placeholder: 'Write post here...',
 		height: '70vh',
@@ -467,16 +470,49 @@ function move_tmp_images($filenames, $key) {
 			}
 		}
 	});
+	// Apply same style class on edit page as the live one
+	$('.note-editable').addClass('article');
+	// ==========================================
 	
 	
-	// Use Prettier plugin to format the summernote's cluttered
-	// html code in the codemirror.
-	// Event: When codeview is toggled.
-	$('#summernote').on('summernote.codeview.toggled', function() {
-	  formatHTML();
+	// ==========================================
+	//         Unsaved Changes Management
+	// ==========================================
+	// Check if content is changed. Default is true.
+	// Set (tuned true) in save()
+	var saved = true;
+	// 'saved' set to false if following object values are changed.
+	// Summernote content is changed
+	$('#summernote').on('summernote.change', function(we, contents, $editable) {
+		content_changed();
 	});
+	// Any other of the form object is changed
+	var post_elem_ids = ['post_title', 'post_tags','post_date','post_status'];
+	for (var i = 0; i < post_elem_ids.length; i++) {
+		var elem = document.getElementById(post_elem_ids[i]);
+		elem.addEventListener('input', content_changed); 
+	}
+	// Set saved status untrue and show edited message.
+	function content_changed() {
+		notify("unsaved *");
+		saved = false;
+	}
+	// On page close check if there is unsaved content and prompt the user.
+	window.onbeforeunload = function(){
+		if (saved === false) {
+			return 'Are you sure you want to discard changes?';
+		}
+	};
+	// ==========================================
+	
+	
+	// ==========================================
+	//         Prettify Source Code
+	// ==========================================
+	// Use Prettier plugin to format the summernote's 
+	// cluttered html code in the codemirror.
 	function formatHTML() {
-		var e = document.querySelector('.CodeMirror')
+		var e = document.querySelector('.CodeMirror');
 		// Check if codeview was toggled 'into' not 'out of'
 		// CodeMirror obj only exists if codeview was toggled into.
 		if (e != null) {
@@ -490,13 +526,18 @@ function move_tmp_images($filenames, $key) {
 			c.setValue(prettyHTML);
 		}
 	}
+	// Event: When codeview is toggled.
+	$('#summernote').on('summernote.codeview.toggled', function() {
+	  formatHTML();
+	});
+	// ==========================================
 	
-	// Apply same style class on edit page as the live one
-	$('.note-editable').addClass('article');
 	
-	var form_status = document.getElementById("form_status");
+	// ==========================================
+	//                Save Post
+	// ==========================================
 	function save() {
-		form_status.innerHTML = "Saving...";
+		notify("Saving...");
 		// Covers both "saving" of already existing one
 		// and cerating of new one depending upon page URL
 		const url = "?";
@@ -539,16 +580,32 @@ function move_tmp_images($filenames, $key) {
 			  }
 
 		  })
-		  .then((data) => form_status.innerHTML = 'Saved')
-		  .catch((error) => form_status.innerHTML = error);
+		  .then((data) => {
+			  notify('Saved');
+			  // Set global saved status to true.
+			  saved = true;
+		  })
+		  .catch((error) => notify(error));
 	}
+	// Also capture CTRL+S to save the post using that
+	document.addEventListener('keydown', e => {
+	  if (e.ctrlKey && e.key === 's') {
+		// Prevent the Save dialog to open
+		e.preventDefault();
+		// Save Post
+		save();
+	  }
+	});
+	// ==========================================
 	
 	
-	
+	// ==========================================
+	//              Delete Post
+	// ==========================================
 	function delete_post() {
 		var yesno = confirm("Are you sure you want to delete this post?");
 		if (yesno) {
-			form_status.innerHTML = "Deleting Post...";
+			notify("Deleting Post...");
 			// send HTTP DELETE request to the current page
 			fetch("", {
 			  method: "DELETE",
@@ -565,13 +622,17 @@ function move_tmp_images($filenames, $key) {
 				  }
 
 			  })
-			  .then((data) => form_status.innerHTML = "Post Deleted")
-			  .catch((error) => form_status.innerHTML = error);
+			  .then((data) => notify("Post Deleted"))
+			  .catch((error) => notify(error));
 		}
 	}
+	// ==========================================
 	
+	// ==========================================
+    //      Upload Inserted images
+	// ==========================================
 	function upload_image(image) {
-	form_status.innerHTML = "Uploading image...";
+	notify("Uploading image...");
 	data = new FormData();
 	data.append("image", image);
 	$.ajax({
@@ -582,23 +643,24 @@ function move_tmp_images($filenames, $key) {
 	  contentType: false,
 	  processData: false,
 	  success: function(url) {
-			form_status.innerHTML = "Image uploaded";
+			notify("Image uploaded");
 			var image = $('<img>').attr('src', url);
 			$('#summernote').summernote("insertNode", image[0]);
 		},
 	  error: function(data) {
-			form_status.innerHTML =data;
+			notify(data);
 		}
 	});
 	}
+	// ==========================================
 	
+	// ==========================================
+	//         Show Status Messages
+	// ==========================================
 	function notify(message) {
-		$('.note-status-output').html(
-		  '<div class="alert alert-danger">' +
-			'This is an error using a Bootstrap alert that has been restyled to fit here.' +
-		  '</div>'
-		);
+		form_status.innerHTML = message;
 	}
+	// ==========================================
   </script>
   
   
