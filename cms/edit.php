@@ -77,7 +77,7 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 					]);
 		
 		// Post deleted. Redirect to the edit page
-		$newDest = '?';
+		$newDest = 'index';
 		header('Location: '.$newDest);
 		exit;
 	} else if ($_SERVER['REQUEST_METHOD']==='GET') {
@@ -238,7 +238,7 @@ function move_tmp_images($filenames, $key) {
       clear: both;
     }
 
-    input,
+	input,
     textarea {
       border: 1px solid var(--textcolor);
       padding: 10px;
@@ -253,22 +253,26 @@ function move_tmp_images($filenames, $key) {
 		background-color: var(--textcolor);
 		cursor: pointer;
 	}
-	.post_item {
-		padding:10px;
-		margin:5px;
-		border:1px solid var(--textcolor);
-		width:100%;
-		display:inline-block;
-		overflow:hidden;
-		box-sizing: border-box;
-		max-height: 2.6em;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+	
+	
+	
+	#publish_btn {
+		display: inline;
+		padding: 8px 10px 10px 2px;
+		margin-left: 6px;
+		border-left: 8px solid;
 	}
-	.post_item span {
-		float:right;
-		clear:both;
-		color: var(--textcolor);
+	#publish_btn::before {
+		content:'Draft';
+	}
+	input:checked+#publish_btn {
+		border-left:0px;
+		padding-left:8px;
+		color: var(--bgcolor);
+		background-color: var(--textcolor);
+	}
+	input:checked+#publish_btn::before {
+		content:'Publish';
 	}
 	
 	.submit-row {
@@ -381,8 +385,11 @@ function move_tmp_images($filenames, $key) {
         <input type="datetime-local" id="post_date" name="post_date"value="<?php echo date('Y-m-d\TH:i:s',$post_details['date']) ?>">
 		
 		<!-- Post Status [Publishe | Draft] -->
-        <input type="checkbox" id="post_status" name="post_status" style="display:inline;" <?php if ($post_details['status'] === 'published') echo "checked"; ?>>
-        <label for="post_status"> Publish</label><br>
+		<label for="post_status" style="display:inline;">
+          <input type="checkbox" id="post_status" style="display:none;" <?php if ($post_details['status'] === 'published') echo "checked"; ?>>
+          <div id="publish_btn"></div>
+        </label>
+
 		
 		</div>
 		
@@ -530,7 +537,7 @@ function move_tmp_images($filenames, $key) {
 	function save() {
 		notify("Saving...");
 		// Covers both "saving" of already existing one
-		// and cerating of new one depending upon page URL
+		// and creating of new one depending upon page URL
 		const url = "?";
 		
 		var post_status = "";
@@ -567,6 +574,9 @@ function move_tmp_images($filenames, $key) {
 		  .then((response) => {
 			  console.log(response);
 			  if (response.redirected === true) {
+				notify('Saved');
+				// Set global saved status to true.
+				saved = true;
 				window.location.href = response.url;
 			  }
 

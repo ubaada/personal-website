@@ -59,7 +59,7 @@ $auth_pdo = null;
 			  $editlink = '<a href="edit?key='.$post['post_URL'].'">'.$post['title'].'</a>';
 			  $viewlink = "(Unpublished)";
 			  if ($post['status'] == 'published') {
-				  $viewlink = '<a href="/post/'.$post['post_URL'].'">View Live</a>';
+				  $viewlink = '<a href="/post/'.$post['post_URL'].'" target="_blank">View Live ➔</a>';
 			  }
 			  $pDate = date('d-m-Y', $post["date"]);
 			  $tbl_html = $tbl_html . '<tr><td>'.$editlink.'</td><td>'.

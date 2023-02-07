@@ -226,7 +226,7 @@ td, th {
 	border: none;
 }
 tr {
-	border-bottom: 1px solid rgba(0,0,0,0.12);
+
 }
 tr:nth-child(odd) {
     background-color: rgb(189 189 189 / 13%);
