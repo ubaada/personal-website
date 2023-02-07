@@ -4,7 +4,7 @@ require('session_auth.php');
 
 // ========================================================
 //
-//            Create and Edits Possts
+//            Create and Edits Posts
 //
 // ========================================================
 //	Access Pattern:
@@ -125,9 +125,8 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 		$newDest = '?key='.$rand_post_URL;
 		header('Location: '.$newDest);
 	} else if ($_SERVER['REQUEST_METHOD']==='GET') {
-		$stmt = $auth_pdo->prepare('SELECT post_URL, title, status FROM posts WHERE user_id = ?');
-		$stmt->execute([$session_details['user_id']]);
-		$all_posts = $stmt->fetchAll();
+		// Display new post page (default)
+		$edit_mode = false;
 	}
 	
 }
@@ -228,14 +227,11 @@ function move_tmp_images($filenames, $key) {
   
   <style>
 
-    .thinform {
-      max-width: 100%;
-      width: 800px;
-      font-size: 25px;
-    }
-
+	/* flexbox */
     #post_edit {
-      margin: 20px 0px;
+	  display:flex;
+	  flex-direction:column;
+	  min-height:100vh;
     }
 
     textarea {
@@ -275,20 +271,29 @@ function move_tmp_images($filenames, $key) {
 		color: var(--textcolor);
 	}
 	
+	.submit-row {
+		position: sticky;
+		bottom: 0px;
+		background-color: var(--bgcolor);
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		column-gap: 0.875rem;
+		border-top: 1px solid var(--footer-bg-color);
+	}
 	#form_status {
-		text-align: center;
-		background-color: var(--textcolor);
-		color: var(--bgcolor);
-		position: fixed;
-		top: 0px;
-		left: 0;
-		width: inherit;
+		display: inline;
+		margin-right: auto;
+	
 	}
 	
 	/* overiding summernote's css */
 	.note-frame {
 		color: var(--textcolor);
 		border:1px solid var(--textcolor) !important;
+		flex-grow: 1;
+		display:flex;
+		flex-direction:column;
 	}
 	.note-btn {
 		background-color:var(--bgcolor);
@@ -309,6 +314,12 @@ function move_tmp_images($filenames, $key) {
 		all:inherit;
 		
 	}
+	.note-editing-area {
+		flex-grow:1;
+	}
+	.note-editable {
+		height: 100%;
+	}
 	/* Overide article container size in editor */
 	.article {
 		width:unset;
@@ -320,22 +331,25 @@ function move_tmp_images($filenames, $key) {
 <!-- All content goes in here besides footer.
      Expands to fill in empty space even with no content -->
 <div class="pg-flexbox-content">
-    <div class="container">
+    <div class="container"  id="post_edit">
 	
-      <!-- The Light/Dark mode button-->
+      <!-- Header -->
       <div style="height: 69px;border-bottom: 1px silver solid;;display: flex;justify-content: space-between;align-items: center;">
         <div>
-		<?php if ($edit_mode == true): ?>
-			<a href="edit.php">Go Back</a>
-		<?php endif; ?>
+		<span style="margin-right:10px;filter: grayscale(100%);"><a href="index.php">🏠</a></span>
+		<?php 
+		if ($edit_mode === true) {	
+			echo '<span>Editing: ' . $post_details['post_URL'] . '</span>';
+		} else {
+			echo '<span>Create New Post</span>';
+		}
+		?>
 		</div>
         <label id="lightdark-container">
           <input type="checkbox" id="lightdark-checkbox">
           <div id="lightdark-btn"></div>
         </label>
       </div>
-	  
-      <div class="row" id="post_edit">
 	
 		<!-- Title goes here -->
 		<div class="col s12">
@@ -343,10 +357,10 @@ function move_tmp_images($filenames, $key) {
 		</div>
 		
 		<!-- Main editor -->
-		<div class="col s12">
-        <div id="summernote"><?php echo $post_details['content']; ?></div>
-		</div>
-		
+		<!-- Expands to take up remaining pg space at minimum -->
+		<!-- "flex-grow:1" also put in .note-frame style. -->
+        <div id="summernote" style="flex-grow:1;"><?php echo $post_details['content']; ?></div>
+
 		<?php
 		// If post['status'] is set then it meets its a old post
 		// Check to see if its an published old post.
@@ -364,7 +378,6 @@ function move_tmp_images($filenames, $key) {
 		<div class="col s12">
 		
 		<!-- Post date goes here -->
-		<label for="post_date">Date:</label>
         <input type="datetime-local" id="post_date" name="post_date"value="<?php echo date('Y-m-d\TH:i:s',$post_details['date']) ?>">
 		
 		<!-- Post Status [Publishe | Draft] -->
@@ -376,7 +389,9 @@ function move_tmp_images($filenames, $key) {
 
 		
 		<!-- Create New | Save | Delete buttons -->
-		<div class="col s12" style="text-align:right;">
+		<div class="col s12 submit-row">
+			<div id="form_status"></div>
+			
 			<?php if ($edit_mode == true): ?>
 			
 			<input type="button" onclick="save()" value="Save Edit">
@@ -389,32 +404,9 @@ function move_tmp_images($filenames, $key) {
 
 			<?php endif; ?>
 			
-			<!-- Event status text. Floats at the top -->
-			<div id="form_status"></div>
 		</div>
-		
-      </div>
 	  
-	  <div class="row" id="all-posts">
-	  
-	  <?php if ($edit_mode == false) {
-		  $list_html = "<h2>All Posts</h2>";
-		  foreach ($all_posts as $post) {
-			  $title = ($post['title'] == '') ? '(no title)' : $post['title'];
-			  $star = ($post['status'] == 'published') ? '  ✔' : '';
-			  
-			  $list_html = $list_html . 
-			  '<div class="col s12 m6"><a href="?key='.$post['post_URL']. '">'.
-			  '<div class="post_item">' .
-			  $title . 
-			  '<span>'.$star.'</span>'.
-			  '</div></a></div>';
-			}
-		  echo $list_html;
-	  } ?>
-	  
-	  <!--end-->
-	 </div>
+
 
     </div>
 </div>
@@ -436,7 +428,6 @@ function move_tmp_images($filenames, $key) {
 	// ==========================================
 	$('#summernote').summernote({
 		placeholder: 'Write post here...',
-		height: '70vh',
 		// Which html tags to show. Deleted h1.
 		styleTags: [
 		'h2', 'h3', 'h4', 'h5','p','pre', 

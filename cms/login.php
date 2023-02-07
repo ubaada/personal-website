@@ -6,7 +6,7 @@ if(isset($_COOKIE["session_token"])) {
 	require('session_auth.php');
 	// Session valid: user already signed in.
 	// Redirect to edit page
-	$newDest = 'edit.php';
+	$newDest = 'index.php';
 	header('Location: '.$newDest);
 }
 
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$login_status = login($_POST["username"], $_POST["pwd"]);
 	if ($login_status) {
 		// Logged in, now redirect.
-		$newDest = 'edit.php';
+		$newDest = 'index.php';
 		header('Location: '.$newDest);
 	}
 }
