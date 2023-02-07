@@ -451,40 +451,45 @@ function move_tmp_images($filenames, $key) {
 		  ['insert', ['link', 'picture']],
 		  ['view', ['codeview']],
 		],
+		// Include CodeMirror as default src code editor.
+		// Much nicer than default editor. Syntax highlighting etc.
 		codemirror: {
           mode: 'text/html',
           htmlMode: true,
           lineNumbers: true,
-          theme: 'blackboard',
-		  init: function(cm) {
-			cm.on("init", function(instance) {
-			  console.log("CodeMirror initialized!");
-			});
-		  }
+          theme: 'blackboard'
         },
 		callbacks: {
+			// Add upload event handler.
+			// [0] because only supports 1 at a time.
 			onImageUpload: function(images) {
 				upload_image(images[0]);
-			},
-			onBlur: function() {
-				// formatHTML();
-				// var uglyHTML =$('#summernote').summernote('code');
-				// console.log(uglyHTML);
-				// var prettyHTML = prettier.format(uglyHTML, {
-					// parser: "html",
-					// plugins: prettierPlugins,
-				// });
-				// var uglyHTML =$('#summernote').summernote('code', prettyHTML);
 			}
 		}
 	});
-
-	$('#summernote').on('codeview.toggled', function() {
-	  // var summernote = $(this).summernote();
-	  // var codemirror = summernote.codemirror;
-
-	  console.log("dhuz");
+	
+	
+	// Use Prettier plugin to format the summernote's cluttered
+	// html code in the codemirror.
+	// Event: When codeview is toggled.
+	$('#summernote').on('summernote.codeview.toggled', function() {
+	  formatHTML();
 	});
+	function formatHTML() {
+		var e = document.querySelector('.CodeMirror')
+		// Check if codeview was toggled 'into' not 'out of'
+		// CodeMirror obj only exists if codeview was toggled into.
+		if (e != null) {
+			console.log("Prettifying...");
+			c = e.CodeMirror;
+			var uglyHTML = c.getValue();
+			var prettyHTML = prettier.format(uglyHTML, {
+				parser: "html",
+				plugins: prettierPlugins,
+			});
+			c.setValue(prettyHTML);
+		}
+	}
 	
 	// Apply same style class on edit page as the live one
 	$('.note-editable').addClass('article');
@@ -504,6 +509,7 @@ function move_tmp_images($filenames, $key) {
 			post_status = "draft";
 		}
 		
+		// Prettify HTML last time, before saving
 		ugly_content = $('#summernote').summernote('code');
 		pretty_content = prettier.format(ugly_content, {
 				parser: "html",
@@ -599,19 +605,7 @@ function move_tmp_images($filenames, $key) {
 	<!--- Post HTML beautifier -->
   	<script src="https://unpkg.com/prettier@2.8.3/standalone.js"></script>
 	<script src="https://unpkg.com/prettier@2.8.3/parser-html.js"></script>
-  
-	  <script>
 
-		function formatHTML() {
-			var e = document.querySelector('.CodeMirror').CodeMirror;
-			var uglyHTML = e.getValue();
-			var prettyHTML = prettier.format(uglyHTML, {
-				parser: "html",
-				plugins: prettierPlugins,
-			});
-			e.setValue(prettyHTML);
-		}
-	</script>
 
 </body>
 
