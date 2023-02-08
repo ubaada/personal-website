@@ -283,6 +283,7 @@ function move_tmp_images($filenames, $key) {
 		align-items: center;
 		column-gap: 0.875rem;
 		border-top: 1px solid var(--footer-bg-color);
+		z-index: 10;
 	}
 	#form_status {
 		display: inline;
@@ -314,8 +315,10 @@ function move_tmp_images($filenames, $key) {
 	}
 	
 	.note-editor .note-editing-area .note-editable a, .note-editor .note-editing-area .note-editable a:hover{
-		all:inherit;
-		
+		text-decoration: unset;
+		font-family: unset;
+		font-weight: unset;
+		color: unset;
 	}
 	.note-editing-area {
 		flex-grow:1;
@@ -323,10 +326,15 @@ function move_tmp_images($filenames, $key) {
 	.note-editable {
 		height: 100%;
 	}
-	/* Overide article container size in editor */
+	/* Overide article size style in editor*/
 	.article {
 		width:unset;
 	}
+
+	.note-editor .note-editing-area .note-editable table td, .note-editor .note-editing-area .note-editable table th {
+		all:unset;
+	}
+
   </style>
 </head>
 
@@ -465,10 +473,13 @@ function move_tmp_images($filenames, $key) {
 			onImageUpload: function(images) {
 				upload_image(images[0]);
 			}
-		}
+		},
+		tableClassName:'',
+		disableResizeEditor: true
 	});
 	// Apply same style class on edit page as the live one
 	$('.note-editable').addClass('article');
+	
 	// ==========================================
 	
 	

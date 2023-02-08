@@ -78,6 +78,10 @@ if (isset($_GET['key'])) {
   #article-info {
 	color: var(--footer-txt-color);
 	display: flex;
+	font-size:16px;
+	align-items: center;
+	font-family:Verdana;
+	
   }
   #article-info span {
 	margin-right: 10px;
@@ -87,6 +91,12 @@ if (isset($_GET['key'])) {
   }
   #article-date {
 	
+  }
+  #lightdark-btn {
+    width: unset;
+    height: unset;
+    font-size: 22px;
+	color:unset;
   }
   </style>
 </head>
@@ -105,7 +115,7 @@ if (isset($_GET['key'])) {
 			</span>
 			</a>
 			<!-- arrow -->
-			<span>&#x25ba;</span>
+			<span>&gt;</span>
 			<!-- Post date -->
 			<span id="article-date">
 			<?php echo date('d-m-Y', $post_details['date']); ?>
