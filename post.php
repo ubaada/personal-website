@@ -9,7 +9,7 @@ if (isset($_GET['key'])) {
 	$pdo = new PDO('sqlite:../data.db');
 	
 	// Get post (if its published)
-	$stmt = $pdo->prepare('SELECT * FROM posts WHERE post_URL = ? AND status=?');
+	$stmt = $pdo->prepare('SELECT * FROM posts WHERE post_id = ? AND status=?');
 	$stmt->execute([$_GET['key'],'published']);
 	$post_details = $stmt->fetch();
 	
@@ -22,8 +22,8 @@ if (isset($_GET['key'])) {
 	}
 
 	// Get author details (manily name)
-	$usr_stmt = $pdo->prepare('SELECT * FROM users WHERE user_id = ?');
-	$usr_stmt->execute([$post_details['user_id']]);
+	$usr_stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
+	$usr_stmt->execute([$post_details['username']]);
 	$usr_details = $usr_stmt->fetch();
 	
 	$pdo = null;

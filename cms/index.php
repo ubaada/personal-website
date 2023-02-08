@@ -9,8 +9,8 @@ require('session_auth.php');
 // ========================================================
 // Functions:
 // 	List all posts
-$stmt = $auth_pdo->prepare('SELECT * FROM posts WHERE user_id = ?');
-$stmt->execute([$session_details['user_id']]);
+$stmt = $auth_pdo->prepare('SELECT * FROM posts WHERE username = ?');
+$stmt->execute([$session_details['username']]);
 $all_posts = $stmt->fetchAll();
 
 $auth_pdo = null;
@@ -56,10 +56,10 @@ $auth_pdo = null;
 		$tbl_html="<table><tr><th>Title</th><th>Live Link</th><th>Date</th></tr>";
 		foreach ($all_posts as $post) {
 			  $title = ($post['title'] == '') ? '(no title)' : $post['title'];
-			  $editlink = '<a href="edit?key='.$post['post_URL'].'">'.$post['title'].'</a>';
+			  $editlink = '<a href="edit?key='.$post['post_id'].'">'.$post['title'].'</a>';
 			  $viewlink = "(Unpublished)";
 			  if ($post['status'] == 'published') {
-				  $viewlink = '<a href="/post/'.$post['post_URL'].'" target="_blank">View Live ➔</a>';
+				  $viewlink = '<a href="/post/'.$post['post_id'].'" target="_blank">View Live ➔</a>';
 			  }
 			  $pDate = date('d-m-Y', $post["date"]);
 			  $tbl_html = $tbl_html . '<tr><td>'.$editlink.'</td><td>'.

@@ -4,25 +4,23 @@
 
    ====================================== */
 CREATE TABLE IF NOT EXISTS "users" (
-	"user_id"	INTEGER NOT NULL UNIQUE,
 	"username"	TEXT NOT NULL UNIQUE,
 	"display_name"	TEXT NOT NULL,
 	"hash_pw_with_salt"	TEXT NOT NULL,
-	PRIMARY KEY("user_id" AUTOINCREMENT)
+	PRIMARY KEY("username")
 );
 
 CREATE TABLE IF NOT EXISTS "posts" (
-	"post_id"	INTEGER NOT NULL UNIQUE,
-	"user_id"	INTEGER NOT NULL,
-	"post_URL"	TEXT NOT NULL UNIQUE,
+	"post_id"	TEXT NOT NULL UNIQUE,
+	"username"	TEXT NOT NULL,
 	"title"	TEXT NOT NULL,
-	"date"	INTEGER NOT NULL,
-	"content"	TEXT NOT NULL,
-	"status"	TEXT NOT NULL,
+	"date"	INTEGER,
+	"content"	TEXT,
+	"status"	TEXT,
 	"tags"	TEXT,
 	"views"	INTEGER,
-	PRIMARY KEY("post_id" AUTOINCREMENT),
-	FOREIGN KEY("user_id") REFERENCES "users"("user_id")
+	PRIMARY KEY("post_id"),
+	FOREIGN KEY("username") REFERENCES "users"("username")
 );
 
 CREATE TABLE IF NOT EXISTS "comments" (
@@ -36,9 +34,9 @@ CREATE TABLE IF NOT EXISTS "comments" (
 
 CREATE TABLE IF NOT EXISTS "sessions" (
 	"session_id"	INTEGER NOT NULL UNIQUE,
-	"user_id"	INTEGER NOT NULL,
+	"username"	INTEGER NOT NULL,
 	"token"	TEXT NOT NULL UNIQUE,
 	"ttl"	INTEGER NOT NULL,
-	FOREIGN KEY("user_id") REFERENCES "users"("user_id"),
+	FOREIGN KEY("username") REFERENCES "users"("username"),
 	PRIMARY KEY("session_id" AUTOINCREMENT)
 );

@@ -22,8 +22,7 @@ require('session_auth.php');
 // Placeholder post variable
 date_default_timezone_set('Pacific/Auckland');
 $post_details = array("post_id"=>"",
-						"user_id"=>"",
-						"post_URL"=>"",
+						"username"=>"",
 						"title"=>"",
 						"date"=>time(),
 						"content"=>"",
@@ -44,7 +43,7 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 		//replace old tmp img urls with KEY folder
 		[$new_content, $used_tmpfiles] = replace_img_URLs($_POST["content"], $_GET['key']);
 		
-		$stmt = $auth_pdo->prepare('UPDATE posts SET title = ?, date=?, content=?, status=?,tags=? WHERE post_URL = ?');
+		$stmt = $auth_pdo->prepare('UPDATE posts SET title = ?, date=?, content=?, status=?,tags=? WHERE post_id = ?');
 		$stmt->execute([$_POST["title"], 
 						$dateimestamp, 
 						$new_content, 
@@ -71,9 +70,9 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 		die();
 	} else if ($_SERVER['REQUEST_METHOD']==='DELETE') {
 		// Delete the post
-		$stmt = $auth_pdo->prepare('DELETE FROM posts WHERE post_URL=? AND user_id=?');
+		$stmt = $auth_pdo->prepare('DELETE FROM posts WHERE post_id=? AND username=?');
 		$stmt->execute([$_GET['key'],
-						$session_details['user_id']
+						$session_details['username']
 					]);
 		
 		// Post deleted. Redirect to the edit page
@@ -81,8 +80,8 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 		header('Location: '.$newDest);
 		exit;
 	} else if ($_SERVER['REQUEST_METHOD']==='GET') {
-		$stmt = $auth_pdo->prepare('SELECT * FROM posts WHERE post_URL = ? AND user_id = ?');
-		$stmt->execute([$post_key, $session_details['user_id']]);
+		$stmt = $auth_pdo->prepare('SELECT * FROM posts WHERE post_id = ? AND username = ?');
+		$stmt->execute([$post_key, $session_details['username']]);
 		$post_details = $stmt->fetch();
 	
 		if (!$post_details){
@@ -100,14 +99,14 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 		// Using base16 because of consistent result length
 		// only base(2^n) divide bytes(8bit) evenly.
 		// Base36 (26 alph + 10 nums) isn't a power of 2.
-		$rand_post_URL = bin2hex(random_bytes(4));
+		$rand_post_id = bin2hex(random_bytes(4));
 		$dateimestamp = strtotime($_POST["date"]);
 		//replace old tmp img urls with KEY folder
-		[$new_content, $used_tmpfiles] = replace_img_URLs($_POST["content"], $rand_post_URL);
+		[$new_content, $used_tmpfiles] = replace_img_URLs($_POST["content"], $rand_post_id);
 		
-		$stmt = $auth_pdo->prepare('INSERT INTO posts (user_id, post_URL, title, date, content, status, tags) VALUES (?,?,?,?,?,?,?)');
-		$stmt->execute([$session_details['user_id'],
-						$rand_post_URL, 
+		$stmt = $auth_pdo->prepare('INSERT INTO posts (username, post_id, title, date, content, status, tags) VALUES (?,?,?,?,?,?,?)');
+		$stmt->execute([$session_details['username'],
+						$rand_post_id, 
 						$_POST["title"], 
 						$dateimestamp, 
 						$new_content, 
@@ -115,14 +114,14 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 						$_POST["tags"]]
 					);
 		if ($stmt) {
-			// New post inserted with URL rand_post_URL.
+			// New post inserted with URL rand_post_id.
 			// Safe to move tmp files permanently to a folder.
 			// and delete the unused ones.
-			move_tmp_images($used_tmpfiles, $rand_post_URL);
+			move_tmp_images($used_tmpfiles, $rand_post_id);
 		}
 		echo "Added? :I";
 		// Resource/post created. Redirect to it.
-		$newDest = '?key='.$rand_post_URL;
+		$newDest = '?key='.$rand_post_id;
 		header('Location: '.$newDest);
 	} else if ($_SERVER['REQUEST_METHOD']==='GET') {
 		// Display new post page (default)
@@ -343,7 +342,7 @@ function move_tmp_images($filenames, $key) {
 		<span style="margin-right:10px;filter: grayscale(100%);"><a href="index.php">🏠</a></span>
 		<?php 
 		if ($edit_mode === true) {	
-			echo '<span>Editing: ' . $post_details['post_URL'] . '</span>';
+			echo '<span>Editing: ' . $post_details['post_id'] . '</span>';
 		} else {
 			echo '<span>Create New Post</span>';
 		}
@@ -369,7 +368,7 @@ function move_tmp_images($filenames, $key) {
 		// If post['status'] is set then it meets its a old post
 		// Check to see if its an published old post.
 		if ($post_details['status'] === "published") {
-			echo '<a href="/post/' .$post_details['post_URL'] . '" target="_blank">View Live</a>';
+			echo '<a href="/post/' .$post_details['post_id'] . '" target="_blank">View Live</a>';
 		}
 		?>
 		

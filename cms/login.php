@@ -33,8 +33,8 @@ function login($input_username, $input_pw) {
 			$ttl = time() + $ttl;
 			
 			# Insert session into sessions table
-			$stmt_i = $pdo->prepare('INSERT INTO sessions (user_id, token, ttl) VALUES (?, ?, ?)');
-			$stmt_i->execute([$user_details['user_id'], $new_token, $ttl]);
+			$stmt_i = $pdo->prepare('INSERT INTO sessions (username, token, ttl) VALUES (?, ?, ?)');
+			$stmt_i->execute([$user_details['username'], $new_token, $ttl]);
 			
 			// Set session cookie
 			setcookie("session_token", $new_token, $ttl, "/");
