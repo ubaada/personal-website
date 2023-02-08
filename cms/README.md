@@ -8,6 +8,7 @@ Allows admin to create, edit and delete posts with text and images.
 ## Structure
 | File | Description |
 | -------- | --------- |
+| index.php | Lists all the posts. CMS homepage. |
 | edit.php  | Creates, edits and deletes posts. Uses Summernote JS as the editor. |
 | img_upload.php | Upload images while editing. |
 | login.php |Signs in admin via session token creation. |
