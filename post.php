@@ -78,7 +78,7 @@ if (isset($_GET['key'])) {
   #article-info {
 	color: var(--footer-txt-color);
 	display: flex;
-	font-size:16px;
+	font-size:12px;
 	align-items: center;
 	font-family:Verdana;
 	
@@ -110,6 +110,17 @@ if (isset($_GET['key'])) {
     font-size: 22px;
 	color:unset;
   }
+	.post-tags-line {
+		color: #7070708a;
+		border-top: 1px solid #42424263;
+		padding-top: 5px;
+	}
+	.post-tag{
+		border-radius: 7px;
+		padding: 3px 8px;
+		font-size: 12px;
+		color: #727272;
+	}
   </style>
 </head>
 

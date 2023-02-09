@@ -83,6 +83,7 @@ body {
   margin: 0px;
   /* background: url('../images/bg.png'); */
   min-height: 100vh;
+  font-weight: 300
 }
 
 body.dark {
@@ -246,17 +247,7 @@ u {
 	font-size:16px;
 	word-break: break-all;
 }
-.post-tags-line {
-	color: #7070708a;
-    border-top: 1px solid #42424263;
-    padding-top: 5px;
-}
-.post-tag{
-    border-radius: 7px;
-    padding: 3px 8px;
-    font-size: 12px;
-    color: #727272;
-}
+
 footer {
   width: 100%;
   background-color: var(--footer-bg-color);
