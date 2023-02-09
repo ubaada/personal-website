@@ -93,7 +93,7 @@ body.dark {
   --footer-bg-color: #5f5f5f91;
   --footer-txt-color: #9da1a6;
   --code-bg-color: #191919;
-  --a-color:#1b6289;
+  --a-color:#aee2ff;
 }
 /* For separating content from footer such
    that footer always remains at the bottom 
@@ -245,6 +245,17 @@ u {
     text-align: justify;
 	font-size:16px;
 	word-break: break-all;
+}
+.post-tags-line {
+	color: #7070708a;
+    border-top: 1px solid #42424263;
+    padding-top: 5px;
+}
+.post-tag{
+    border-radius: 7px;
+    padding: 3px 8px;
+    font-size: 12px;
+    color: #727272;
 }
 footer {
   width: 100%;

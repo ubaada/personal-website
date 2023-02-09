@@ -92,6 +92,18 @@ if (isset($_GET['key'])) {
   #article-date {
 	
   }
+  .edit-btn {
+    font-size: 20px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    color: var(--textcolor);
+    box-shadow: 3px 2px 11px 1px;
+	filter: grayscale(100%);
+	font-size: 16px;
+  }
   #lightdark-btn {
     width: unset;
     height: unset;
@@ -120,11 +132,12 @@ if (isset($_GET['key'])) {
 			<span id="article-date">
 			<?php echo date('d-m-Y', $post_details['date']); ?>
 			</span>
-			
 
+			<!-- Edit button if session cookie set -->
 			<?php if (isset($_COOKIE["session_token"])): ?>
-			<a href="/cms/edit?key=<?php echo $_GET['key'] ?>" target="_blank"><span style="font-size: 20px;">🖉</span></a>
+			<a href="/cms/edit?key=<?php echo $_GET['key'] ?>" target="_blank"><span class="edit-btn">🖊️</span></a>
 			<?php endif; ?>
+			
 			<label id="lightdark-container">
 			  <input type="checkbox" id="lightdark-checkbox">
 			  <div id="lightdark-btn"></div>
@@ -132,7 +145,14 @@ if (isset($_GET['key'])) {
 		</div>
       <div class="article">
 		 <?php echo $post_details['content'] ?>
+		 	  <div class="post-tags-line">
+			<span>Tags:</span> 
+			<?php foreach($array=explode(',', $post_details['tags']) as $tag): ?>
+				<a href=""><span class="post-tag"><?php echo $tag; ?></span></a>
+			<?php endforeach; ?>
 	  </div>
+	  </div>
+
   </div>
   </div>
 
