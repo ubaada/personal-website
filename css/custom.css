@@ -201,7 +201,7 @@ pre code {
 }
 blockquote {
 	margin-left: 20px;
-	padding:10px 5px 10px 12px;
+	padding:12px;
 	background-color: var(--code-bg-color);
 	border-left: 3px solid var(--textcolor);
 }
