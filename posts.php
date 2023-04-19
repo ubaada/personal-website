@@ -59,6 +59,14 @@ $all_posts = $stmt->fetchAll();
 		echo $tbl_html;
 		  
 		?>
+    <!-- Edit button if session cookie set -->
+		<?php if (isset($_COOKIE["session_token"])): ?>
+			<a href="/cms/index"><span class="edit-btn" style="
+      font-size: 20px;position: fixed;bottom: 10px;right: 10px;padding: 10px;
+    border-radius: 6px;color: var(--textcolor);box-shadow: 3px 2px 11px 1px;
+    filter: grayscale(100%);font-size: 16px;
+  ">Manage Posts</span></a>
+	  <?php endif; ?>
 		<p>
 			<a href="/">< Homepage</a>
 		</p>
