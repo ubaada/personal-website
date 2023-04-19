@@ -80,7 +80,6 @@ if (isset($_GET['key'])) {
 	display: flex;
 	font-size:12px;
 	align-items: center;
-	font-family:Verdana;
 	
   }
   #article-info span {

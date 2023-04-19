@@ -49,7 +49,7 @@ $all_posts = $stmt->fetchAll();
 		$tbl_html="<table><tr><th>Title</th><th>Date</th></tr>";
 		foreach ($all_posts as $post) {
 			  $title = $post['title'];
-			  $viewlink = '<a href="/post/'.$post['post_id'].'" target="_blank">' .$post['title']. '</a>';
+			  $viewlink = '<a href="/post/'.$post['post_id'].'">' .$post['title']. '</a>';
 
 			  $pDate = date('d-m-Y', $post["date"]);
 			  $tbl_html = $tbl_html . '<tr><td>'.$viewlink.'</td><td>'.$pDate.'</tr>';
