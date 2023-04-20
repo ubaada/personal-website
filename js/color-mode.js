@@ -1,4 +1,9 @@
-// Script for light/dark mode
+// ===================================================
+//             Script for light/dark mode
+// ===================================================
+
+// 1. Attach event listener to the color mode button
+// 2. Load last time color preference or system preference
 document.addEventListener('DOMContentLoaded', function() {
 	// When color mode button pressed, store color preference
 	// then load color preferenxe
@@ -10,13 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
     startupColorPreference();
 }, false);
 
-
+// 1.
 function colorCheckboxPressed(event) {
-      console.log(this.checked);
       localStorage.setItem("darkMode", this.checked);
       startupColorPreference();
 }
 
+// 2.
 // Load color preference from last time if saved else
 // Use matchMedia to check the system wide preference for light/dark mode
 function startupColorPreference() {
@@ -38,6 +43,41 @@ function changeColorMode(isDark) {
     document.querySelectorAll('#sm-bar a').forEach((smitem) => {
       smitem.classList.toggle('dark', isDark);
     });
-        
+    // Invert color of images with data label "data-default-color"
+    invertImageColors(isDark);
+    // Update checkbox
     document.querySelector('#lightdark-checkbox').checked = isDark;
 }
+
+// Invert color of images with data label "data-default-color"
+// data-default-color = [light|dark]
+function invertImageColors(isDark) {
+    // Get all images with the data label "data-default-color"
+    var images = document.querySelectorAll('img[data-default-color]');
+  
+    // Iterate over all the images
+    for (var i = 0; i < images.length; i++) {
+      // Get the data label value for the current image
+      var dataLabelValue = images[i].dataset.defaultColor;
+  
+      // If the data label value is "light" and isDark is true, invert the colors of the image
+      if (dataLabelValue === 'light' && isDark) {
+        images[i].style.filter = 'invert(1)';
+      }
+  
+      // If the data label value is "dark" and isDark is true, leave the color of the image as is
+      if (dataLabelValue === 'dark' && isDark) {
+        images[i].style.filter = '';
+      }
+  
+      // If the data label value is "light" and isDark is false, leave the color of the image as is
+      if (dataLabelValue === 'light' && !isDark) {
+        images[i].style.filter = '';
+      }
+  
+      // If the data label value is "dark" and isDark is false, invert the colors of the image
+      if (dataLabelValue === 'dark' && !isDark) {
+        images[i].style.filter = 'invert(1)';
+      }
+    }
+  }
