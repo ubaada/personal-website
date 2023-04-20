@@ -254,6 +254,7 @@ footer {
   padding: 2em 0 2em 0;
   margin-top:10px;
 }
+
 /* Lightmode | Darkmode button =============== */
 #lightdark-container{
   cursor: pointer;
@@ -300,6 +301,26 @@ footer {
 	animation: sun-set 0.7s forwards;
 	animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
+
+
+.tooltip {
+  background-color: var(--bgcolor);
+  color: var(--textcolor);
+  border-radius: 2px;
+  border: 1px solid;
+  padding: 4px 9px;
+}
+.tooltip .text {
+  color: var(--textcolor);
+  font-size: 12px;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid var(--textcolor); /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  animation: 
+    typing .5s steps(40, end),
+    blink .75s step-end infinite;
+}
+
 @keyframes moon-set {
   0% {
 	opacity:100%;
@@ -346,7 +367,17 @@ footer {
   }
 }
 
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
 
+/* The typewriter cursor effect */
+@keyframes blink {
+  from, to { border-color: transparent }
+  50% { border-color: var(--textcolor); }
+}
 
 /* ====================================================
 
