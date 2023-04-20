@@ -120,6 +120,76 @@ if (isset($_GET['key'])) {
 		font-size: 12px;
 		color: #727272;
 	}
+
+	@media print {
+	/* All your print styles go here */
+		@page { 
+			margin: 2cm !important; 
+			@bottom-right {
+				content: counter(page) " of " counter(pages);
+			}
+		}
+	#lightdark-container,
+	.post-tags-line,
+	.edit-btn,
+	footer {
+		display: none !important;
+	}
+	body,body.dark {
+		--bgcolor: white;
+		--textcolor: black;
+		--shadow-color: rgb(0 0 0 / 10%);
+		--footer-bg-color: #d8d8d89e;
+		--footer-txt-color: #9da1a6;
+		--accent-color : orange;
+		--code-bg-color: #e9e9e9;
+		--a-color:#007b8a;
+	}
+	html {
+		line-height: 1.3;
+	}
+	.article {
+		width: 100%; 
+		font-size:12pt;
+	}
+	h1 {
+		padding: 1.8rem 0 1.2rem 0;
+  		font-size: 3.2rem;
+	}
+	.article,h1,h2,h3,h4,h5,a,p a {
+		color:black;
+		background-color:white;
+		line-height:100%;
+	}
+	a,p a {
+		border:none;
+		padding: 0px;
+	}
+
+	/* Defining all page breaks */
+	a {
+		page-break-inside:avoid
+	}
+	blockquote {
+		page-break-inside: avoid;
+	}
+	h1, h2, h3, h4, h5, h6 { page-break-after:avoid; 
+		page-break-inside:avoid }
+	img { page-break-inside:avoid; 
+		page-break-after:avoid; }
+	table, pre { page-break-inside:avoid }
+	ul, ol, dl  { page-break-before:avoid }
+	
+	/* Thank you message */
+	.article:after {
+		border-top: 1px dashed;
+		padding-top: 2pt;
+		content: "Printed from ubaada.com. Glad you liked it enough to print :)";
+	}
+	}
+
+
+
   </style>
 </head>
 
