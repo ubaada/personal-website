@@ -202,6 +202,7 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 
 #sm-bar a {
    color:var(--textcolor);
+   display: inline-block;
 }
 
 #sm-bar a:hover {
@@ -381,10 +382,6 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
     float: right;
 	position: absolute;
     bottom: 0px;
-}
-.project-entry .project-entry-foot a {
-  color:black;
-
 }
 .project-entry .git-detail-btn {
     font-family: 'icomoon' !important;
