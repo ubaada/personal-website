@@ -54,12 +54,12 @@ function adjust_image() {
 			// revert to default (to fill the width)
 			im_elem.setAttribute("style", "width:100%;height:auto");
 			
-			console.log("width:100% fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
+			// console.log("width:100% fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
 		} else {
 			//adjust image height to match text box
             im_elem.setAttribute("style", "width:auto;height:" + parseInt(text_height) + "px");
 			
-			console.log("height:match fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
+			// console.log("height:match fh:" + h_if_full_width + " th:" + text_height + " ratio:" + im_ratio);
 		}
 	} else {
         // mobile mode. no need to adjust image height
