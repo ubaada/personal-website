@@ -77,8 +77,8 @@ if (isset($_GET['key'])) {
 		// check if hostname contains localhost (1)
 		isDev = location.hostname.includes("localhost");
 		if (isDev === false) {
-			// check if dev=true in localstorage (2)
-			var isDev = localStorage.getItem("dev");
+			// check if (true|false) dev is in localstorage (2)
+			var isDev = localStorage.getItem("dev") !== null;
 			if (!isDev) {
 				// dev not in localstorage, check if dev=true in url (2)
 				var urlSearchParams = new URLSearchParams(window.location.search);
