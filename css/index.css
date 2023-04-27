@@ -757,7 +757,6 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 		height: fit-content;
 	}
   #lightdark-container {
-	transform: translateY(-50%);
   }
   #about-card {
 	top: 0;

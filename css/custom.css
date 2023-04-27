@@ -125,23 +125,23 @@ h1 {
   transition: all 1s;
   margin: 0;
   padding: 2.8rem 0 1.68rem 0;
-  font-size: 4.2rem;
+  font-size: 3rem;
   line-height: 110%;
 }
 h2 {
     font-size: 2.7rem;
     line-height: 110%;
-    margin: 0.6rem 0 0.3rem 0;
+    margin: 1em 0 0 0;
 }
 h3 {
-  font-size: 2rem;
+  font-size: 1.4rem;
   line-height: 110%;
-  margin: 0.4rem 0 0.2rem 0;
+  margin: 1em 0 0 0;
 }
 h4 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 110%;
-  margin: 0.3rem 0 0.1rem 0;
+  margin: 1em 0 0 0;
 }
 p {
     display: block;
@@ -194,6 +194,7 @@ pre {
 	width: fit-content;
     max-width: 100%;
 	overflow: auto;
+  box-sizing: border-box;
 }
 
 /* Scrollbar style */
@@ -402,6 +403,25 @@ footer {
 @keyframes blink {
   from, to { border-color: transparent }
   50% { border-color: var(--textcolor); }
+}
+
+/* ---- Mid size screens ---- */
+@media only screen and (min-width: 600px) {
+  h1 {
+    font-size: 4.2rem;
+  }
+  h2 {
+  }
+  h3 {
+  }
+  h4 {
+  }
+
+}
+
+/* ---- Large screens ---- */
+@media only screen and (min-width: 992px) {
+  
 }
 
 /* ====================================================

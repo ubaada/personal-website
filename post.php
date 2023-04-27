@@ -51,7 +51,7 @@ if (isset($_GET['key'])) {
 	<!-- Description for search results-->
 	<!-- <meta name="description" content="Software engineer based in New Zealand."> -->
 
-	<link rel="icon" type="image/x-icon" href="images/favicon.png">
+	<link rel="icon" type="image/x-icon" href="../../images/favicon.png">
 
 	<!--Let browser know website is optimized for mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -162,6 +162,14 @@ if (isset($_GET['key'])) {
 			padding: 3px 8px;
 			font-size: 12px;
 			color: #727272;
+		}
+		
+		@media (max-width: 600px) {
+			.edit-btn {
+				font-size: 16px;
+				bottom: 5px;
+				right: 5px;
+			}
 		}
 
 		@media print {
