@@ -9,11 +9,23 @@ body {
   --bevel-color: rgb(180 180 180 / 58%);
   --tag-border-color: rgb(0 0 0 / 14%);
   --tag-hover-color: #efefef;
+
+  /* Project card settings */
+  --project-card-color: rgba(0, 0, 0, 0);
+  --project-card-color-hover: rgba(0, 0, 0, 0);
+  --project-card-shadow: 8px 8px 20px 7px rgb(0 0 0 / 10%);
+  --project-card-shadow-hover: 6px 13px 14px 6px rgb(0 0 0 / 33%);
 }
 body.dark {
   --bevel-color: rgb(71 71 71 / 58%);
   --tag-border-color: rgb(255 255 255 / 18%);
   --tag-hover-color: #727272;
+
+  /* Project card settings */
+  --project-card-color: rgba(0, 0, 0, 0);
+  --project-card-color-hover: rgba(0, 0, 0, 0);
+  --project-card-shadow: 8px 8px 20px 7px rgb(155 150 150 / 5%);
+  --project-card-shadow-hover: 6px 13px 14px 6px rgb(155 150 150 / 20%);
 }
 .project-card {
   border-radius: 10px;
@@ -300,17 +312,15 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
   transition: box-shadow .2s;
   cursor: default;
 
-  background: rgb(255 255 255 / 10%);
-  box-shadow: 8px 8px 20px 7px rgb(0 0 0 / 10%);
+  background-color: var(--project-card-color);
+  box-shadow: var(--project-card-shadow);
   /* backdrop-filter: blur(5px); */
 }
-
-
 .project-entry:hover,
 .project-entry:focus-within {
-  box-shadow: 6px 13px 14px 6px rgb(0 0 0 / 33%);
+  background-color: var(--project-card-color-hover);
+  box-shadow: var(--project-card-shadow-hover);
 }
-
 .project-entry .project-entry-image {
   width: 100%;
   height: 130px;
@@ -425,62 +435,6 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
 	color:var(--accent-color);
 }
 
-/* When more details is clicked on a project */
-#details-pop-up {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: rgba(0,0,0,75%);
-}
-#details-centre-box { /*currently done by container materialise class*/
-
-}
-#details-popup-contents {
-  background-color: var(--bgcolor);
-  box-shadow: 0px 0px 12px 6px var(--shadow-color);
-  width: 100%;
-  height: 100vh;
-  overflow: auto;
-  padding: 1em;
-}
-/* Content overflow scrollbar style */
-#details-popup-contents::-webkit-scrollbar-track {
-  /* background-color: #c2c2c2; */
-  border: 5px solid var(--bgcolor);
-}
-#details-popup-contents::-webkit-scrollbar {
-  width: 12px;
-}
-#details-popup-contents::-webkit-scrollbar-thumb {
-  background-color: #706f6f;
-  border-radius: 10px;
-  border-right: 2px solid var(--bgcolor);
-    border-left: 2px solid var(--bgcolor);
-}
-#details-popup-contents::-webkit-scrollbar-thumb:hover {
-  background-color: #2e2d2d;
-}
-#popup-close-btn {
-  color: black;
-  background-color: white;
-  padding: 1em 1.46em;
-  border-radius: .8em;
-  cursor: pointer;
-  width: fit-content;
-  box-shadow: 0px 0px 12px 6px rgb(0 0 0 / 51%);
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  transition: background-color 250ms;
-}
-#popup-close-btn:hover {
-  background-color: #444;
-  color: white;
-}
-
-
 /* Animations ---------------  */
 
 /* ============================= */
@@ -576,78 +530,6 @@ transform: translate3d(calc(-1 * (100% / 5) * (1 - 0.76604444311)),0,-39px);
   }
 }
 
-
-
-@keyframes popup-in {
-  from {
-    display:none;
-    visibility: hidden;
-    opacity: 0%;
-  }
-  to {
-    display: inherit;
-    opacity: 100%;
-    
-  }
-}
-@keyframes popup-out {
-  from {
-    display: inherit;
-    opacity: 100%;
-  }
-  to {
-    display:none;
-    visibility: hidden;
-    opacity: 0%;
-  }
-}
-
-
-
-
-@keyframes popup-contents-in {
-  0% {
-    transform: translateY(100%);
-    opacity: 0%;
-  }
-  100% {
-    transform: translateY(0%);
-    opacity: 100%;
-  }
-}
-
-@-webkit-keyframes popup-contents-in {
-  0% {
-    transform: translateY(100%);
-    opacity: 0%;
-  }
-  100% {
-    transform: translateY(0%);
-    opacity: 100%;
-  }
-}
-
-@keyframes popup-contents-out {
-  0% {
-    transform: translateY(0%);
-    opacity: 100%;
-  }
-  100% {
-    transform: translateY(100%);
-    opacity: 0%;
-  }
-}
-
-@-webkit-keyframes popup-contents-out {
-  0% {
-    transform: translateY(0%);
-    opacity: 100%;
-  }
-  100% {
-    transform: translateY(100%);
-    opacity: 0%;
-  }
-}
 
 @keyframes anchor-in {
   0% {
