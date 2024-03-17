@@ -331,10 +331,6 @@ function move_tmp_images($filenames, $key) {
 		width:unset;
 	}
 
-	.note-editor .note-editing-area .note-editable table td, .note-editor .note-editing-area .note-editable table th {
-		all:unset;
-	}
-
   </style>
 </head>
 

@@ -249,6 +249,8 @@ table {
 	border-radius: 0px;
 	border-collapse: collapse;
 	table-layout: auto;
+  display:inline-block;
+  overflow: auto;
 }
 thead {
     font-weight: bold;
