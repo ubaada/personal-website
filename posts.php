@@ -8,7 +8,8 @@
 //  List all published posts. This is a public page.
 // ========================================================
 $pdo = new PDO('sqlite:../data.db');
-$stmt = $pdo->prepare('SELECT * FROM posts WHERE status = "published"');
+// get all published posts sort by latest first
+$stmt = $pdo->prepare('SELECT * FROM posts WHERE status = "published" ORDER BY date DESC');
 $stmt->execute();
 $all_posts = $stmt->fetchAll();
 ?>
