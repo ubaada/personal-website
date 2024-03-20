@@ -346,6 +346,12 @@ if (isset($_GET['key'])) {
 
 	<!-- Color-mode JS -->
 	<script src="/js/color-mode.js"></script>
+
+	<!-- Highlight.js for code blocks -->
+	<link rel="stylesheet" href="/css/code-syntax.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<script>hljs.highlightAll();</script>
 </body>
 
 </html>
