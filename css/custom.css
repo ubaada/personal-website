@@ -70,7 +70,9 @@ html {
 }
 body {
   --bgcolor: white;
+  --bg-shade-1: #cdcdcd;
   --textcolor: black;
+  --txt-shade-1: #4d4d4d;
   --shadow-color: rgb(0 0 0 / 10%);
   --footer-bg-color: #d8d8d89e;
   --footer-txt-color: #9da1a6;
@@ -89,7 +91,9 @@ body {
 body.dark {
   /* Dark mode variables go here */
   --bgcolor: black;
+  --bg-shade-1: #3a3a3a;
   --textcolor: white;
+  --txt-shade-1: #727272;
   --shadow-color: rgb(255 255 255 / 10%);
   --footer-bg-color: #5f5f5f91;
   --footer-txt-color: #9da1a6;
@@ -190,17 +194,56 @@ pre {
 	background-color:var(--code-bg-color);
 	border-radius:5px;
 	padding:10px;
-	margin: 10px 0px;
 	width: fit-content;
-    max-width: 100%;
+  max-width: 100%;
 	overflow: auto;
   box-sizing: border-box;
+  position: relative;
+  transition: height 0.3s ease-out;
+}
+pre.collapsed {
+  height: 3.6em;
+  overflow: hidden;
+  cursor: pointer;
+}
+pre.collapsed:hover {
+  /* make it seem clickable */
+  background-color: var(--bg-shade-1);
+}
+.code-container {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+}
+.code-collapse-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 22px;
+  cursor: pointer;
+  background-color: var(--txt-shade-1); /* this is the color of arrows */
+  border-radius: 0 5px 0 0;
+  mask-size: 15px;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  transition: background-color 0.3s;
+  
+}
+.code-collapse-button:hover {
+  background-color: var(--textcolor);
+}
+
+.code-collapse-button.down {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><path d="M15 20l-10-10h20z"/></svg>');
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><path d="M15 20l-10-10h20z"/></svg>');
+}
+
+.code-collapse-button.up {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><path d="M15 10l10 10H5z"/></svg>');
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><path d="M15 10l10 10H5z"/></svg>');
 }
 
 /* Scrollbar style */
-::-webkit-scrollbar-track {
-  border: 5px solid var(--bgcolor);
-}
 ::-webkit-scrollbar {
   width: 10px;
 }

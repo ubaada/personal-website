@@ -351,6 +351,63 @@ if (isset($_GET['key'])) {
 	<link rel="stylesheet" href="/css/code-syntax.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
+	<!-- collapse code blocks -->
+	<script>
+	collapse_limit = 1;
+
+	document.querySelectorAll('pre').forEach(function(pre) {
+		const lineCount = pre.textContent.split('\n').length;
+		if (lineCount > collapse_limit) {
+		// Creating a div that will act as the parent of both the pre tag and the button
+		let parentDiv = document.createElement('div');
+		parentDiv.classList.add('code-container');
+
+		// Create the collapse button
+		let button = document.createElement('button');
+		button.classList.add('code-collapse-button');
+
+		// Add 'collapsed' class to pre and decide button's class based on the presence of 'no_initial_collapse'
+		if (!pre.classList.contains('no_initial_collapse')) {
+			pre.classList.add('collapsed');
+			button.classList.add('down'); // Assuming 'down' class for expand
+		} else {
+			button.classList.add('up'); // Assuming 'up' class for collapse
+		}
+
+		// Insert the newly created div before the pre tag in the DOM
+		pre.parentNode.insertBefore(parentDiv, pre);
+
+		// Move the pre tag inside the parent div
+		parentDiv.appendChild(pre);
+
+		// Add the button to the parent div
+		parentDiv.appendChild(button);
+
+		// Add click event to the button to toggle 'collapsed' class on pre and button's class
+		button.addEventListener('click', function() {
+			pre.classList.toggle('collapsed');
+			if(pre.classList.contains('collapsed')) {
+			button.classList.remove('up');
+			button.classList.add('down');
+			} else {
+			button.classList.remove('down');
+			button.classList.add('up');
+			}
+		});
+
+		// Add click event to pre tag that triggers the collapse button click
+		// but does nothing when 'collapsed' class is absent
+		pre.addEventListener('click', function(event) {
+			// Ensure the click is on the pre element itself, not its children
+			if (pre.classList.contains('collapsed')) {
+			button.click();
+			}
+		});
+		}
+	});
+	</script>
+
+
 <script>hljs.highlightAll();</script>
 </body>
 
