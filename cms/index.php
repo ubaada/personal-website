@@ -9,7 +9,7 @@ require('session_auth.php');
 // ========================================================
 // Functions:
 // 	List all posts
-$stmt = $auth_pdo->prepare('SELECT * FROM posts WHERE username = ?');
+$stmt = $auth_pdo->prepare('SELECT * FROM posts WHERE username = ? ORDER BY date DESC');
 $stmt->execute([$session_details['username']]);
 $all_posts = $stmt->fetchAll();
 

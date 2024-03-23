@@ -304,7 +304,7 @@ if (isset($_GET['key'])) {
 
 				<!-- Edit button if session cookie set -->
 				<?php if (isset($_COOKIE["session_token"])): ?>
-					<a href="/cms/edit?key=<?php echo $_GET['key'] ?>" target="_blank"><span class="edit-btn">🖊️</span></a>
+					<a href="/cms/edit?key=<?php echo $_GET['key'] ?>"><span class="edit-btn">🖊️</span></a>
 				<?php endif; ?>
 
 				<label id="lightdark-container">

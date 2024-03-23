@@ -21,9 +21,9 @@ if (isset($_GET['tags'])) {
   $tagsPlaceholder = rtrim(str_repeat('?,', count($tagsArray)), ',');
   $sql = "SELECT * FROM posts WHERE status = 'published' AND (";
   foreach ($tagsArray as $tag) {
-    $sql .= "tags LIKE ? OR ";
+    $sql .= "tags LIKE ? AND ";
   }
-  $sql = rtrim($sql, " OR "); // Remove the last ' OR'
+  $sql = rtrim($sql, " AND "); // Remove the last ' OR'
   $sql .= ") ORDER BY date DESC";
 
   $stmt = $pdo->prepare($sql);
@@ -191,6 +191,8 @@ foreach ($all_posts as $post) {
       display: block;
       padding: 5px 10px;
       cursor: pointer;
+      /* no break on long tags */
+      white-space: nowrap;
     }
     .other-tags-option:hover {
       color: var(--textcolor);
@@ -243,6 +245,10 @@ foreach ($all_posts as $post) {
             <!-- All other tags in a dropdown -->
             <div class="other-tags-container">
               <div id="other-tags">
+                <!-- Placeholder string if no tags are present -->
+                <?php if (empty($all_tags)) : ?>
+                  (No other tags)
+                <?php endif; ?>
                 <?php foreach ($all_tags as $tag) : ?>
                   <div class="other-tags-option"><?php echo $tag; ?></div>
                 <?php endforeach; ?>
