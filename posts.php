@@ -6,12 +6,55 @@
 // ========================================================
 // Functions:
 //  List all published posts. This is a public page.
+//  If 'tags' is set in the url, only posts with that tag are shown.
 // ========================================================
 $pdo = new PDO('sqlite:../data.db');
-// get all published posts sort by latest first
-$stmt = $pdo->prepare('SELECT * FROM posts WHERE status = "published" ORDER BY date DESC');
+
+$tag_filtered = false;
+// Check if tags are specified in the url
+if (isset($_GET['tags'])) {
+  $tag_filtered = true;
+  $tagsInput = $_GET['tags'];
+  $tagsArray = explode(',', $tagsInput);
+
+  // Construct the query dynamically based on tags
+  $tagsPlaceholder = rtrim(str_repeat('?,', count($tagsArray)), ',');
+  $sql = "SELECT * FROM posts WHERE status = 'published' AND (";
+  foreach ($tagsArray as $tag) {
+    $sql .= "tags LIKE ? OR ";
+  }
+  $sql = rtrim($sql, " OR "); // Remove the last ' OR'
+  $sql .= ") ORDER BY date DESC";
+
+  $stmt = $pdo->prepare($sql);
+
+  // Bind parameters for each tag
+  foreach ($tagsArray as $index => $tag) {
+    // using binValue instead of string concatenation to prevent SQL injection
+    $stmt->bindValue($index + 1, "%{$tag}%", PDO::PARAM_STR);
+  }
+} else {
+  // No tags are specified, prepare a query to get all published posts
+  $sql = 'SELECT * FROM posts WHERE status = "published" ORDER BY date DESC';
+  $stmt = $pdo->prepare($sql);
+}
+
+// Execute the prepared statement and fetch all matching posts
 $stmt->execute();
 $all_posts = $stmt->fetchAll();
+
+// Calculate a list of all unique tags across all posts
+// except the tags that are already in the url if tags are filtered
+$all_tags = [];
+foreach ($all_posts as $post) {
+  $tags = explode(',', $post['tags']);
+  foreach ($tags as $tag) {
+    $tag = trim($tag);
+    if (!in_array($tag, $all_tags) && (!$tag_filtered || !in_array($tag, $tagsArray))) {
+      $all_tags[] = $tag;
+    }
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +121,90 @@ $all_posts = $stmt->fetchAll();
       console.log("dev mode");
     }
   </script>
-  <style></style>
+  <style>
+    .filter-line {
+			color: var(--txt-shade-1);
+			padding: 5px 0px;
+      margin-bottom: 10px;
+		}
+		/* style different from /posts.php */
+    /* styled like a capsule pill */
+		.post-tag {
+      background-color: var(--bg-shade-1);
+      color: var(---textcolor);
+      padding: 5px 10px;
+      border-radius: 20px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      display: inline-block;
+      font-size: 14px;
+      text-decoration: none;
+		}
+    /* a cross that removes tag */
+    .remove-tag {
+      margin-left: 5px;
+      background-color: var(--txt-shade-1);
+      font-size: 12px;
+      width: 12px;
+      height: 12px;
+      cursor: pointer;
+      
+      -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+      mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+
+      background-repeat: no-repeat;
+      background-size: 12px;
+      background-position: center;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    /* cross changes color on hover */
+    .remove-tag:hover {
+      background-color: var(--textcolor);
+    }
+
+    .other-tags-container {
+      display: inline-block;
+      position: relative;;
+    }
+    .add-tag-button {
+      /* round plus button */
+      color: var(--txt-shade-1);
+      padding: 5px 10px;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .add-tag-button:hover {
+      background-color: var(--bg-shade-1);
+      color: var(--textcolor);
+    }
+    #other-tags {
+      position: absolute;
+      background-color: var(--bg-shade-1);
+      padding: 5px 10px;
+      z-index: 1;
+      top: 100%;
+      display: none;
+      }
+    .other-tags-option {
+      display: block;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .other-tags-option:hover {
+      color: var(--textcolor);
+    }
+    #other-tags.show {
+      display: block;
+    }
+    .add-tag-button.clicked {
+      background-color: var(--bg-shade-1);
+      color: var(--textcolor);
+    }
+		
+
+  </style>
 </head>
 
 <body class="pg-flexbox">
@@ -96,6 +222,38 @@ $all_posts = $stmt->fetchAll();
         </label>
       </div>
       <br />
+      <div>
+        
+      <!-- Display tags if filtered -->
+      
+            <div class="filter-line">
+            <span>Filter(s):</span>
+
+            <!-- Display tags that are already in the url -->
+            <?php if ($tag_filtered) : ?>
+              <?php foreach ($tagsArray as $tag) : ?>
+                <?php $tag = trim($tag); ?>
+                  <span class="post-tag">
+                    <?php echo $tag; ?>
+                    <span class="remove-tag" data-tag="<?php echo $tag; ?>"></span>
+                  </span>
+              <?php endforeach; ?>
+            <?php endif; ?>
+
+            <!-- All other tags in a dropdown -->
+            <div class="other-tags-container">
+              <div id="other-tags">
+                <?php foreach ($all_tags as $tag) : ?>
+                  <div class="other-tags-option"><?php echo $tag; ?></div>
+                <?php endforeach; ?>
+                </div>
+              <span class="add-tag-button">+</span>
+                </div>
+            
+          </div>
+      </div>
+
+      <!-- Display all posts in a table -->
       <?php
       $tbl_html = "<table><tr><th>Title</th><th>Date</th></tr>";
       foreach ($all_posts as $post) {
@@ -134,7 +292,67 @@ $all_posts = $stmt->fetchAll();
 
   <script src="/js/color-mode.js"></script>
 
+
+<!-- Tag add remove script -->
   <script>
+    // Remove tag from url when  .remove-tag is clicked
+    // according to its data-tag attribute
+    document.querySelectorAll('.remove-tag').forEach(function (tag) {
+      tag.addEventListener('click', function () {
+        var tag = this.getAttribute('data-tag');
+        var tags = new URLSearchParams(window.location.search).get('tags');
+        console.log(tags.toString());
+        // if tags contain a comma, split it into array and remove only tag
+        if (tags.includes(',')) {
+          var tagsArray = tags.split(',');
+          var newTags = tagsArray.filter(function (t) {
+            return t !== tag;
+          });
+          window.location.search = '?tags=' + newTags.join(',');
+        } else {
+          window.location.search = '';
+        }
+      }); 
+    });
+
+    // Add tag to url when selected from dropdown
+    document.getElementById('other-tags').addEventListener('change', function () {
+      var tag = this.value;
+      var tags = new URLSearchParams(window.location.search).get('tags');
+      if (tags) {
+        window.location.search = '?tags=' + tags + ',' + tag;
+      } else {
+        window.location.search = '?tags=' + tag;
+      }
+    });
+
+    // Show dropdown when + button is clicked
+    document.querySelector('.add-tag-button').addEventListener('click', function () {
+      document.getElementById('other-tags').classList.toggle('show');
+      this.classList.toggle('clicked');
+    });
+
+    // Add tag to url when selected from dropdown
+    document.getElementById('other-tags').addEventListener('click', function (e) {
+      if (e.target.classList.contains('other-tags-option')) {
+        var tag = e.target.textContent;
+        var tags = new URLSearchParams(window.location.search).get('tags');
+        if (tags) {
+          window.location.search = '?tags=' + tags + ',' + tag;
+        } else {
+          window.location.search = '?tags=' + tag;
+        }
+      }
+    });
+
+    // Hide dropdown when clicked outside of other-tags-container
+    document.addEventListener('click', function (e) {
+      if (!document.querySelector('.other-tags-container').contains(e.target)) {
+        document.getElementById('other-tags').classList.remove('show');
+        document.querySelector('.add-tag-button').classList.remove('clicked');
+      }
+    });
+    
   </script>
 
 </body>

@@ -156,7 +156,7 @@ if (isset($_GET['key'])) {
 			border-top: 1px solid #42424263;
 			padding-top: 5px;
 		}
-
+		/* style different from /posts.php */
 		.post-tag {
 			border-radius: 7px;
 			padding: 3px 8px;
@@ -317,9 +317,12 @@ if (isset($_GET['key'])) {
 				<div class="post-tags-line">
 					<span>Tags:</span>
 					<?php foreach ($array = explode(',', $post_details['tags']) as $tag): ?>
-						<a href=""><span class="post-tag">
+						<?php $tag = trim($tag); ?>
+						<a href="/posts?tags=<?php echo $tag; ?>">
+							<span class="post-tag">
 								<?php echo $tag; ?>
-							</span></a>
+							</span>
+						</a>
 					<?php endforeach; ?>
 				</div>
 			</div>
