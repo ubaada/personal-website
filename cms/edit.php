@@ -19,6 +19,23 @@ require('session_auth.php');
  *                 [DELETE]	Delete current post.
  *                          Redirect to /edit home.
  */
+/* ========================================================
+ *
+ *           Create and Edits Posts
+ * 
+ * ========================================================
+ * 
+ *	Access Pattern:
+ *	1. /		:	[GET] 	Redirect to CMS home.
+ *	   				[POST] 	Posted (empty) from CMS home not from itself.
+ *							Create new post in db. Redirect to /edit?key=KEY.
+ *	2. if /key	:	[GET]	Load stored data into page WHERE key.
+ *							Show the Save button.
+ *					[POST]	Update post from POST data.
+ *							Reidrect to GET.
+ *                 [DELETE]	Delete current post.
+ *                          Redirect to /edit home.
+ */
 
 // Placeholder post variable
 date_default_timezone_set('Pacific/Auckland');
@@ -31,6 +48,7 @@ $post_details = array("post_id"=>"",
 						"tags"=>"",
 						"views"=>""
 						);
+$files_folder = '/cms/post_files/';
 $files_folder = '/cms/post_files/';
 
 $error = "";
@@ -55,6 +73,7 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 		if ($stmt){
 			// Save successfull
 			notify("Saved");
+			notify("Saved");
 		} else {
 			// Post did not update.
 			http_response_code(404);
@@ -69,6 +88,14 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 						$session_details['username']
 					]);
 		
+		// Delete the folder if empty
+		$directory = $files_folder.$_GET['key'].'/';
+		if (is_dir($directory)) {
+			$files = scandir($directory);
+			if (count($files) == 2) { // 2 because of '.' and '..'
+				rmdir($directory);
+			}
+		}
 		// Delete the folder if empty
 		$directory = $files_folder.$_GET['key'].'/';
 		if (is_dir($directory)) {
@@ -134,6 +161,43 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 		// Current date and time of the server
 		$dateimestamp = time();
 		$stmt = $auth_pdo->prepare('INSERT INTO posts (username, post_id, date, status) VALUES (?,?,?,?)');
+		// NOTHING expected to provided by the user.
+
+		// Generate a unique random post_id
+		$max_iterations = 10; 
+		// log something to apache log
+		error_log("Creating new post...");
+		do {
+			// Using base16 because of consistent result length
+			// only base(2^n) divide bytes(8bit) evenly.
+			// Base36 (26 alph + 10 nums) isn't a power of 2.
+			$rand_post_id = bin2hex(random_bytes(4));
+			
+			// Check if the post_id exists in the db already
+			$stmt = $auth_pdo->prepare('SELECT post_id FROM posts WHERE post_id = ?');
+			$stmt->execute([$rand_post_id]);
+			
+			if (!$stmt->fetch()) {
+				// If post_id does not exist, break the loop.
+				break;
+			}
+			// log an error to apache log
+			error_log("Post ID collision. Retrying...");
+			
+			$max_iterations--;
+		} while ($max_iterations > 0);
+		error_log("Passes: $max_iterations");
+		if ($max_iterations == 0) {
+			// Post ID generation failed.
+			http_response_code(404);
+			echo "Post creation failed.";
+			//include('my_404.php');
+			die();
+		}
+
+		// Current date and time of the server
+		$dateimestamp = time();
+		$stmt = $auth_pdo->prepare('INSERT INTO posts (username, post_id, date, status) VALUES (?,?,?,?)');
 		$stmt->execute([$session_details['username'],
 						$rand_post_id, 
 						$dateimestamp, 
@@ -153,7 +217,28 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 			//header('Location: '.$newDest);
 			exit;
 		}
+						"draft"
+					]);
+		if ($stmt){
+			// Post created. Redirect to edit page.
+			echo "Post created.";
+			$newDest = '?key='.$rand_post_id;
+			header('Location: '.$newDest);
+			exit;
+		} else {
+			// Post not created.
+			http_response_code(404);
+			echo "Post creation failed.";
+			$newDest = '/cms';
+			//header('Location: '.$newDest);
+			exit;
+		}
 	} else if ($_SERVER['REQUEST_METHOD']==='GET') {
+		// Redirect to CMS home
+		$newDest = '/cms';
+		echo "GET sent. Redirecting...";
+		//header('Location: '.$newDest);
+		exit;
 		// Redirect to CMS home
 		$newDest = '/cms';
 		echo "GET sent. Redirecting...";
@@ -284,6 +369,11 @@ function move_tmp_images($filenames, $key) {
 		color: var(--bgcolor);
 		background-color: var(--textcolor);
 		cursor: pointer;
+	}
+	/* disable button */
+	input[type=button]:disabled {
+		background-color: var(--disabled-color);
+		cursor: not-allowed;
 	}
 	/* disable button */
 	input[type=button]:disabled {
@@ -523,8 +613,10 @@ function move_tmp_images($filenames, $key) {
 
 		
 		<!-- Files | Save | Delete buttons -->
+		<!-- Files | Save | Delete buttons -->
 		<div class="col s12 submit-row">
 			<div id="form_status"></div>
+			<input type="button" id="files_button" value="Files">
 			<input type="button" id="files_button" value="Files">
 			<input type="button" onclick="save()" value="Save Edit">
 			<input type="button" onclick="delete_post()" value="DELETE" style="background-color: #6a0909;color: white;">
@@ -541,6 +633,20 @@ function move_tmp_images($filenames, $key) {
         <p style="text-align: center;"> ͡❛ ͜ʖ ͡❛</p>
 	</div>
 </footer>
+
+<!-- File Explorer -->
+<div id="file_explorer_container" style="display:inherit;">
+	<div id="file_explorer_box">
+		<div class="title">File Explorer</div>
+		<div class="close_btn">X</div>
+		<div id="file_list"></div>
+		<div class="bottom_bar">
+			<input type="button" value="Upload" id="upload_button">
+			<input type="button" value="Delete" id="delete_button" disabled="true">
+			<input type="button" value="Rename" id="rename_button" disabled="true">
+		</div>
+	<div>
+</div>
 
 <!-- File Explorer -->
 <div id="file_explorer_container" style="display:inherit;">
@@ -950,18 +1056,24 @@ function move_tmp_images($filenames, $key) {
 	// ==========================================
 	function upload_image(image) {
 	var post_id = "<?php echo $post_details['post_id']; ?>";
+	var post_id = "<?php echo $post_details['post_id']; ?>";
 	notify("Uploading image...");
 	data = new FormData();
+	data.append("file", image);
 	data.append("file", image);
 	$.ajax({
 	  data: data,
 	  type: "POST",
 	  url: "file_backend.php?op=upload&key=" + post_id,
+	  url: "file_backend.php?op=upload&key=" + post_id,
 	  cache: false,
 	  contentType: false,
 	  processData: false,
 	  success: function(resp) {
+	  success: function(resp) {
 			notify("Image uploaded");
+			// use the initial file name it isn't changed
+			var url = "/cms/post_files/" + post_id + "/" + data.get("file").name;
 			// use the initial file name it isn't changed
 			var url = "/cms/post_files/" + post_id + "/" + data.get("file").name;
 			var image = $('<img>').attr('src', url);
