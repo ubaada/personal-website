@@ -397,10 +397,12 @@ function move_tmp_images($filenames, $key) {
 		display: flex;
     	flex-direction: column;
 	}
+	#file_explorer_box .upper_bar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 	#file_explorer_box .close_btn {
-		position: absolute;
-		top: 0;
-		right: 0;
 		padding: 10px;
 		margin: 10px;
 		cursor: pointer;
@@ -409,8 +411,18 @@ function move_tmp_images($filenames, $key) {
 	#file_explorer_box .title {
 		margin: 0;
 		padding: 5px;
-		border-bottom: 1px solid var(--textcolor);
-		margin-bottom: 30px;
+	}
+	#file_explorer_box .progressbar_container {
+		width: 100%;
+		height: 2px;
+		margin-bottom: 10px;
+	}
+	#file_explorer_box #file-progressbar {
+		height: 100%;
+		width: 0%;
+		visibility: hidden;
+		background-color: var(--accent-color);
+		transition: width 1s;
 	}
 	#file_explorer_box #file_list {
 		flex: 1 1 auto;
@@ -545,8 +557,13 @@ function move_tmp_images($filenames, $key) {
 <!-- File Explorer -->
 <div id="file_explorer_container" style="display:inherit;">
 	<div id="file_explorer_box">
-		<div class="title">File Explorer</div>
-		<div class="close_btn">X</div>
+		<div class="upper_bar">
+			<div class="title">File Explorer</div>
+			<div class="close_btn">X</div>
+		</div>
+		<div class="progressbar_container">
+			<div id="file-progressbar"></div>
+		</div>
 		<div id="file_list"></div>
 		<div class="bottom_bar">
 			<input type="button" value="Upload" id="upload_button">
@@ -562,6 +579,7 @@ function move_tmp_images($filenames, $key) {
 <script>
 	var post_id = "<?php echo $post_details['post_id']; ?>";
 	var backend = "file_backend.php";
+	var max_upload_size = 0;
 
 	// Post to backend to get files info
 	function get_files_info() {
@@ -620,6 +638,20 @@ function move_tmp_images($filenames, $key) {
 		}
 	}
 
+	//gets max upload size from server
+	function read_max_upload_size() {
+		console.log("Getting max size from", backend + "?op=getmaxsize");
+		fetch(backend + "?op=getmaxsize")
+			.then(response => response.json())
+			.then(data => {
+				var max_size = parseInt(data);
+				max_upload_size = max_size;
+			})
+			.catch((error) => {
+				console.error('Error getting max size:', error);
+			});
+	}
+
 
 	// Upload file to backend.
 	// Open system file selector and upload file.
@@ -627,19 +659,47 @@ function move_tmp_images($filenames, $key) {
 		var file = document.createElement('input');
 		file.type = 'file';
 		file.onchange = function() {
+			// Check if file size is within limits
+			if (file.files[0].size > max_upload_size) {
+				alert("File size exceeds maximum limit of " + readable_size(max_upload_size));
+				return;
+			}
+			var progressBar = document.getElementById('file-progressbar');
+			progressBar.style.visibility = 'visible';
 			var formData = new FormData();
 			formData.append('file', file.files[0]);
-			fetch(backend + "?op=upload&key=" + post_id, {
-				method: 'POST',
-				body: formData
-			})
-			.then(response => response.text())
-			.then(data => {
-				get_files_info();
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', backend + "?op=upload&key=" + post_id);
+
+			xhr.upload.onprogress = function(event) {
+				if (event.lengthComputable) {
+					var percent = (event.loaded / event.total) * 100;
+					progressBar.style.width = percent + '%';
+
+					if (percent === 100) {
+						// width 0% after 2 seconds
+						setTimeout(function() {
+							progressBar.style.width = '0%';
+							progressBar.style.visibility = 'hidden';
+						}, 2000);
+					}
+				}
+			};
+
+			xhr.onload = function() {
+				if (xhr.status === 200) {
+					get_files_info();
+				} else {
+					console.error('Error:', xhr.statusText);
+				}
+			};
+
+			xhr.onerror = function() {
+				console.error('Error:', xhr.statusText);
+			};
+
+			xhr.send(formData);
 		};
 		file.click();
 	}
@@ -693,10 +753,30 @@ function move_tmp_images($filenames, $key) {
 		document.getElementById("file_explorer_container").style.visibility = "visible";
 		get_files_info();
 	}
-	
-	// do when doc loads for testing
+
+	// Make file list items selectable
+	function make_selectable() {
+		var listitems = document.querySelectorAll('.listitem');
+		listitems.forEach(function(item) {
+			item.addEventListener('click', function() {
+				// Deselect all
+				listitems.forEach(function(item) {
+					item.setAttribute('data-selected', 'false');
+				});
+				// Select this
+				this.setAttribute('data-selected', 'true');
+				// Enable buttons
+				document.getElementById("delete_button").disabled = false;
+				document.getElementById("rename_button").disabled = false;
+			});
+		});
+	}
+
+
+	// Add event listeners when document is loaded
 	document.addEventListener('DOMContentLoaded', function() {
 		get_files_info();
+		read_max_upload_size();
 
 		// Add event listener to close file explorer
 		document.querySelector('.close_btn').addEventListener('click', close_explorer);
@@ -720,27 +800,6 @@ function move_tmp_images($filenames, $key) {
 		// Add event listener to rename button
 		document.getElementById("rename_button").addEventListener('click', rename_file);
 	});
-
-
-
-	// Make file list items selectable
-	function make_selectable() {
-		var listitems = document.querySelectorAll('.listitem');
-		listitems.forEach(function(item) {
-			item.addEventListener('click', function() {
-				// Deselect all
-				listitems.forEach(function(item) {
-					item.setAttribute('data-selected', 'false');
-				});
-				// Select this
-				this.setAttribute('data-selected', 'true');
-				// Enable buttons
-				document.getElementById("delete_button").disabled = false;
-				document.getElementById("rename_button").disabled = false;
-			});
-		});
-	}
-
 </script>
   <!-- Initialize text editor --->
   <script>
