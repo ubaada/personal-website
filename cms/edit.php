@@ -371,7 +371,6 @@ function move_tmp_images($filenames, $key) {
 
 	/*For file explorer. Pops up over everything*/
 	#files_button {
-		background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'40\' stroke=\'black\' stroke-width=\'3\' fill=\'red\' /%3E%3C/svg%3E');
 	}
 	#file_explorer_container {
 		position: fixed;
@@ -382,21 +381,23 @@ function move_tmp_images($filenames, $key) {
 		background-color: rgba(0,0,0,0.5);
 		z-index: 100;
 		visibility: hidden;
+		padding:20px;
 	}
 	#file_explorer_box {
 		position: fixed;
-		top: 10%;
-		left: 10%;
-		width: 80%;
-		height: 80%;
 		background-color: var(--bgcolor);
 		border: 1px solid var(--textcolor);
-		border-radius: 5px;
 		padding: 10px;
-
 		display: flex;
     	flex-direction: column;
+		/* Center the box whatever the width */
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 80%;
+		height: 80%;
 	}
+
 	#file_explorer_box .upper_bar {
 		display: flex;
 		justify-content: space-between;
@@ -436,9 +437,9 @@ function move_tmp_images($filenames, $key) {
 		padding: 5px;
 		border-bottom: 1px solid var(--textcolor);
 		cursor: pointer;
-		justify-content: space-between;
-		align-items: center;
+		flex-direction: column;
 	}
+
 
 	#file_explorer_box .img_preview {
 		width: 50px;
@@ -446,12 +447,14 @@ function move_tmp_images($filenames, $key) {
 		object-fit: contain;
 		background-color: var(--textcolor);
 		margin-right: 10px;
+		flex-shrink: 0;
 	}
 
 	#file_explorer_box .listitem[data-selected="true"] {
 		background-color: var(--textcolor);
 		color: var(--bgcolor);
 	}
+
 	/* Hover effect but not when selected */
 	#file_explorer_box .listitem:not([data-selected="true"]):hover {
 		background-color: var(--footer-bg-color);
@@ -460,15 +463,51 @@ function move_tmp_images($filenames, $key) {
 	#file_explorer_box .bin_preview {
 		width: 50px;
 		height: 50px;
-		background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'40\' stroke=\'black\' stroke-width=\'3\' fill=\'red\' /%3E%3C/svg%3E');
-		background-size: contain;
-		background-repeat: no-repeat;
+		background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px"%3E%3Cpath d="M 6 2 C 4.9057453 2 4 2.9057453 4 4 L 4 20 C 4 21.094255 4.9057453 22 6 22 L 18 22 C 19.094255 22 20 21.094255 20 20 L 20 8 L 14 2 L 6 2 z M 6 4 L 13 4 L 13 9 L 18 9 L 18 20 L 6 20 L 6 4 z"/%3E%3C/svg%3E');
+		background-size: 20px;
+    	background-repeat: no-repeat;
+		background-position: center;
+	}
+	body.dark #file_explorer_box .bin_preview {
+		filter: invert(1);
+	}
+	/*dont invert if parent is selected and dark mode*/
+	body.dark #file_explorer_box .listitem[data-selected="true"] .bin_preview {
+		filter: unset;
+	}
+	/* do invert if parent is selected and light mode*/
+	body #file_explorer_box .listitem[data-selected="true"] .bin_preview {
+		filter: invert(1);
 	}
 	#file_explorer .bottom_bar {
 		display: flex;
 		justify-content: flex-end;
 	}
 
+	/* ---- Mid size screens ---- */
+		@media only screen and (min-width: 600px) {
+		#file_explorer_box {
+			width: 600px;
+			max-width: 80%;
+			height: 60%;
+		}
+		
+		#file_explorer_box .listitem {
+			display: flex;
+			padding: 5px;
+			border-bottom: 1px solid var(--textcolor);
+			cursor: pointer;
+			justify-content: space-between;
+			align-items: center;
+			flex-direction: row;
+		}
+
+		/* add space between children */
+		#file_explorer_box .listitem > * {
+			margin: 5px;
+		}
+
+	}
 
 
   </style>
