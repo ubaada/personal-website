@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 CREATE TABLE IF NOT EXISTS "posts" (
 	"post_id"	TEXT NOT NULL UNIQUE,
 	"username"	TEXT NOT NULL,
-	"title"	TEXT NOT NULL,
+	"title"	TEXT,
 	"date"	INTEGER,
 	"content"	TEXT,
 	"status"	TEXT,

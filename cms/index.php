@@ -49,14 +49,18 @@ $auth_pdo = null;
         </div>
 		<br/>
 		<p>
-			<a href="edit">Create A New Post</a>
+			<!-- Create a new pst button -->
+      <form action="edit.php" method="post">
+          <!-- Add any hidden fields here if you need to send data -->
+          <input type="submit" value="Create New Post">
+      </form>
 		</p>
 		<h1>All Posts</h1>
 		<?php 
 		$tbl_html="<table><tr><th>Title</th><th>Live Link</th><th>Date</th></tr>";
 		foreach ($all_posts as $post) {
-			  $title = ($post['title'] == '') ? '(no title)' : $post['title'];
-			  $editlink = '<a href="edit?key='.$post['post_id'].'">'.$post['title'].'</a>';
+			  $title = ($post['title'] == '' || $post['title'] === NULL) ? '(Untitled)' : $post['title'];
+			  $editlink = '<a href="edit?key='.$post['post_id'].'">'.$title.'</a>';
 			  $viewlink = "(Unpublished)";
 			  if ($post['status'] == 'published') {
 				  $viewlink = '<a href="/post/'.$post['post_id'].'" target="_blank">View Live ➔</a>';
@@ -80,10 +84,11 @@ $auth_pdo = null;
         <p style="text-align: center;"> ͡❛ ͜ʖ ͡❛</p>
       </div>
     </footer>
+
 	
 	<script src="/js/color-mode.js"></script>
 	
-    <script>
+  <script>
 	</script>
 	
   </body>
