@@ -79,6 +79,7 @@ body {
   --accent-color : orange;
   --code-bg-color: #e9e9e9;
   --a-color:#007b8a;
+  --disabled-color: #b3b3b3;
 
   background-color: var(--bgcolor);
   color: var(--textcolor);
@@ -99,6 +100,7 @@ body.dark {
   --footer-txt-color: #9da1a6;
   --code-bg-color: #191919;
   --a-color:#aee2ff;
+  --disabled-color: #4d4d4d;
 }
 /* For separating content from footer such
    that footer always remains at the bottom 

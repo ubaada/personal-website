@@ -2,22 +2,23 @@
 // ==== Authenticate Session =============
 require('session_auth.php');
 
-// ========================================================
-//
-//            Create and Edits Posts
-//
-// ========================================================
-//	Access Pattern:
-//	1. /		:	[GET] 	Display the new post page.
-// 							Shows Create btn but not Save.
-//	   				[POST] 	Create new post from POST
-//							and redirect to new post.
-//	2. if /key	:	[GET]	Load stored data into page WHERE key.
-//							Show the Save button.
-//					[POST]	Update post from POST data.
-//							Reidrect to GET.
-//                 [DELETE]	Delete current post.
-//                          Redirect to /edit home.
+/* ========================================================
+ *
+ *           Create and Edits Posts
+ * 
+ * ========================================================
+ * 
+ *	Access Pattern:
+ *	1. /		:	[GET] 	Redirect to CMS home.
+ *	   				[POST] 	Posted (empty) from CMS home not from itself.
+ *							Create new post in db. Redirect to /edit?key=KEY.
+ *	2. if /key	:	[GET]	Load stored data into page WHERE key.
+ *							Show the Save button.
+ *					[POST]	Update post from POST data.
+ *							Reidrect to GET.
+ *                 [DELETE]	Delete current post.
+ *                          Redirect to /edit home.
+ */
 
 // Placeholder post variable
 date_default_timezone_set('Pacific/Auckland');
@@ -30,11 +31,10 @@ $post_details = array("post_id"=>"",
 						"tags"=>"",
 						"views"=>""
 						);
+$files_folder = '/cms/post_files/';
 
-$edit_mode = false; // bool: Is it editing an exisiing post?
 $error = "";
 if (isset($_GET['key'])) { // Indvidual post address /?key=
-	$edit_mode = true;
 	$post_key = $_GET['key'];
 	if ($_SERVER['REQUEST_METHOD']==='POST') {
 		// Update existing post
@@ -54,13 +54,7 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 		
 		if ($stmt){
 			// Save successfull
-			
-			// Check old images that were reused
-			// Delete the rest.
-			// Reuse unedited content as it came from the editor.
-			delete_unused_images($_POST['content'], $_GET['key']);
-			// move tmp files if altered URLs were successfully inserted.
-			move_tmp_images($used_tmpfiles, $_GET['key']);
+			notify("Saved");
 		} else {
 			// Post did not update.
 			http_response_code(404);
@@ -75,6 +69,14 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 						$session_details['username']
 					]);
 		
+		// Delete the folder if empty
+		$directory = $files_folder.$_GET['key'].'/';
+		if (is_dir($directory)) {
+			$files = scandir($directory);
+			if (count($files) == 2) { // 2 because of '.' and '..'
+				rmdir($directory);
+			}
+		}
 		// Post deleted. Redirect to the edit page
 		$newDest = 'index';
 		header('Location: '.$newDest);
@@ -95,37 +97,68 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 } else { // Root / address
 	if ($_SERVER['REQUEST_METHOD']==='POST') {
 		// Insert new post into db.
-		
-		// Using base16 because of consistent result length
-		// only base(2^n) divide bytes(8bit) evenly.
-		// Base36 (26 alph + 10 nums) isn't a power of 2.
-		$rand_post_id = bin2hex(random_bytes(4));
-		$dateimestamp = strtotime($_POST["date"]);
-		//replace old tmp img urls with KEY folder
-		[$new_content, $used_tmpfiles] = replace_img_URLs($_POST["content"], $rand_post_id);
-		
-		$stmt = $auth_pdo->prepare('INSERT INTO posts (username, post_id, title, date, content, status, tags) VALUES (?,?,?,?,?,?,?)');
+		// NOTHING expected to provided by the user.
+
+		// Generate a unique random post_id
+		$max_iterations = 10; 
+		// log something to apache log
+		error_log("Creating new post...");
+		do {
+			// Using base16 because of consistent result length
+			// only base(2^n) divide bytes(8bit) evenly.
+			// Base36 (26 alph + 10 nums) isn't a power of 2.
+			$rand_post_id = bin2hex(random_bytes(4));
+			
+			// Check if the post_id exists in the db already
+			$stmt = $auth_pdo->prepare('SELECT post_id FROM posts WHERE post_id = ?');
+			$stmt->execute([$rand_post_id]);
+			
+			if (!$stmt->fetch()) {
+				// If post_id does not exist, break the loop.
+				break;
+			}
+			// log an error to apache log
+			error_log("Post ID collision. Retrying...");
+			
+			$max_iterations--;
+		} while ($max_iterations > 0);
+		error_log("Passes: $max_iterations");
+		if ($max_iterations == 0) {
+			// Post ID generation failed.
+			http_response_code(404);
+			echo "Post creation failed.";
+			//include('my_404.php');
+			die();
+		}
+
+		// Current date and time of the server
+		$dateimestamp = time();
+		$stmt = $auth_pdo->prepare('INSERT INTO posts (username, post_id, date, status) VALUES (?,?,?,?)');
 		$stmt->execute([$session_details['username'],
 						$rand_post_id, 
-						$_POST["title"], 
 						$dateimestamp, 
-						$new_content, 
-						$_POST["status"],
-						$_POST["tags"]]
-					);
-		if ($stmt) {
-			// New post inserted with URL rand_post_id.
-			// Safe to move tmp files permanently to a folder.
-			// and delete the unused ones.
-			move_tmp_images($used_tmpfiles, $rand_post_id);
+						"draft"
+					]);
+		if ($stmt){
+			// Post created. Redirect to edit page.
+			echo "Post created.";
+			$newDest = '?key='.$rand_post_id;
+			header('Location: '.$newDest);
+			exit;
+		} else {
+			// Post not created.
+			http_response_code(404);
+			echo "Post creation failed.";
+			$newDest = '/cms';
+			//header('Location: '.$newDest);
+			exit;
 		}
-		echo "Added? :I";
-		// Resource/post created. Redirect to it.
-		$newDest = '?key='.$rand_post_id;
-		header('Location: '.$newDest);
 	} else if ($_SERVER['REQUEST_METHOD']==='GET') {
-		// Display new post page (default)
-		$edit_mode = false;
+		// Redirect to CMS home
+		$newDest = '/cms';
+		echo "GET sent. Redirecting...";
+		//header('Location: '.$newDest);
+		exit;
 	}
 	
 }
@@ -252,6 +285,11 @@ function move_tmp_images($filenames, $key) {
 		background-color: var(--textcolor);
 		cursor: pointer;
 	}
+	/* disable button */
+	input[type=button]:disabled {
+		background-color: var(--disabled-color);
+		cursor: not-allowed;
+	}
 	
 	
 	
@@ -331,6 +369,96 @@ function move_tmp_images($filenames, $key) {
 		width:unset;
 	}
 
+	/*For file explorer. Pops up over everything*/
+	#files_button {
+		background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'40\' stroke=\'black\' stroke-width=\'3\' fill=\'red\' /%3E%3C/svg%3E');
+	}
+	#file_explorer_container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,0.5);
+		z-index: 100;
+		display: block;
+	}
+	#file_explorer_box {
+		position: fixed;
+		top: 10%;
+		left: 10%;
+		width: 80%;
+		height: 80%;
+		background-color: var(--bgcolor);
+		border: 1px solid var(--textcolor);
+		border-radius: 5px;
+		padding: 10px;
+
+		display: flex;
+    	flex-direction: column;
+	}
+	#file_explorer_box .close_btn {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 10px;
+		margin: 10px;
+		cursor: pointer;
+		color: var(--textcolor);
+	}
+	#file_explorer_box .title {
+		margin: 0;
+		padding: 5px;
+		border-bottom: 1px solid var(--textcolor);
+		margin-bottom: 30px;
+	}
+	#file_explorer_box #file_list {
+		flex: 1 1 auto;
+   		overflow-y: auto; 
+		display: flex;
+		flex-direction: column;
+	}
+
+	#file_explorer_box .listitem {
+		display: flex;
+		padding: 5px;
+		border-bottom: 1px solid var(--textcolor);
+		cursor: pointer;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	#file_explorer_box .img_preview {
+		width: 50px;
+		height: 50px;
+		object-fit: contain;
+		background-color: var(--textcolor);
+		margin-right: 10px;
+	}
+
+	#file_explorer_box .listitem[data-selected="true"] {
+		background-color: var(--textcolor);
+		color: var(--bgcolor);
+	}
+	/* Hover effect but not when selected */
+	#file_explorer_box .listitem:not([data-selected="true"]):hover {
+		background-color: var(--footer-bg-color);
+		color: var(--textcolor);
+	}
+	#file_explorer_box .bin_preview {
+		width: 50px;
+		height: 50px;
+		background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'40\' stroke=\'black\' stroke-width=\'3\' fill=\'red\' /%3E%3C/svg%3E');
+		background-size: contain;
+		background-repeat: no-repeat;
+	}
+	#file_explorer .bottom_bar {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+
+
   </style>
 </head>
 
@@ -345,11 +473,7 @@ function move_tmp_images($filenames, $key) {
         <div>
 		<span style="margin-right:10px;filter: grayscale(100%);"><a href="index.php">🏠</a></span>
 		<?php 
-		if ($edit_mode === true) {	
 			echo '<span>Editing: ' . $post_details['post_id'] . '</span>';
-		} else {
-			echo '<span>Create New Post</span>';
-		}
 		?>
 		</div>
         <label id="lightdark-container">
@@ -398,22 +522,12 @@ function move_tmp_images($filenames, $key) {
 		
 
 		
-		<!-- Create New | Save | Delete buttons -->
+		<!-- Files | Save | Delete buttons -->
 		<div class="col s12 submit-row">
 			<div id="form_status"></div>
-			
-			<?php if ($edit_mode == true): ?>
-			
+			<input type="button" id="files_button" value="Files">
 			<input type="button" onclick="save()" value="Save Edit">
 			<input type="button" onclick="delete_post()" value="DELETE" style="background-color: #6a0909;color: white;">
-			
-			
-			<?php else: ?>
-			
-			<input type="button" onclick="save()" value="Create Post">
-
-			<?php endif; ?>
-			
 		</div>
 	  
 
@@ -428,9 +542,206 @@ function move_tmp_images($filenames, $key) {
 	</div>
 </footer>
 
+<!-- File Explorer -->
+<div id="file_explorer_container" style="display:inherit;">
+	<div id="file_explorer_box">
+		<div class="title">File Explorer</div>
+		<div class="close_btn">X</div>
+		<div id="file_list"></div>
+		<div class="bottom_bar">
+			<input type="button" value="Upload" id="upload_button">
+			<input type="button" value="Delete" id="delete_button" disabled="true">
+			<input type="button" value="Rename" id="rename_button" disabled="true">
+		</div>
+	<div>
+</div>
+
   <script src="/js/color-mode.js"></script>
 
+<!--- File Explorer JS -->
+<script>
+	var post_id = "<?php echo $post_details['post_id']; ?>";
+	var backend = "file_backend.php";
 
+	// Post to backend to get files info
+	function get_files_info() {
+		fetch(backend + "?op=filesinfo&key=" + post_id)
+			.then(response => response.json())
+			.then(data => {
+				insert_files(data);	
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	}
+
+	// Rename selected file
+	function rename_file() {
+		var selected = document.querySelector('.listitem[data-selected="true"]');
+		if (selected) {
+			var filename = selected.getAttribute('data-filename');
+			var newname = prompt("Enter new name for " + filename);
+			if (newname) {
+				fetch(backend + "?op=rename&key=" + post_id + "&filename=" + filename + "&newname=" + newname, {
+					method: 'PUT'
+				})
+				.then(response => response.text())
+				.then(data => {
+					console.log(data);
+					get_files_info();
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+				});
+			}
+		}
+	}
+
+	// Delete selected file from backend
+	function delete_file() {
+		// Confirm delete
+		if (!confirm("Are you sure you want to delete this file?")) {
+			return;
+		}
+		var selected = document.querySelector('.listitem[data-selected="true"]');
+		if (selected) {
+			var filename = selected.getAttribute('data-filename');
+			fetch(backend + "?op=delete&key=" + post_id + "&filename=" + filename, {
+				method: 'DELETE'
+			})
+			.then(response => response.text())
+			.then(data => {
+				console.log(data);
+				get_files_info();
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+		}
+	}
+
+
+	// Upload file to backend.
+	// Open system file selector and upload file.
+	function upload_file() {
+		var file = document.createElement('input');
+		file.type = 'file';
+		file.onchange = function() {
+			var formData = new FormData();
+			formData.append('file', file.files[0]);
+			fetch(backend + "?op=upload&key=" + post_id, {
+				method: 'POST',
+				body: formData
+			})
+			.then(response => response.text())
+			.then(data => {
+				get_files_info();
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+		};
+		file.click();
+	}
+
+
+	function readable_size(size) {
+		// Convert bytes to human readable size
+		// https://stackoverflow.com/a/20732091
+		var i = Math.floor( Math.log(size) / Math.log(1024) );
+		return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+	}
+
+	function is_picture(name) {
+		// Check if file is an image
+		var ext = name.split('.').pop();
+		var img_exts = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+		return img_exts.includes(ext);
+	}
+
+	function insert_files(data) {
+		// Insert files into the file explorer as a tanle
+		elem_id = "file_list"
+		var elem = document.getElementById(elem_id);
+		elem.innerHTML = "";
+		for (var i = 0; i < data.length; i++) {
+			var img = "";
+			if (is_picture(data[i].name)) {
+				img = "<img class='img_preview' src='/cms/post_files/" + post_id + "/" + data[i].name + "'>";
+			} else {
+				img = "<div class='bin_preview'></div>";
+			}
+			elem.innerHTML = elem.innerHTML + "<div class='listitem' data-selected='false' data-filename='" + data[i].name + "'>"
+			+ img +
+			"<div>" + data[i].name + "</div>" + 
+			"<div>" + readable_size(data[i].size) + "</div>" +
+			"<div>" + data[i].date + "</div></div>";
+
+		}
+		make_selectable();
+	}
+
+	
+	function close_explorer() {
+		document.getElementById("file_explorer_container").style.display = "none";
+		// Disable buttons
+		document.getElementById("delete_button").disabled = true;
+		document.getElementById("rename_button").disabled = true;
+	}
+
+	function open_explorer() {
+		document.getElementById("file_explorer_container").style.display = "block";
+		get_files_info();
+	}
+	
+	// do when doc loads for testing
+	document.addEventListener('DOMContentLoaded', function() {
+		get_files_info();
+
+		// Add event listener to close file explorer
+		document.querySelector('.close_btn').addEventListener('click', close_explorer);
+
+		// close file explorer if container clicked but not its children
+		document.getElementById("file_explorer_container").addEventListener('click', function(e) {
+			if (e.target === this) {
+				close_explorer();
+			}
+		});
+
+		// Add event listener to upload button
+		document.getElementById("upload_button").addEventListener('click', upload_file);
+
+		// Add event listener to delete button
+		document.getElementById("delete_button").addEventListener('click', delete_file);
+
+		// Add event listener to files button
+		document.getElementById("files_button").addEventListener('click', open_explorer);
+
+		// Add event listener to rename button
+		document.getElementById("rename_button").addEventListener('click', rename_file);
+	});
+
+
+
+	// Make file list items selectable
+	function make_selectable() {
+		var listitems = document.querySelectorAll('.listitem');
+		listitems.forEach(function(item) {
+			item.addEventListener('click', function() {
+				// Deselect all
+				listitems.forEach(function(item) {
+					item.setAttribute('data-selected', 'false');
+				});
+				// Select this
+				this.setAttribute('data-selected', 'true');
+				// Enable buttons
+				document.getElementById("delete_button").disabled = false;
+				document.getElementById("rename_button").disabled = false;
+			});
+		});
+	}
+
+</script>
   <!-- Initialize text editor --->
   <script>
 	// ==========================================
@@ -639,18 +950,21 @@ function move_tmp_images($filenames, $key) {
     //      Upload Inserted images
 	// ==========================================
 	function upload_image(image) {
+	var post_id = "<?php echo $post_details['post_id']; ?>";
 	notify("Uploading image...");
 	data = new FormData();
-	data.append("image", image);
+	data.append("file", image);
 	$.ajax({
 	  data: data,
 	  type: "POST",
-	  url: "img_upload.php",
+	  url: "file_backend.php?op=upload&key=" + post_id,
 	  cache: false,
 	  contentType: false,
 	  processData: false,
-	  success: function(url) {
+	  success: function(resp) {
 			notify("Image uploaded");
+			// use the initial file name it isn't changed
+			var url = "/cms/post_files/" + post_id + "/" + data.get("file").name;
 			var image = $('<img>').attr('src', url);
 			$('#summernote').summernote("insertNode", image[0]);
 		},
