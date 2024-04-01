@@ -381,7 +381,7 @@ function move_tmp_images($filenames, $key) {
 		height: 100%;
 		background-color: rgba(0,0,0,0.5);
 		z-index: 100;
-		display: block;
+		visibility: hidden;
 	}
 	#file_explorer_box {
 		position: fixed;
@@ -683,14 +683,14 @@ function move_tmp_images($filenames, $key) {
 
 	
 	function close_explorer() {
-		document.getElementById("file_explorer_container").style.display = "none";
+		document.getElementById("file_explorer_container").style.visibility = "hidden";
 		// Disable buttons
 		document.getElementById("delete_button").disabled = true;
 		document.getElementById("rename_button").disabled = true;
 	}
 
 	function open_explorer() {
-		document.getElementById("file_explorer_container").style.display = "block";
+		document.getElementById("file_explorer_container").style.visibility = "visible";
 		get_files_info();
 	}
 	
