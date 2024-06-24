@@ -2,10 +2,86 @@
 <html>
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- Tags which *must* come first in the header -->
+    <meta charset="utf-8">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        Ubaada
+    </title>
+    <!-- Facebook preview card -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Ubaada | Dev" />
+    <meta property="og:description" content="Software engineer based in New Zealand" />
+    <meta property="og:image" content="https://www.ubaada.com/images/me.jpg" />
+
+    <!-- Twitter preview card --->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ubaada">
+    <meta name="twitter:creator" content="@ubaada">
+    <meta name="twitter:title" content="Ubaada | Dev">
+    <meta name="twitter:description" content="Software engineer based in New Zealand.">
+    <meta name="twitter:image" content="https://www.ubaada.com/images/me.jpg">
+
+    <!-- Description for search results-->
+    <meta name="description" content="Software engineer based in New Zealand.">
+
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Analytics, optimised loading -->
+    <script>
+    // only load google analytics if not in dev mode
+    // dev mode: 
+    //     either on localhost (1)
+    //     dev=true in localstorage or ?dev=true in url (2)
+
+    var isDev = false;
+
+    // check if hostname contains localhost (1)
+    isDev = location.hostname.includes("localhost");
+    if (isDev === false) {
+        // check if (true|false) dev is in localstorage (2)
+        var isDev = localStorage.getItem("dev") !== null;
+        if (!isDev) {
+            // dev not in localstorage, check if dev=true in url (2)
+            var urlSearchParams = new URLSearchParams(window.location.search);
+            var params = Object.fromEntries(urlSearchParams.entries());
+
+            // if dev=true in url, set dev=true in localstorage for future use
+            if (params.dev) {
+                localStorage.setItem("dev", "yes");
+                isDev = true;
+            }
+        }
+    }
+
+    // if not in dev mode, load google analytics
+    if (isDev === false) {
+        var head = document.getElementsByTagName("head")[0];
+        var adScript = document.createElement("script");
+        adScript.type = "text/javascript";
+        var gaID = "G-6YFPNXLP2B";
+        adScript.src = "https://www.googletagmanager.com/gtag/js?id=" + gaID;
+        adScript.async = true;
+        head.appendChild(adScript);
+
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', gaID);
+    } else {
+        // dev mode, load google analytics
+        console.log("dev mode");
+    }
+    </script>
+
     <style>
     @font-face {
         font-family: 'CascadiaCode';
@@ -68,7 +144,11 @@
             max-height: calc(100vh - 40px);
         }
 
-        
+
+
+
+        /* For notepad effect - disabled
+
         .title-bar {
             border-bottom: 1px solid black;
             display: flex;
@@ -76,7 +156,6 @@
             align-items: center;
         }
 
-        /* For notepad effect - disabled
         .title-controls {
             padding: 10px;
         }
@@ -129,7 +208,7 @@
         </div>
         <div class="window-content">
             <div class="about-box">
-                
+
                 <img class="my-image" src='/images/me.jpg' alt='PHP Logo'>
                 <div id="about-text">
                     <h1>About</h1>
