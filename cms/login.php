@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
 
   <!-- Main css file-->
-  <link href="../css/custom.css" rel="stylesheet">
+  <link href="../css/common.css" rel="stylesheet">
   
 	<style>
         blockquote {

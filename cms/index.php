@@ -31,7 +31,7 @@ $auth_pdo = null;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
     <!-- Main css file-->
-    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/common.css" rel="stylesheet">
     <style></style>
   </head>
   <body class="pg-flexbox">

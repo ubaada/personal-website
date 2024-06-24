@@ -254,7 +254,7 @@ function move_tmp_images($filenames, $key) {
 
   
     <!-- Main css file-->
-  <link href="/css/custom.css" rel="stylesheet">
+  <link href="/css/common.css" rel="stylesheet">
 
   
   <style>
