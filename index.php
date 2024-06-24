@@ -68,6 +68,29 @@
             max-height: calc(100vh - 40px);
         }
 
+        
+        .title-bar {
+            border-bottom: 1px solid black;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* For notepad effect - disabled
+        .title-controls {
+            padding: 10px;
+        }
+
+        .title {
+            font-size: 1em;
+            padding: 10px;
+        }
+
+        .window-content {
+            padding: 10px;
+            overflow-y: auto;
+            max-height: calc(100vh - 150px);
+        } */
 
         .about-box {
             display: flex;
@@ -104,7 +127,7 @@
                 <span>🗙</span>
             </div>
         </div>
-        <div class="window-content" contenteditable="true">
+        <div class="window-content">
             <div class="about-box">
                 
                 <img class="my-image" src='/images/me.jpg' alt='PHP Logo'>
