@@ -115,11 +115,19 @@ if (isset($_GET['key'])) {
 
 
 	<style>
+		h1 {
+		transition: all 1s;
+		margin: 0;
+		padding: 2.8rem 0 1.68rem 0;
+		font-size: 3rem;
+		line-height: 110%;
+		}
 		#article-info {
 			color: var(--footer-txt-color);
 			display: flex;
 			font-size: 12px;
 			align-items: center;
+			margin-bottom: 70px;
 
 		}
 
@@ -296,7 +304,7 @@ if (isset($_GET['key'])) {
 					</span>
 				</a>
 				<!-- arrow -->
-				<span>&gt;</span>
+				<span>&#9679;</span>
 				<!-- Post date -->
 				<span id="article-date">
 					<?php echo date('d-m-Y', $post_details['date']); ?>
@@ -306,8 +314,9 @@ if (isset($_GET['key'])) {
 				<?php if (isset($_COOKIE["session_token"])): ?>
 					<a href="/cms/edit?key=<?php echo $_GET['key'] ?>"><span class="edit-btn">🖊️</span></a>
 				<?php endif; ?>
-
+				<span>&#124;</span>
 				<label id="lightdark-container">
+					
 					<input type="checkbox" id="lightdark-checkbox">
 					<div id="lightdark-btn"></div>
 				</label>

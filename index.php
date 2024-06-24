@@ -31,6 +31,11 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link href="css/common.css" rel="stylesheet">
+
+    <!-- color-mode JS -->
+    <script src="js/color-mode.js"></script>
+
     <!-- Google Analytics, optimised loading -->
     <script>
     // only load google analytics if not in dev mode
@@ -83,10 +88,6 @@
     </script>
 
     <style>
-    @font-face {
-        font-family: 'CascadiaCode';
-        src: url('fonts/CascadiaCode.woff2') format('woff2');
-    }
 
     html,
     body {
@@ -127,28 +128,35 @@
         padding: 10px;
     }
 
-
-    #last-mod {
-        margin: 70px 0 50px 0;
+    .post_date {
         color: grey;
         font-size: 0.8em;
+        display: block;
+    }
+
+    #foot {
+        display: flex;
+        margin: 70px 0 50px 0;
+        color: var(--footer-txt-color);
+        font-size: 0.8em;
+        align-items: center;
+        gap: 1em;
+    }
+
+    #last-mod {
     }
 
     /*when tablet or larger*/
-    @media (min-width: 768px) {
+    @media (min-width: 760px) {
         .window {
-            /* border: 1px solid black; */
+            /* border: 1px solid black;  */
             margin: 20px auto;
             max-width: 800px;
             border-radius: 5px;
             max-height: calc(100vh - 40px);
         }
 
-
-
-
-        /* For notepad effect - disabled
-
+        /*
         .title-bar {
             border-bottom: 1px solid black;
             display: flex;
@@ -175,11 +183,14 @@
             display: flex;
             /* put 1em space between the two elements */
             gap: 1em;
+            align-items: center;
+            margin-bottom: 40px;
         }
 
         .my-image {
-            width: 200px;
+            width: 25%;
             max-width: 100%;
+            height: 195px;
             object-fit: none;
             object-position: -150px -1px;
         }
@@ -220,17 +231,8 @@
                         <a href="https://www.twitter.com/ubaada">Twitter</a>
                         <a href="https://www.linkedin.com/in/ubaada-qureshi-995815228">LinkedIn</a>
                     </p>
-                    <p>
-                        <!--
-                
-                    Technologies I like and use:
-                    <span class="tech-icon python-icon"></span>
-                    -->
-                    </p>
                 </div>
             </div>
-
-
 
             <div id="projects">
                 <h1>Projects</h1>
@@ -248,14 +250,22 @@
                 <p>
                     <a href="https://huggingface.co/datasets/ubaada/booksum-complete-cleaned">Cleaned BookSum
                         dataset:</a><br>
-                    A cleaned version of the BookSum dataset. The dataset is a collection of book chapters, whole books,
+                    A cleaned version of the BookSum dataset published on HuggingFace. The dataset is a collection of book chapters, whole books,
                     and their summaries.
                     BookSum dataset is used for training and evaluating summarization machine learning models.
+                </p>
+                <p>
+                    <a href="https://huggingface.co/collections/ubaada/my-booksum-models-6644bc3c3744e4bcd5b45078">
+                        Summarization LLM Models:
+                    </a><br>
+                    Some Efficient Attention Transformer models fine-tuned on the BookSum dataset above for summarization. 
+                    Efficient Attention, as opposed to the regular attention mechanism used in Transformer language models like ChatGPT,
+                    allows us to process longer sequences of text more efficiently with less hardware resources.
                 </p>
             </div>
 
             <div id="posts-container">
-                <h1>Posts</h1>
+                <h1>Recent Posts</h1>
                 <p>
                     <?php
                         $max_posts = 5;
@@ -275,7 +285,7 @@
 
                             # pDate = english-month - year.
                             $pDate = date('F Y', $post["date"]);
-                            $tbl_html = $tbl_html . '<p>' . $viewlink . '<br>(' . $pDate . ')</p>';
+                            $tbl_html = $tbl_html . '<p><span class="post_date">' . $pDate . '</span>' . $viewlink . '</p>';
                         }
                         echo $tbl_html;
                     ?>
@@ -285,17 +295,27 @@
             </div>
 
 
-            <div id="last-mod">
+            <div id="foot">
                 <?php
-                $last_mod = filemtime(__FILE__);
-                $last_mod_static = date('d/F/Y', $last_mod);
-                $final_mod = max($last_mod, $latest_article_date);
-                $final_mod = date('d/F/Y', $final_mod);
+                    $last_mod = filemtime(__FILE__);
+                    $last_mod_static = date('d/F/Y', $last_mod);
+                    $final_mod = max($last_mod, $latest_article_date);
 
-                echo "<p>Last modified: $final_mod</p>";
+                    # Convert to NZT using DateTime and DateTimeZone
+                    $dateTime = new DateTime("@$final_mod");
+                    $dateTime->setTimezone(new DateTimeZone('Pacific/Auckland'));
+                    $final_mod_nzt = $dateTime->format('d/F/Y');
 
-            ?>
+                    echo "<span id='last-mod'>Last updated: $final_mod_nzt</span>";
+                ?>
+                <span>&#124;</span>
+				<label id="lightdark-container">
+					<input type="checkbox" id="lightdark-checkbox">
+					<div id="lightdark-btn"></div>
+				</label>
             </div>
+
+            
 
         </div>
     </div>
