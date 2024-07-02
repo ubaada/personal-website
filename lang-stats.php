@@ -102,7 +102,7 @@ function create_svg($data, $text_color, $bg_color, $font_size, $font_family) {
     #style="background-color:green"
     $svg = "<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'
     font-family='{$font_family}' font-size=' {$font_size}px'
-    style='background-color:{bg_color}'>";
+    style='background-color:{$bg_color}'>";
 
     # draw bars
     $total = array_sum(array_column($data, 'size'));
