@@ -99,10 +99,10 @@ function make_graphql_req($query, $variables, $token) {
 }
 
 function create_svg($data, $text_color, $bg_color, $font_size, $font_family) {
-    $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"'
-        . ' font-family="' . $font_family . '" font-size="' . $font_size . 'px">';
-
-    $svg .= '<rect x="0" y="0" width="100%" height="100%" fill="#' . $bg_color . '"/>';
+    #style="background-color:green"
+    $svg = "<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'
+    font-family='{$font_family}' font-size=' {$font_size}px'
+    style='background-color:{bg_color}'>";
 
     # draw bars
     $total = array_sum(array_column($data, 'size'));
@@ -111,7 +111,7 @@ function create_svg($data, $text_color, $bg_color, $font_size, $font_family) {
     $bar_height = 10; # px
     foreach($data as $lang) {
         $percent = ($lang['size'] / $total) * 100;
-        $bar .= '<rect x="'. $x . '%" y="0" width="' . $percent . '%" height="'.$bar_height.'px" fill="' . $lang['color'] . '"/>';
+        $bar .= '<rect x="'. $x . '%" y="0" width="' . ($percent-0.5) . '%" height="'.$bar_height.'px" fill="' . $lang['color'] . '"/>';
         $x += $percent;
     }
 
@@ -133,7 +133,7 @@ function create_svg($data, $text_color, $bg_color, $font_size, $font_family) {
 
         $labels .= "<circle cx='{$cx}' cy='{$cy}' r='{$c_rad}' fill='{$lang['color']}'/>";
         $percent = round(($lang['size'] / $total) * 100, 1);
-        $labels.= "<text x='15' y='{$font_size}px' fill='#{$text_color}' font-size='{$font_size}px'>{$lang['name']} {$percent}%</text>";
+        $labels.= "<text x='15' y='{$font_size}px' fill='{$text_color}' font-size='{$font_size}px'>{$lang['name']} {$percent}%</text>";
         $labels .= '</svg>';
         if ($i == $lang_per_col - 1) {
             $x = 50;
@@ -185,37 +185,24 @@ try {
         $topLanguages = fetch_top_lang($username, $github_token, 1, 0);
         set_cache($cache_file, $topLanguages);
     }
-    /* Sample output:
-    Array
-    (
-    [PHP] => Array
-        (
-            [name] => PHP
-            [color] => #4F5D95
-            [size] => 96553
-            [count] => 4
-        )
-
-    [Java] => Array
-        (
-            [name] => Java
-            [color] => #b07219
-            [size] => 86234
-            [count] => 2
-        )
-    )
-    */
     # check format key is set to 'raw'
     if (isset($_GET['format']) && $_GET['format'] == 'json') {
         header('Content-Type: application/json');
         echo json_encode($topLanguages);
         exit;
     } else {
-        header('Content-Type: image/svg+xml');
-        $text_color = validate_input('text_color', '/^[0-9a-fA-F]{6}$/', '000000', 6);
-        $bg_color = validate_input('bg_color', '/^[0-9a-fA-F]{6}$/', 'ffffff', 6);
-        $font_size = validate_input('font_size', '/^\d+$/', '12', 3);
-        $font_family = validate_input('font_family', '/^[a-zA-Z\s]+$/', 'Arial', 20);
+        # check if the script is being run directly or including in index.php
+        if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
+            # access via browser
+            header('Content-Type: image/svg+xml');
+            $text_color = validate_input('text_color', '/^[0-9a-fA-F]{6}$/', '', 8);
+            $bg_color = validate_input('bg_color', '/^[0-9a-fA-F]{6}$/', '', 8);
+            $font_size = validate_input('font_size', '/^\d+$/', '12', 3);
+            $font_family = validate_input('font_family', '/^[a-zA-Z\s]+$/', 'Arial', 20);
+            # add # to the color codes if not empty otherwise empty string
+            $text_color = $text_color ? '#' . $text_color : 'currentColor';
+            $bg_color = $bg_color ? '#' . $bg_color : '';
+        }
         
         $svg = create_svg($topLanguages, $text_color, $bg_color, $font_size, $font_family);
         echo $svg;

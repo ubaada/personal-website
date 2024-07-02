@@ -132,8 +132,11 @@
         display: block;
     }
 
-    #projects, #posts-container {
+    #projects, #posts, #gh-stats {
         margin-top: 40px;
+    }
+    #gh-stats-svg {
+        margin-top: 20px;
     }
 
     #foot {
@@ -273,8 +276,19 @@
                     WSJ collection using an inverted index.
                 </p>
             </div>
-
-            <div id="posts-container">
+            <div id="gh-stats">
+                <h1>GitHub Stats</h1>
+                <div id="gh-stats-svg">
+                    <?php
+                        $text_color = 'currentColor';
+                        $bg_color = '';
+                        $font_size = 12;
+                        $font_family = 'CascadiaCode';
+                        include 'lang-stats.php';
+                    ?>
+                </div>
+            </div>
+            <div id="posts">
                 <h1>Recent Posts</h1>
                 <p>
                     <?php
