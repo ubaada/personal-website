@@ -125,13 +125,15 @@ function create_svg($data, $text_color, $bg_color, $font_size, $font_family) {
     $top_pad = 15; # padding from the top
     foreach($data as $lang) {
         # draw colour dot
-        $labels .= '<svg x="' . $x . '%" y="' . ($y_i / $lang_per_col * 90) + $top_pad . '%" width="100%" height="100%">';
+		$y_calc = ($y_i / $lang_per_col * 90) + $top_pad;
+        $labels .= "<svg x='{$x}%' y='{$y_calc}%' width='100%' height='100%'>";
+
         $cx = $c_rad;
         $cy = $font_size / 2 + $c_rad/2;
-        $labels .= '<circle cx="' . $cx . '" cy="' . $cy . '" r="' . $c_rad . '" fill="' . $lang['color'] . '"/>';
+
+        $labels .= "<circle cx='{$cx}' cy='{$cy}' r='{$c_rad}' fill='{$lang['color']}'/>";
         $percent = round(($lang['size'] / $total) * 100, 1);
-        $labels .= '<text x="15" y="' . $font_size. 'px" fill="#'
-            . $text_color .'" font-size="'.$font_size.'px">' . $lang['name'] . ' ' . $percent . '%</text>';
+        $labels.= "<text x='15' y='{$font_size}px' fill='#{$text_color}' font-size='{$font_size}px'>{$lang['name']} {$percent}%</text>";
         $labels .= '</svg>';
         if ($i == $lang_per_col - 1) {
             $x = 50;
