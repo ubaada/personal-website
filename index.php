@@ -151,8 +151,8 @@
     #last-mod {
     }
 
-    /*when tablet or larger*/
-    @media (min-width: 760px) {
+    /*when tablet or larger and print*/
+    @media print, screen and (min-width: 800px) {
         .window {
             /* border: 1px solid black;  */
             margin: 20px auto;
@@ -193,7 +193,7 @@
         }
 
         .my-image {
-            width: 25%;
+            width: 195px;
             max-width: 100%;
             height: 195px;
             object-fit: none;
@@ -210,6 +210,32 @@
         background-position: 2.101% 57.895%;
         width: 50px;
         height: 50px;
+    }
+
+    /* print styles */
+    @media print {
+        /* 1 inch border around the page */
+        @page {
+            margin: 1in;
+        }
+        body {
+            font-size: 8pt;
+        }
+        .window {
+            border: none;
+            box-shadow: none;
+            margin: 0 auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #foot {
+            position: fixed;
+            bottom: 0;
+        }
+        #lightdark-container {
+            display: none;
+        }
     }
     </style>
 </head>

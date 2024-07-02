@@ -7,7 +7,7 @@
 $github_token = file_get_contents("../.com-data/gh-key");
 $username = "ubaada";
 $cache_file = "../.com-cache/gh-stats-cache.json";
-$cache_time = 3600; // in seconds
+$cache_time = 60*60*24*2; // 2 days
 
 
 function fetch_top_lang($username, $token , $sizeWeight = 1, $countWeight = 0) {
