@@ -91,10 +91,8 @@
 
     html,
     body {
-        /* mobile first, no margin or padding */
         margin: 0;
         padding: 0;
-        font-size: 16px;
         font-family: 'CascadiaCode', monospace;
         font-weight: 300;
     }
@@ -132,6 +130,10 @@
         color: grey;
         font-size: 0.8em;
         display: block;
+    }
+
+    #projects, #posts-container {
+        margin-top: 40px;
     }
 
     #foot {
@@ -230,6 +232,7 @@
                         <a href="https://www.github.com/ubaada">GitHub</a>
                         <a href="https://www.twitter.com/ubaada">Twitter</a>
                         <a href="https://www.linkedin.com/in/ubaada-qureshi-995815228">LinkedIn</a>
+                        <a href="https://huggingface.co/ubaada">HuggingFace</a>
                     </p>
                 </div>
             </div>
@@ -261,6 +264,13 @@
                     Some Efficient Attention Transformer models fine-tuned on the BookSum dataset above for summarization. 
                     Efficient Attention, as opposed to the regular attention mechanism used in Transformer language models like ChatGPT,
                     allows us to process longer sequences of text more efficiently with less hardware resources.
+                </p>
+                <p>
+                    <a href="https://github.com/ubaada/search-engine-wsj">
+                        Search Engine
+                    </a><br>
+                    An information retriever (search engine) written in C for parsing and searching the 
+                    WSJ collection using an inverted index.
                 </p>
             </div>
 
