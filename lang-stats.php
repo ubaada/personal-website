@@ -185,27 +185,24 @@ try {
         $topLanguages = fetch_top_lang($username, $github_token, 1, 0);
         set_cache($cache_file, $topLanguages);
     }
-    # check format key is set to 'raw'
-    if (isset($_GET['format']) && $_GET['format'] == 'json') {
-        header('Content-Type: application/json');
-        echo json_encode($topLanguages);
-        exit;
-    } else {
-        # check if the script is being run directly or including in index.php
-        if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
-            # access via browser
-            header('Content-Type: image/svg+xml');
-            $text_color = validate_input('text_color', '/^[0-9a-fA-F]{6}$/', '', 8);
-            $bg_color = validate_input('bg_color', '/^[0-9a-fA-F]{6}$/', '', 8);
-            $font_size = validate_input('font_size', '/^\d+$/', '12', 3);
-            $font_family = validate_input('font_family', '/^[a-zA-Z\s]+$/', 'Arial', 20);
-            # add # to the color codes if not empty otherwise empty string
-            $text_color = $text_color ? '#' . $text_color : 'currentColor';
-            $bg_color = $bg_color ? '#' . $bg_color : '';
-        }
+
+    # check if the script is being run directly or including in index.php
+    if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
+        # access via browser, for github readme
+        header('Content-Type: image/svg+xml');
+        $text_color = validate_input('text_color', '/^[0-9a-fA-F]{6}$/', '', 8);
+        $bg_color = validate_input('bg_color', '/^[0-9a-fA-F]{6}$/', '', 8);
+        $font_size = validate_input('font_size', '/^\d+$/', '12', 3);
+        $font_family = validate_input('font_family', '/^[a-zA-Z\s]+$/', 'Arial', 20);
+        # add # to the color codes if not empty otherwise empty string
+        $text_color = $text_color ? '#' . $text_color : 'currentColor';
+        $bg_color = $bg_color ? '#' . $bg_color : '';
         
         $svg = create_svg($topLanguages, $text_color, $bg_color, $font_size, $font_family);
         echo $svg;
+    } else {
+        # included in another script
+        return $topLanguages;
     }
 
 } catch (Exception $e) {

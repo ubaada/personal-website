@@ -112,6 +112,10 @@
         max-width: 100%;
     }
 
+    #about-text{
+        margin-top: 20px;
+    }
+
     a {
         text-decoration: none;
     }
@@ -132,13 +136,38 @@
         display: block;
     }
 
-    #projects, #posts, #gh-stats {
+    #projects, #posts, #gh-stats-container {
         margin-top: 40px;
     }
-    #gh-stats-svg {
+    #gh-stats {
         margin-top: 20px;
     }
-
+    #gs-bar-container {
+        display: flex;
+        gap: 0.3em;
+    }
+    #gs-bar-container .gs-bar {
+        height: 10px;
+    }
+    #gs-all-labels {
+        display: flex;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+    .gs-label-box {
+        display: flex;
+        gap: 1em;
+        align-items: center;
+        width: 50%;
+    }
+    .gs-label-dot {
+        width: 10px;
+        height: 10px;
+    }
+    .gs-label-text {
+        font-size: 0.8em;
+    }
+    
     #foot {
         display: flex;
         margin: 70px 0 50px 0;
@@ -302,15 +331,37 @@
                     WSJ collection using an inverted index.
                 </p>
             </div>
-            <div id="gh-stats">
+            <div id="gh-stats-container">
                 <h1>GitHub Stats</h1>
-                <div id="gh-stats-svg">
+                <div id="gh-stats">
                     <?php
-                        $text_color = 'currentColor';
-                        $bg_color = '';
-                        $font_size = 12;
-                        $font_family = 'CascadiaCode';
-                        include 'lang-stats.php';
+                        # loae the array from lang-stats.php
+                        $languageData = include 'lang-stats.php';
+                        # Sample data
+                        #{"PHP":{"name":"PHP","color":"#4F5D95","size":103783,"count":4},
+                        #"Java":{"name":"Java","color":"#b07219","size":86234,"count":2},
+                        #"HTML":{"name":"HTML","color":"#e34c26","size":56001,"count":5}
+
+                        # create a color bar for each language where the width is proportional to the size
+                        $bar_container = "<div id='gs-bar-container'>";
+                        $total = array_sum(array_column($languageData, 'size'));
+                        foreach ($languageData as $lang) {
+                            $bar_container = $bar_container . "<div class='gs-bar' style='background-color: 
+                            {$lang['color']}; width: " . ($lang['size'] / $total * 100) . "%'></div>";
+                        }
+                        $bar_container = $bar_container . "</div>";
+
+                        # create a list of labels for each language
+                        $labels = "<div id='gs-all-labels'>";
+                        foreach ($languageData as $lang) {
+                            $percent = number_format(($lang['size'] / $total) * 100, 1);
+                            $labels = $labels . "<div class='gs-label-box'><div class='gs-label-dot' 
+                            style='background-color: {$lang['color']}'></div><div class='gs-label-text'>
+                            {$lang['name']} - {$percent}%</div></div>";
+                        }
+                        $labels = $labels . "</div>";
+
+                        echo $bar_container . $labels;
                     ?>
                 </div>
             </div>
