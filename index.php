@@ -298,7 +298,7 @@
             <div id="projects">
                 <h1>Projects</h1>
                 <p>
-                    <a href="https://www.wordvoyage.ubaada.com/">Word Map:</a><br>
+                    <a href="https://www.wordmap.ubaada.com/">Word Map:</a><br>
                     Maps how machine learning models associate word with different cultures and countries in vector
                     space.
                 </p>
