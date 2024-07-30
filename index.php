@@ -95,6 +95,7 @@
         padding: 0;
         font-family: 'CascadiaCode', monospace;
         font-weight: 300;
+        -webkit-print-color-adjust: exact;
     }
 
     body {}
