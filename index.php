@@ -130,12 +130,6 @@
         padding: 10px;
     }
 
-    .post_date {
-        color: grey;
-        font-size: 0.8em;
-        display: block;
-    }
-
     #projects, #posts, #gh-stats-container {
         margin-top: 40px;
     }

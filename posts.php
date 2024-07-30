@@ -261,15 +261,15 @@ foreach ($all_posts as $post) {
 
       <!-- Display all posts in a table -->
       <?php
-      $tbl_html = "<table><tr><th>Title</th><th>Date</th></tr>";
+      $tbl_html = "";
       foreach ($all_posts as $post) {
         $title = $post['title'];
         $viewlink = '<a href="/post/' . $post['post_id'] . '">' . $post['title'] . '</a>';
 
-        $pDate = date('d-m-Y', $post["date"]);
-        $tbl_html = $tbl_html . '<tr><td>' . $viewlink . '</td><td>' . $pDate . '</tr>';
-
-      }
+        # pDate = english-month - year.
+        $pDate = date('F Y', $post["date"]);
+        $tbl_html = $tbl_html . '<p><span class="post_date">' . $pDate . '</span>' . $viewlink . '</p>';
+    }
       $tbl_html = $tbl_html . '</table>';
       echo $tbl_html;
 

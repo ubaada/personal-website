@@ -381,6 +381,12 @@ footer {
     blink .75s step-end infinite;
 }
 
+.post_date {
+  color: grey;
+  font-size: 0.8em;
+  display: block;
+}
+
 @keyframes moon-set {
   0% {
 	opacity:100%;
