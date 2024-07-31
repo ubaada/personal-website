@@ -16,13 +16,4 @@ jobs:
         private-ssh-key: ${{ secrets.SSH_KEY }}
         destination-path: ${{ secrets.DEST_DIR }}
         rsync-options: --archive --verbose --compress --human-readable --progress --delete-after --exclude=.git* --exclude=.git/ --exclude=README.md --exclude=readme.md --exclude=.gitignore --exclude=/cms/schema.sql --exclude=/cms/post_files/ --exclude=/utilities/*
-
-    - name: 📂 Sync Utilities
-      uses: SamKirkland/web-deploy@v1
-      with:
-        target-server: ${{ secrets.SSH_SERVER }}
-        remote-user: ${{ secrets.SSH_USERNAME }}
-        private-ssh-key: ${{ secrets.SSH_KEY }}
-        destination-path: "${{ secrets.DEST_DIR }}../.com-data/"
-        rsync-options: --archive --verbose --compress --human-readable --progress --delete-after
         source-path: ./utilities/
