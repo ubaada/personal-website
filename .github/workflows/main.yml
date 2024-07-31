@@ -30,10 +30,9 @@ jobs:
     - name: Setup Cron Job
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
-        port: ${{ secrets.PORT }}
+        host: ${{ secrets.SSH_SERVER }}
+        username: ${{ secrets.SSH_USERNAME  }}
+        key: ${{ secrets.SSH_KEY }}
         script: |
             # Define the unique identifier for the cron jobs added by this script
             CRON_IDENTIFIER="# my_deployment_script"
