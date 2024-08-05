@@ -75,6 +75,7 @@ html {
 body {
   --bgcolor: white;
   --bg-shade-1: #cdcdcd;
+  --bg-shade-2: #e9e9e9;
   --textcolor: black;
   --txt-shade-1: #4d4d4d;
   --shadow-color: rgb(0 0 0 / 10%);
@@ -98,6 +99,7 @@ body.dark {
   /* Dark mode variables go here */
   --bgcolor: black;
   --bg-shade-1: #3a3a3a;
+  --bg-shade-2: #2e2e2e;
   --textcolor: white;
   --txt-shade-1: #727272;
   --shadow-color: rgb(255 255 255 / 10%);
@@ -140,7 +142,7 @@ p {
     margin-inline-end: 0px;
 }
 
-p a {
+p a, li a {
   text-align: center;
   transition: all .25s cubic-bezier(.86,0,.07,1);
   text-decoration: none;
@@ -149,7 +151,7 @@ p a {
   display: unset;
   padding:0 2px;
 }
-p a:hover {
+p a:hover, li a:hover {
   box-shadow: inset 0 -50px 0 -1px var(--textcolor);
   color: var(--bgcolor);
 }
@@ -289,6 +291,25 @@ u {
 .article pre, .article table, .article figure {
   width: 600px;
   max-width: 100%;
+}
+.article ul, .article ol {
+  padding-left: 20px;
+}
+.article .outline {
+  display: block;
+  padding: 2em;
+  width: -moz-fit-content;
+  width: fit-content;
+  border: 1px solid var(--textcolor);
+}
+.article .outline::before {
+  content: "Outline";
+  display: block;
+  margin-bottom: 1em;
+  border-bottom: 1px solid var(--textcolor);
+}
+.article .outline ul, .article .outline ol {
+  width: unset;
 }
 .article .full-width {
   width: 90vw; 
