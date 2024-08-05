@@ -285,8 +285,10 @@ u {
 	max-width: 100%;
 	width: 100%;
 }
-.article p {
+.article p, .article ul, .article ol, .article blockquote, 
+.article pre, .article table, .article figure {
   width: 600px;
+  max-width: 100%;
 }
 .article .full-width {
   width: 90vw; 
@@ -294,6 +296,7 @@ u {
   margin-right: calc((-90vw + 100%) / 2);
   
 }
+
 
 footer {
   width: 100%;

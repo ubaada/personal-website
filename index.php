@@ -374,7 +374,7 @@
                         $all_posts = $stmt->fetchAll();
                         $tbl_html = "";
                         // latest article time/date (for last modified in the footer)
-                        $latest_article_date = date('d/F/Y', $all_posts[0]['date']);
+                        $latest_article_timestamp = $all_posts[0]['date'];
                         foreach ($all_posts as $post) {
                             $title = $post['title'];
                             $viewlink = '<a href="/post/' . $post['post_id'] . '">' . $post['title'] . '</a>';
@@ -394,8 +394,7 @@
             <div id="foot">
                 <?php
                     $last_mod = filemtime(__FILE__);
-                    $last_mod_static = date('d/F/Y', $last_mod);
-                    $final_mod = max($last_mod, $latest_article_date);
+                    $final_mod = max($last_mod, $latest_article_timestamp);
 
                     # Convert to NZT using DateTime and DateTimeZone
                     $dateTime = new DateTime("@$final_mod");
