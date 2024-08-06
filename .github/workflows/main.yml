@@ -44,7 +44,7 @@ jobs:
             crontab -l | grep -v "$CRON_IDENTIFIER" | crontab -
 
             # Add new cron job
-            (crontab -l; echo "*/30 * * * * python $PYTHON_SCRIPT_PATH $CRON_IDENTIFIER") | crontab -
+            (crontab -l; echo "*/30 * * * * python3 $PYTHON_SCRIPT_PATH $CRON_IDENTIFIER") | crontab -
 
             # Confirmation output
             echo "Cron job setup completed successfully."
