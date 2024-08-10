@@ -15,4 +15,37 @@ jobs:
         remote-user: ${{ secrets.SSH_USERNAME }}
         private-ssh-key: ${{ secrets.SSH_KEY }}
         destination-path: ${{ secrets.DEST_DIR }}
-        rsync-options: --archive --verbose --compress --human-readable --progress --delete-after --exclude=.git* --exclude=.git/ --exclude=README.md --exclude=readme.md --exclude=.gitignore --exclude=/cms/schema.sql --exclude=/cms/post_files/
+        rsync-options: --archive --verbose --compress --human-readable --progress --delete-after --exclude=.git* --exclude=.git/ --exclude=README.md --exclude=readme.md --exclude=.gitignore --exclude=/cms/schema.sql --exclude=/cms/post_files/ --exclude=/utilities/*
+
+    - name: 📂 Sync Utilities
+      uses: SamKirkland/web-deploy@v1
+      with:
+        target-server: ${{ secrets.SSH_SERVER }}
+        remote-user: ${{ secrets.SSH_USERNAME }}
+        private-ssh-key: ${{ secrets.SSH_KEY }}
+        destination-path: "${{ secrets.DEST_DIR }}../.com-data/"
+        rsync-options: --archive --verbose --compress --human-readable --progress
+        source-path: ./utilities/
+
+    - name: Setup Cron Job
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SSH_SERVER }}
+        username: ${{ secrets.SSH_USERNAME  }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+            # Define the unique identifier for the cron jobs added by this script
+            CRON_IDENTIFIER="# my_deployment_script"
+
+            # Path to the Python script from GitHub secrets
+            PYTHON_SCRIPT_PATH="${{ secrets.DEST_DIR }}../.com-data/update_view_count.py"
+
+            # Remove any existing cron jobs with the unique identifier
+            crontab -l | grep -v "$CRON_IDENTIFIER" | crontab -
+
+            # Add new cron job
+            (crontab -l; echo "*/30 * * * * python3 $PYTHON_SCRIPT_PATH $CRON_IDENTIFIER") | crontab -
+
+            # Confirmation output
+            echo "Cron job setup completed successfully."
+            crontab -l  # Display current cron jobs for debugging

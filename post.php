@@ -309,6 +309,17 @@ if (isset($_GET['key'])) {
 				<span id="article-date">
 					<?php echo date('d-m-Y', $post_details['date']); ?>
 				</span>
+				<!-- View count -->
+				<span>&#9679;</span>
+				<span>
+					<?php 				
+					$views = $post_details['views'];
+					if ($views == null) {
+						$views = 0;
+					}
+					echo $views . " views";
+					?>
+				</span>
 
 				<!-- Edit button if session cookie set -->
 				<?php if (isset($_COOKIE["session_token"])): ?>
