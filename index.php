@@ -147,7 +147,10 @@
     }
 
     #projects, #posts, #gh-stats-container {
-        margin-top: 40px;
+        margin-top: 70px;
+    }
+    #projects>p {
+        text-align: justify;
     }
     #gh-stats {
         margin-top: 20px;
