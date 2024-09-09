@@ -108,13 +108,28 @@
         max-width: 800px;
     }
 
-    .my-image {
-        width: 400px;
-        max-width: 100%;
+    .about-box {
+        display: grid;
+        grid-template-areas: 
+        "image text"
+        "contact contact";
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: center;
     }
-
-    #about-text{
-        margin-top: 20px;
+    #my-image {
+        width: 195px;
+        max-width: 100%;
+        height: 195px;
+        object-fit: none;
+        grid-area: image;
+    }
+    #about-text {
+        grid-area: text;
+    }
+        
+    #contact {
+        grid-area: contact;
     }
 
     a {
@@ -176,7 +191,7 @@
     }
 
     /*when tablet or larger and print*/
-    @media print, screen and (min-width: 800px) {
+    @media print, screen and (min-width: 650px) {
         .window {
             /* border: 1px solid black;  */
             margin: 20px auto;
@@ -209,21 +224,16 @@
         } */
 
         .about-box {
-            display: flex;
-            /* put 1em space between the two elements */
-            gap: 1em;
+            display: grid;
+            grid-template-areas: 
+            "image text"
+            "image contact";
+            grid-template-columns: 200px 1fr;
+            gap: 20px;
             align-items: center;
-            margin-bottom: 40px;
         }
 
-        .my-image {
-            width: 195px;
-            max-width: 100%;
-            height: 195px;
-            object-fit: none;
-            object-position: -150px -1px;
-        }
-    }
+        
 
     .tech-icon {
         background: url('/images/tech.png');
@@ -275,12 +285,15 @@
         <div class="window-content">
             <div class="about-box">
 
-                <img class="my-image" src='/images/me.jpg' alt='PHP Logo'>
+                <img id="my-image" src='/images/me.jpg' alt='PHP Logo'>
                 <div id="about-text">
                     <h1>About</h1>
                     <p>
                         Hi, I am Ubaada. I am a Software Engineer based in New Zealand.
                     </p>
+                </div>
+                
+                <div id="contact">
                     <p>
                         <a href="https://www.github.com/ubaada">GitHub</a>
                         <a href="https://www.twitter.com/ubaada">Twitter</a>
