@@ -113,7 +113,7 @@
         grid-template-areas: 
         "image text"
         "contact contact";
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 200px 1fr;
         gap: 20px;
         align-items: center;
     }
@@ -227,13 +227,9 @@
         } */
 
         .about-box {
-            display: grid;
             grid-template-areas: 
             "image text"
             "image contact";
-            grid-template-columns: 200px 1fr;
-            gap: 20px;
-            align-items: center;
         }
 
         
