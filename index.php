@@ -121,7 +121,7 @@
         width: 195px;
         max-width: 100%;
         height: 195px;
-        object-fit: none;
+        object-fit: cover;
         grid-area: image;
     }
     #about-text {
