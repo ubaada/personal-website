@@ -113,14 +113,13 @@
         grid-template-areas: 
         "image text"
         "contact contact";
-        grid-template-columns: 200px 1fr;
+        grid-template-columns: 0.6fr 1fr;
         gap: 20px;
         align-items: center;
     }
     #my-image {
-        width: 195px;
-        max-width: 100%;
-        height: 195px;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         grid-area: image;
     }
@@ -230,6 +229,7 @@
             grid-template-areas: 
             "image text"
             "image contact";
+            grid-template-columns: 0.3fr 1fr;
         }
 
         
