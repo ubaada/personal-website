@@ -10,7 +10,7 @@ function authenticate_session() {
 	if(isset($_COOKIE["session_token"])) {
 		$session_cookie = htmlspecialchars($_COOKIE["session_token"]);
 		// Check if Cookie matches in sessions table
-		$pdo = new PDO('sqlite:../../data.db');
+		$db_path = __DIR__ . '/../../data.db'; // __DIR__ always returns /cms regardless where its called from
 		$stmt = $pdo->prepare('SELECT * FROM sessions WHERE token = ?');
 		$stmt->execute([$session_cookie]);
 
@@ -31,7 +31,7 @@ function authenticate_session() {
 	
 	// Cookie not set or invalid. Redirect to login.
 	http_response_code(401);
-	$newDest = 'login.php';
+	$newDest = '/cms/login.php';
 	echo "Error: Not authenticated";
 	header('Location: '.$newDest);
 	return false;

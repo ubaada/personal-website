@@ -61,10 +61,8 @@ $auth_pdo = null;
 		foreach ($all_posts as $post) {
 			  $title = ($post['title'] == '' || $post['title'] === NULL) ? '(Untitled)' : $post['title'];
 			  $editlink = '<a href="edit?key='.$post['post_id'].'">'.$title.'</a>';
-			  $viewlink = "(Unpublished)";
-			  if ($post['status'] == 'published') {
-				  $viewlink = '<a href="/post/'.$post['post_id'].'" target="_blank">View Live ➔</a>';
-			  }
+        $viewtext = ($post['status'] == 'published') ? 'View Live ➔' : 'Unpublished Preview ➔';
+			  $viewlink = $viewlink = '<a href="/post/'.$post['post_id'].'" target="_blank">'.$viewtext.'</a>';
 			  $pDate = date('d-m-Y', $post["date"]);
 			  $tbl_html = $tbl_html . '<tr><td>'.$editlink.'</td><td>'.
 				$viewlink.'</td><td>'.$pDate.'</tr>';

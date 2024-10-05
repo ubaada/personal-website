@@ -544,11 +544,7 @@ function move_tmp_images($filenames, $key) {
         <div id="summernote" style="flex-grow:1;"><?php echo $post_details['content']; ?></div>
 
 		<?php
-		// If post['status'] is set then it meets its a old post
-		// Check to see if its an published old post.
-		if ($post_details['status'] === "published") {
 			echo '<a href="/post/' .$post_details['post_id'] . '" target="_blank">View Live</a>';
-		}
 		?>
 		
 		<!-- Tags here -->

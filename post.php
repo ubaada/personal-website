@@ -9,8 +9,8 @@ if (isset($_GET['key'])) {
 	$pdo = new PDO('sqlite:../data.db');
 
 	// Get post (if its published)
-	$stmt = $pdo->prepare('SELECT * FROM posts WHERE post_id = ? AND status=?');
-	$stmt->execute([$_GET['key'], 'published']);
+	$stmt = $pdo->prepare('SELECT * FROM posts WHERE post_id = ?');
+	$stmt->execute([$_GET['key']]);
 	$post_details = $stmt->fetch();
 
 	// Check if post exists. Send 404 if not.
@@ -19,9 +19,12 @@ if (isset($_GET['key'])) {
 		echo "404";
 		//include('my_404.php');
 		die();
+	} else if ($post_details['status'] != 'published') { // if not published check if user is logged in
+		require('cms/session_auth.php'); // automatically redirects if session not valid
+		$is_unpublished = true;
 	}
 
-	// Get author details (manily name)
+	// Get author details (specifically the name)
 	$usr_stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
 	$usr_stmt->execute([$post_details['username']]);
 	$usr_details = $usr_stmt->fetch();
@@ -121,6 +124,16 @@ if (isset($_GET['key'])) {
 		padding: 2.8rem 0 1.68rem 0;
 		font-size: 3rem;
 		line-height: 110%;
+		}
+		#unpublished_msg {
+			/* show a message fixed at the top if post is unpublished */
+			position: fixed;
+			top: 0;
+			width: 100%;
+			background-color: #ff0000;
+			color: white;
+			text-align: center;
+			padding: 10px;
 		}
 		#article-info {
 			color: var(--footer-txt-color);
@@ -289,6 +302,12 @@ if (isset($_GET['key'])) {
 </head>
 
 <body class="pg-flexbox">
+	<!-- View unpublised message if post is unpublished -->
+	<?php if (isset($is_unpublished)): ?>
+		<div id="unpublished_msg">
+			Post is unpublished. Only visible to you.
+		</div>
+	<?php endif; ?>
 	<!-- Entire About page along with picture and introduction -->
 	<div class="pg-flexbox-content">
 		<div class="container">

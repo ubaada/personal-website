@@ -416,6 +416,8 @@
                     echo "<span id='last-mod'>Last updated: $final_mod_nzt</span>";
                 ?>
                 <span>&#124;</span>
+                <span><a href="/cms">Admin</a></span>
+                <span>&#124;</span>
 				<label id="lightdark-container">
 					<input type="checkbox" id="lightdark-checkbox">
 					<div id="lightdark-btn"></div>
