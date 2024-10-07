@@ -141,7 +141,10 @@ p {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
 }
-
+a {
+    color: var(--a-color);
+    text-decoration: none;
+}
 p a, li a {
   text-align: center;
   transition: all .25s cubic-bezier(.86,0,.07,1);
