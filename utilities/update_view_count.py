@@ -24,12 +24,13 @@ def sample_run_report(property_id="YOUR-GA4-PROPERTY-ID"):
 
     return response
 
-cred_file = "../.com-data/blog-view-counter-cred.json"
-property_id_file = "../.com-data/ga-property-id.txt"
-db_file = "../data.db"
+import os
+filedir = os.path.dirname(__file__)
+cred_file = filedir + "/blog-view-counter-cred.json"
+property_id_file = filedir + "/ga-property-id.txt"
+db_file = filedir + "/  ../data.db"
 
 if __name__ == "__main__":
-    import os
     import sqlite3
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cred_file
 
