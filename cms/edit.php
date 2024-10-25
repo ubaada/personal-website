@@ -332,7 +332,6 @@ function move_tmp_images($filenames, $key) {
 	/* overiding summernote's css */
 	.note-frame {
 		color: var(--textcolor);
-		border:1px solid var(--textcolor) !important;
 		flex-grow: 1;
 		display:flex;
 		flex-direction:column;
@@ -344,6 +343,12 @@ function move_tmp_images($filenames, $key) {
 	}
 	.CodeMirror {
 		font-size: 16px;
+	}
+	.note-toolbar {
+		position: sticky;
+		top: 0px;
+		z-index: 10;
+		border: 1px solid var(--textcolor) !important
 	}
 	
 	.note-toolbar,a.note-dropdown-item, a.note-dropdown-item:hover, .note-modal-content,.note-modal-title,.note-form-label,.note-dropdown-menu {
@@ -873,16 +878,65 @@ function move_tmp_images($filenames, $key) {
 			// [0] because only supports 1 at a time.
 			onImageUpload: function(images) {
 				upload_image(images[0]);
+			},
+
+
+    	    onPaste: function (e) {
+				e.preventDefault(); // Prevent default paste behavior
+
+				// Access clipboard data as HTML (or plain text if HTML is unavailable)
+				let clipboardData = (e.originalEvent || e).clipboardData || window.clipboardData;
+				let bufferHTML = clipboardData.getData('text/html') || clipboardData.getData('text/plain');
+
+				if (bufferHTML) {
+					// Sanitize the HTML content
+					let sanitizedHTML = removeInlineStyling(bufferHTML);
+
+					// Insert the sanitized HTML
+					setTimeout(function() {
+						document.execCommand('insertHTML', false, sanitizedHTML);
+					}, 10);
+				}
 			}
 		},
 		tableClassName:'',
-		disableResizeEditor: true
+		disableResizeEditor: true,
+		spellCheck: true
 	});
 	// Apply same style class on edit page as the live one
 	$('.note-editable').addClass('article');
 	
 	// ==========================================
 	
+	// ==========================================
+	//         Remove Inline Styling
+	// ==========================================
+	function removeInlineStyling(htmlContent) {
+		// Create a temporary container to parse HTML
+		let container = document.createElement('div');
+		container.innerHTML = htmlContent;
+
+		// Function to recursively clean HTML elements
+		function cleanElement(element) {
+			if (element.nodeType === Node.ELEMENT_NODE) {
+				// If it's a <pre> tag, keep only its text content
+				while (element.attributes.length > 0) {
+						element.removeAttribute(element.attributes[0].name);
+					}
+				// Recursively clean child elements
+				Array.from(element.children).forEach(cleanElement);
+
+				// Remove sub-tags and keep text only if it's a <pre> tag
+				if (element.tagName.toLowerCase() === 'pre') {
+					element.innerHTML = element.textContent;
+				}
+			}
+		}
+		// Apply cleaning to all elements within the container
+		Array.from(container.children).forEach(cleanElement);
+
+		return container.innerHTML;
+	}
 	
 	// ==========================================
 	//         Unsaved Changes Management

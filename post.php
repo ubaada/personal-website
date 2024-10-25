@@ -134,6 +134,7 @@ if (isset($_GET['key'])) {
 			color: white;
 			text-align: center;
 			padding: 10px;
+			z-index: 1000;
 		}
 		#article-info {
 			color: var(--footer-txt-color);
