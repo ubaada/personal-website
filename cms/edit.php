@@ -251,6 +251,8 @@ function move_tmp_images($filenames, $key) {
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/monokai.min.css">
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/addon/search/searchcursor.min.js"></script>
+
 
   
     <!-- Main css file-->
@@ -363,11 +365,17 @@ function move_tmp_images($filenames, $key) {
 		font-weight: unset;
 		color: unset;
 	}
+	.note-editor {
+		border: unset !important;
+	}
 	.note-editing-area {
 		flex-grow:1;
 	}
 	.note-editable {
 		height: 100%;
+	}
+	.note-editable *:active {
+		background-color: var(--footer-bg-color);
 	}
 	/* Overide article size style in editor*/
 	.article {
@@ -880,7 +888,7 @@ function move_tmp_images($filenames, $key) {
 				upload_image(images[0]);
 			},
 
-
+			// merge paste formatting
     	    onPaste: function (e) {
 				e.preventDefault(); // Prevent default paste behavior
 
@@ -980,6 +988,7 @@ function move_tmp_images($filenames, $key) {
 		// CodeMirror obj only exists if codeview was toggled into.
 		if (e != null) {
 			console.log("Prettifying...");
+			$('#summernote').summernote('saveRange');
 			c = e.CodeMirror;
 			var uglyHTML = c.getValue();
 			var prettyHTML = prettier.format(uglyHTML, {
@@ -987,14 +996,56 @@ function move_tmp_images($filenames, $key) {
 				plugins: prettierPlugins,
 			});
 			c.setValue(prettyHTML);
+		} else {
+			$('#summernote').summernote('restoreRange');
 		}
 	}
 	// Event: When codeview is toggled.
 	$('#summernote').on('summernote.codeview.toggled', function() {
 	  formatHTML();
+	  scrollToLast();
 	});
 	// ==========================================
 	
+	// ==========================================
+	//         Scroll to Last Position
+	// ==========================================
+	let last_pos = 0;
+	let selected_text = "";
+
+	document.documentElement.style.scrollBehavior = "auto";
+
+	// whenver key press, mouse up, save the last position
+	$('#summernote').on('summernote.keyup', function() {
+		last_pos = document.documentElement.scrollTop;
+		selected_text = $('#summernote').summernote('editor.getLastRange').sc.textContent;
+		console.log(last_pos);
+	});
+	$('#summernote').on('summernote.mouseup', function() {
+		last_pos = document.documentElement.scrollTop;
+		selected_text = $('#summernote').summernote('editor.getLastRange').sc.textContent;
+		console.log(last_pos);
+	});
+
+	function scrollToLast() {
+		// check if toggling into codeview or out of it
+		var e = document.querySelector('.CodeMirror');
+		if (e != null) {
+			// toggling into codeview, search selected text
+			const c = document.querySelector(".CodeMirror").CodeMirror;
+			const cursor = c.getSearchCursor(selected_text);
+
+			if (cursor.findNext()) {
+				// scroll and select the text
+				c.scrollIntoView(cursor.from(), 100); 
+				c.setSelection(cursor.from(), cursor.to());
+			}
+		} else {
+			// toggling out of codeview, scroll to last position
+			document.documentElement.scrollTop = last_pos;
+		}
+	}
+	// ==========================================
 	
 	// ==========================================
 	//                Save Post
