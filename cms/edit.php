@@ -584,6 +584,7 @@ function move_tmp_images($filenames, $key) {
 		
 		<!-- Files | Save | Delete buttons -->
 		<div class="col s12 submit-row">
+			<div id="curr_element"></div>
 			<div id="form_status"></div>
 			<input type="button" id="files_button" value="Files">
 			<input type="button" onclick="save()" value="Save Edit">
@@ -1200,6 +1201,14 @@ function move_tmp_images($filenames, $key) {
 	function notify(message) {
 		form_status.innerHTML = message;
 	}
+	// show current focused element tag type
+	function show_focused() {
+		var curr_element = window.getSelection().focusNode.parentElement;
+		curr_element = '<' + curr_element.tagName.toLowerCase() + '>';
+		document.getElementById("curr_element").innerText = curr_element;
+	}
+	document.addEventListener('click', show_focused);
+
 	// ==========================================
 
 
