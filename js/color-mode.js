@@ -62,7 +62,8 @@ function invertImageColors(isDark) {
   
       // If the data label value is "light" and isDark is true, invert the colors of the image
       if (dataLabelValue === 'light' && isDark) {
-        images[i].style.filter = 'invert(1)';
+        let inversion = 1 - calc_luma(window.getComputedStyle(document.body).backgroundColor);
+        images[i].style.filter = 'invert(' + inversion + ')';
       }
   
       // If the data label value is "dark" and isDark is true, leave the color of the image as is
@@ -77,7 +78,33 @@ function invertImageColors(isDark) {
   
       // If the data label value is "dark" and isDark is false, invert the colors of the image
       if (dataLabelValue === 'dark' && !isDark) {
-        images[i].style.filter = 'invert(1)';
+        let inversion = 1 - calc_luma(window.getComputedStyle(document.body).backgroundColor);
+        images[i].style.filter = 'invert(' + inversion + ')';
       }
     }
   }
+
+  
+  // Compute luma to match the inverted white and black colors
+  function calc_luma(color) {
+    let r, g, b;
+
+    // rgb(r, g, b) format
+    if (color.startsWith('rgb')) {
+      let start = color.indexOf('(') + 1;
+      let end = color.indexOf(')');
+      let rgb = color.substring(start, end).split(',');
+      r = parseInt(rgb[0]);
+      g = parseInt(rgb[1]);
+      b = parseInt(rgb[2]);
+    }
+
+    r /= 255;
+    g /= 255;
+    b /= 255;
+  
+    const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+  
+    return luma;
+  }
+  
