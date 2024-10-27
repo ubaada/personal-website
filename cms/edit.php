@@ -314,21 +314,29 @@ function move_tmp_images($filenames, $key) {
 		content:'Publish';
 	}
 	
-	.submit-row {
+	.bottom-row {
 		position: sticky;
 		bottom: 0px;
 		background-color: var(--bgcolor);
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
 		align-items: center;
 		column-gap: 0.875rem;
 		border-top: 1px solid var(--footer-bg-color);
 		z-index: 10;
+		font-size: 10px;
+		flex-wrap: wrap;
 	}
-	#form_status {
-		display: inline;
-		margin-right: auto;
-	
+	#status_bar {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem;
+	}
+	#file_bar {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 	
 	/* overiding summernote's css */
@@ -583,12 +591,17 @@ function move_tmp_images($filenames, $key) {
 
 		
 		<!-- Files | Save | Delete buttons -->
-		<div class="col s12 submit-row">
-			<div id="curr_element"></div>
-			<div id="form_status"></div>
-			<input type="button" id="files_button" value="Files">
-			<input type="button" onclick="save()" value="Save Edit">
-			<input type="button" onclick="delete_post()" value="DELETE" style="background-color: #6a0909;color: white;">
+		<div class="bottom-row">
+			<div id="status_bar">
+				<div id="curr_element"></div>
+				<div id="word_count"></div>
+				<div id="general_msg"></div>
+			</div>
+			<di id="file_bar">
+				<input type="button" id="files_button" value="Files">
+				<input type="button" onclick="save()" value="Save Edit">
+				<input type="button" onclick="delete_post()" value="DELETE" style="background-color: #6a0909;color: white;">
+			</div>
 		</div>
 	  
 
@@ -1199,15 +1212,26 @@ function move_tmp_images($filenames, $key) {
 	//         Show Status Messages
 	// ==========================================
 	function notify(message) {
-		form_status.innerHTML = message;
+		general_msg = document.getElementById("general_msg");
+		general_msg.innerHTML = message
 	}
 	// show current focused element tag type
 	function show_focused() {
 		var curr_element = window.getSelection().focusNode.parentElement;
 		curr_element = '<' + curr_element.tagName.toLowerCase() + '>';
-		document.getElementById("curr_element").innerText = curr_element;
+		document.getElementById("curr_element").innerText = curr_element + " |";
 	}
-	document.addEventListener('click', show_focused);
+	document.addEventListener('selectionchange', show_focused);
+	// show word count
+	function show_word_count() {
+		var content = $('#summernote').summernote('code');
+		var word_count = content.replace( /[^\w ]/g, "" ).split( /\s+/ ).length;
+		document.getElementById("word_count").innerText = word_count + " words" + " |";
+	}
+	// when content is changed
+	$('#summernote').on('summernote.change', function() {
+		show_word_count();
+	});
 
 	// ==========================================
 
