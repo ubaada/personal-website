@@ -899,6 +899,7 @@ function move_tmp_images($filenames, $key) {
           lineNumbers: true,
           theme: 'blackboard'
         },
+		codeviewFilter: false, // allow script tags
 		callbacks: {
 			// Add upload event handler.
 			// [0] because only supports 1 at a time.
@@ -936,7 +937,7 @@ function move_tmp_images($filenames, $key) {
 	// ==========================================
 	
 	// ==========================================
-	//         Remove Inline Styling
+	//         Remove Paste Inline Styling
 	// ==========================================
 	function removeInlineStyling(htmlContent) {
 		// Create a temporary container to parse HTML
