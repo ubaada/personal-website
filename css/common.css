@@ -313,6 +313,7 @@ u {
 }
 .article .outline ul, .article .outline ol {
   width: unset;
+  list-style-type: none;
 }
 .article .full-width {
   width: 90vw; 

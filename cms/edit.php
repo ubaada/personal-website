@@ -242,8 +242,8 @@ function move_tmp_images($filenames, $key) {
 
   <!-- Related to Summernote text editor --->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
 
 	<!-- include codemirror (codemirror.css, codemirror.js, xml.js, formatting.js)-->
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.min.css" />
@@ -850,7 +850,9 @@ function move_tmp_images($filenames, $key) {
 	});
 </script>
   <!-- Initialize text editor --->
+   
   <script>
+
 	// ==========================================
 	//         Setup Summernote Editor
 	// ==========================================
@@ -871,8 +873,24 @@ function move_tmp_images($filenames, $key) {
 		  ['para', ['ul', 'ol', 'paragraph']],
 		  ['table', ['table']],
 		  ['insert', ['link', 'picture']],
-		  ['view', ['codeview']],
+		  ['custom', ['outline_btn']],
+		  ['help', ['help']],
+		  ['view', ['codeview']]
 		],
+		buttons: {
+			outline_btn: function(context) {
+				var ui = $.summernote.ui;
+				var button = ui.button({
+					contents: 'Outline',
+					tooltip: 'Generate Outline',
+					click: function () {
+						generate_outline();
+					},
+					container : $(".note-editor.note-frame")
+				});
+				return button.render();
+			}
+		},
 		// Include CodeMirror as default src code editor.
 		// Much nicer than default editor. Syntax highlighting etc.
 		codemirror: {
@@ -911,6 +929,7 @@ function move_tmp_images($filenames, $key) {
 		disableResizeEditor: true,
 		spellCheck: true
 	});
+
 	// Apply same style class on edit page as the live one
 	$('.note-editable').addClass('article');
 	
@@ -1181,6 +1200,99 @@ function move_tmp_images($filenames, $key) {
 		form_status.innerHTML = message;
 	}
 	// ==========================================
+
+
+	// ==========================================
+	//         Generate Outline
+	// ==========================================
+	// Generate outline from headings
+	function generate_outline() {
+		// Get all headings inside the editor
+		var headings = document.querySelectorAll('.note-editable h2, .note-editable h3, .note-editable h4, .note-editable h5');
+
+
+		// helpers variables and function for list generation
+		var level = [null, null, null, null];
+		var last_level = -1
+		function collect_sublists(low, high) {
+			for (var i = high; i > low; i--) {
+				// get last element of i-1
+				var li = level[i-1].lastElementChild;
+				li.appendChild(level[i]);
+				level[i-1].appendChild(li);
+			}
+		}
+		function get_cur_prefix() { // heading index like 1.2.3
+			var prefix = "";
+			for (var i = 0; i <= last_level; i++) {
+				prefix += level[i].childElementCount;
+				if (i != last_level) {
+					prefix += ".";
+				}
+			}
+			return prefix + ".";
+		}
+		function get_prefix_and_heading(raw_heading) { // always returns heading without prefix even if it has one
+			// match using regex, if already has a prefix replace it
+			let regex = /^\d+(\.\d+)*\.?\s*/;
+			let heading_without_prefix = '';
+			if (regex.test(raw_heading)) {
+				heading_without_prefix = raw_heading.replace(regex, '');
+			} else {
+				heading_without_prefix = raw_heading;
+			}
+			return {'prefix': get_cur_prefix(), 'heading': heading_without_prefix};
+		}
+
+		// Over all headings
+		headings.forEach(function(heading) {
+			// Get heading level
+			var h_level = parseInt(heading.tagName[1]) - 2; // h2 -> 0, h3 -> 1, h4 -> 2, h5 -> 3
+			var li = document.createElement('li'); // heading goes in here
+			console.log(heading.tagName + " " + heading.textContent);
+
+			// Calculate the outline number
+			if (h_level > last_level) { // sub heading
+				last_level++;
+				if (h_level != last_level) {
+					// Something went wrong, skipped a level
+				}
+				// Add new ol
+				var ol = document.createElement('ol');
+				level[h_level] = ol;
+			} else if (h_level < last_level) { // parent heading
+				// go back to parent ol while adding finished sublists to parent ol
+				collect_sublists(h_level, last_level);
+				last_level = h_level;
+			}
+
+			// set text
+			level[h_level].appendChild(li);
+			var prefix_and_heading = get_prefix_and_heading(heading.textContent);
+			heading_with_prefix = prefix_and_heading['prefix'] + " " + prefix_and_heading['heading'];
+			li.textContent = heading_with_prefix;
+			heading.textContent = heading_with_prefix;
+		});
+		// No more headings, add remaining ol to parent ol
+		collect_sublists(0, last_level);
+
+		
+		var outline = document.querySelectorAll('.note-editable #outline')[0];
+		// Check if outline already exists
+		if (outline) {
+			outline.innerHTML = "";
+		} else {
+			// create outline
+			outline = document.createElement('div');
+			outline.id = 'outline';
+			outline.classList.add('outline');
+			$('#summernote').summernote('insertNode', outline);
+		}
+
+		// Add first ol to outline
+		outline.appendChild(level[0]);
+		console.log(outline);
+	}
   </script>
   
   
