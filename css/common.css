@@ -357,8 +357,7 @@ input.margin-toggle { /* hide the checkbox */
   counter-increment: sidenote-counter;
 }
 .sidenote-number:after,
-.sidenote:before, 
-.marginnote-symbol:after {
+.sidenote:before {
   font-size: 10px;
   top: -0.5rem;
   left: 0.1rem;
