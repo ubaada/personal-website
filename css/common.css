@@ -10,7 +10,7 @@
 .container{
 	width: 90%;
 	margin: 0 auto;
-    max-width: 1280px;
+  max-width: 1280px;
 }
 /* Takes 100% of the width inside a container */
 .row {
@@ -34,7 +34,7 @@
 .row .col.m1{width:8.3333333333%;}.row .col.m2{width:16.6666666667%;}.row .col.m3{width:25%;}.row .col.m4{width:33.3333333333%;}.row .col.m5{width:41.6666666667%;}.row .col.m6{width:50%;}.row .col.m7{width:58.3333333333%;}.row .col.m8{width:66.6666666667%;}.row .col.m9{width:75%;}.row .col.m10{width:83.3333333333%;}.row .col.m11{width:91.6666666667%;}.row .col.m12{width:100%;}
 
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1120px) {
 .container{
 	width: 70%;
 }
