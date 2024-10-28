@@ -866,6 +866,51 @@ function move_tmp_images($filenames, $key) {
   <!-- Initialize text editor --->
    
   <script>
+	// ==========================================
+	//       Custom Buttons (before init)
+	// ==========================================
+	// Button to generate outline
+	var outline_btn = function(context) {
+		var ui = $.summernote.ui;
+		var button = ui.button({
+			contents: 'Outline',
+			tooltip: 'Generate Outline',
+			click: function () {
+				generate_outline();
+			},
+			container : $(".note-editor.note-frame") // prevent on-top error
+		});
+		return button.render();
+	};
+	// Button to insert sidenotes/margin notes
+	var sidenote_btn = function(context) {
+        var ui = $.summernote.ui;
+		console.log(context);
+        var sidenote_menu = ui.buttonGroup([
+            ui.button({
+                contents: '[i] <span class="note-icon-caret"></span>',
+                tooltip: 'Insert sidenote or margin note',
+                data: {
+                    toggle: 'dropdown'
+                },
+				container : $(".note-editor.note-frame")
+            }),
+            ui.dropdown({
+                items: [
+                    'Sidenote', 'Margin Note'
+                ],
+				click: function (e) {
+					e.preventDefault(); // stop jumping in page
+					var btn = e.target.getAttribute('data-value'); // 'Sidenote' or 'Margin Note'
+					insert_note(btn);
+				},
+				container : $(".note-editor.note-frame")
+            })
+        ]
+		);
+
+        return sidenote_menu.render();
+	};
 
 	// ==========================================
 	//         Setup Summernote Editor
@@ -887,23 +932,13 @@ function move_tmp_images($filenames, $key) {
 		  ['para', ['ul', 'ol', 'paragraph']],
 		  ['table', ['table']],
 		  ['insert', ['link', 'picture']],
-		  ['custom', ['outline_btn']],
+		  ['custom', ['outline_btn', 'sidenote_btn']],
 		  ['help', ['help']],
 		  ['view', ['codeview']]
 		],
 		buttons: {
-			outline_btn: function(context) {
-				var ui = $.summernote.ui;
-				var button = ui.button({
-					contents: 'Outline',
-					tooltip: 'Generate Outline',
-					click: function () {
-						generate_outline();
-					},
-					container : $(".note-editor.note-frame")
-				});
-				return button.render();
-			}
+			'outline_btn': outline_btn,
+			'sidenote_btn': sidenote_btn
 		},
 		// Include CodeMirror as default src code editor.
 		// Much nicer than default editor. Syntax highlighting etc.
@@ -1326,6 +1361,26 @@ function move_tmp_images($filenames, $key) {
 		// Add first ol to outline
 		outline.appendChild(level[0]);
 		console.log(outline);
+	}
+
+	// ==========================================
+	// 	   Insert Sidenotes/Margin Notes
+	// ==========================================
+	function insert_note(type) {
+		let random_id = Math.random().toString(36).substring(7);
+
+		// Show number for sidenotes, a fixed symbol for margin notes in text
+		let inline_symbol = type === 'Sidenote' ? ' sidenote-number' : ' .marginnote-symbol';
+		// Show number within sidenote, nothing for margin note in margin
+		let note_type = type === 'Sidenote' ? 'sidenote' : 'marginnote';
+		let html = `
+		  	<label for="${random_id}" class="margin-toggle${inline_symbol}"></label>
+			<input type="checkbox" id="${random_id}" class="margin-toggle" />
+			<span class="${note_type}">
+				Placeholder text for new margin
+			</span>
+		`;
+		$('#summernote').summernote('pasteHTML', html);
 	}
   </script>
   

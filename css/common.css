@@ -2,6 +2,10 @@
 
                     Main Style File
 
+   -----------------------------------------------------
+   Where possible, the styles work for all screen sizes.
+   Otherwise, they are mobile-first and media queries
+   are used to adjust for larger screens.
    ===================================================== */
 .container{
 	width: 90%;
@@ -291,12 +295,16 @@ u {
 	width: 100%;
 }
 .article p, .article ul, .article ol, .article blockquote, 
-.article pre, .article table, .article figure {
+.article pre, .article table, .article figure, .article div {
   width: 600px;
   max-width: 100%;
 }
+.article p {
+  text-align: justify;
+}
 .article ul, .article ol {
   padding-left: 20px;
+  box-sizing: border-box;
 }
 .article .outline {
   display: block;
@@ -322,6 +330,49 @@ u {
   
 }
 
+/* Sidenote =============== 
+   On small screens, sidenotes are hidden until clicked */
+.sidenote,
+.marginnote {
+  display: none;
+  font-size: 12px;
+  word-wrap: break-word;
+}
+
+.margin-toggle:checked + .sidenote,
+.margin-toggle:checked + .marginnote {
+  display: block;
+  clear: both;
+  padding: 0.5em 0.5em 0.5em 1.5em;
+  position: relative;
+}
+input.margin-toggle { /* hide the checkbox */
+  display: none;
+}
+.marginnote-symbol:after {
+  /* ⊕ */
+  content: "\2295";
+}
+.sidenote-number {
+  counter-increment: sidenote-counter;
+}
+.sidenote-number:after,
+.sidenote:before, 
+.marginnote-symbol:after {
+  font-size: 10px;
+  top: -0.5rem;
+  left: 0.1rem;
+  position: relative;
+  vertical-align: baseline;
+}
+.sidenote-number:after {
+  content: "[" counter(sidenote-counter) "] ";
+}
+.sidenote:before {
+  content: counter(sidenote-counter) " ";
+  font-size: 10px;
+  top: -0.5rem;
+}
 
 footer {
   width: 100%;
@@ -474,8 +525,26 @@ footer {
 }
 
 /* ---- Large screens ---- */
-@media only screen and (min-width: 992px) {
-  
+@media only screen and (min-width: 1120px) {
+  /* Sidenote ===============
+   * Large screens show sidenotes in the margin */
+    .sidenote,
+    .marginnote {
+        float: right;
+        clear: right;
+        margin-right: -50%;
+        width: 40%;
+        margin-top: 0.3rem;
+        margin-bottom: 0;
+        line-height: 1.3;
+        vertical-align: baseline;
+        position: relative;
+        display: inline;
+    }
+    /* Don't show margin note symbol on large screens */
+    label.margin-toggle:not(.sidenote-number) {
+      display: none;
+    }
 }
 
 /* ====================================================
