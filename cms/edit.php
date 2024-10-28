@@ -1370,7 +1370,7 @@ function move_tmp_images($filenames, $key) {
 		let random_id = Math.random().toString(36).substring(7);
 
 		// Show number for sidenotes, a fixed symbol for margin notes in text
-		let inline_symbol = type === 'Sidenote' ? ' sidenote-number' : ' .marginnote-symbol';
+		let inline_symbol = type === 'Sidenote' ? ' sidenote-number' : ' marginnote-symbol';
 		// Show number within sidenote, nothing for margin note in margin
 		let note_type = type === 'Sidenote' ? 'sidenote' : 'marginnote';
 		let html = `
