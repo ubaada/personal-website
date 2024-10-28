@@ -1382,6 +1382,11 @@ function move_tmp_images($filenames, $key) {
 		`;
 		$('#summernote').summernote('pasteHTML', html);
 	}
+
+	// ==========================================
+	//       Set Summernote Font to Body
+	// ==========================================
+	document.querySelector('.note-editable').style.fontFamily = getComputedStyle(document.body).fontFamily;
   </script>
   
   
