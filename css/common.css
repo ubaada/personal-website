@@ -2,11 +2,15 @@
 
                     Main Style File
 
+   -----------------------------------------------------
+   Where possible, the styles work for all screen sizes.
+   Otherwise, they are mobile-first and media queries
+   are used to adjust for larger screens.
    ===================================================== */
 .container{
 	width: 90%;
 	margin: 0 auto;
-    max-width: 1280px;
+  max-width: 1280px;
 }
 /* Takes 100% of the width inside a container */
 .row {
@@ -30,7 +34,7 @@
 .row .col.m1{width:8.3333333333%;}.row .col.m2{width:16.6666666667%;}.row .col.m3{width:25%;}.row .col.m4{width:33.3333333333%;}.row .col.m5{width:41.6666666667%;}.row .col.m6{width:50%;}.row .col.m7{width:58.3333333333%;}.row .col.m8{width:66.6666666667%;}.row .col.m9{width:75%;}.row .col.m10{width:83.3333333333%;}.row .col.m11{width:91.6666666667%;}.row .col.m12{width:100%;}
 
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1120px) {
 .container{
 	width: 70%;
 }
@@ -73,10 +77,10 @@ html {
   color: rgba(0,0,0,0.87);
 }
 body {
-  --bgcolor: white;
+  --bgcolor: #fffff8;
   --bg-shade-1: #cdcdcd;
   --bg-shade-2: #e9e9e9;
-  --textcolor: black;
+  --textcolor:  #111111;
   --txt-shade-1: #4d4d4d;
   --shadow-color: rgb(0 0 0 / 10%);
   --footer-bg-color: #d8d8d89e;
@@ -97,10 +101,10 @@ body {
 
 body.dark {
   /* Dark mode variables go here */
-  --bgcolor: black;
+  --bgcolor:  #111111;
   --bg-shade-1: #3a3a3a;
   --bg-shade-2: #2e2e2e;
-  --textcolor: white;
+  --textcolor: #fffff8;
   --txt-shade-1: #727272;
   --shadow-color: rgb(255 255 255 / 10%);
   --footer-bg-color: #5f5f5f91;
@@ -291,12 +295,16 @@ u {
 	width: 100%;
 }
 .article p, .article ul, .article ol, .article blockquote, 
-.article pre, .article table, .article figure {
+.article pre, .article table, .article figure, .article div {
   width: 600px;
   max-width: 100%;
 }
+.article p {
+  text-align: justify;
+}
 .article ul, .article ol {
   padding-left: 20px;
+  box-sizing: border-box;
 }
 .article .outline {
   display: block;
@@ -321,7 +329,112 @@ u {
   margin-right: calc((-90vw + 100%) / 2);
   
 }
+/* Article Heading typography */
+.article h1 {
+  font-size: 2.5rem;
+  line-height: 3.25rem;
+  margin-bottom: 1.625rem;
+}
 
+.article h2 {
+  font-size: 1.7rem;
+  line-height: 2rem;
+  margin-top: 3rem;
+}
+
+.article h3 {
+  font-size: 1.4rem;
+  margin-top: 2.5rem;
+}
+
+.article h4 {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+.article h5 {
+  font-size: 1rem;
+  margin-top: 1.8rem;
+}
+
+.article h6 {
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: normal;
+  margin-top: 2.5rem;
+}
+
+.article h3,
+.article h4,
+.article h5,
+.article h6 {
+  line-height: 1.625rem;
+}
+
+.article h1 + .article h2 {
+  margin-top: 1.625rem;
+}
+
+.article h2 + .article h3,
+.article h3 + .article h4,
+.article h4 + .article h5 {
+  margin-top: 0.8rem;
+}
+.article h5 + .article h6 {
+  margin-top: -0.8rem;
+}
+
+.article h2,
+.article h3,
+.article h4,
+.article h5,
+.article h6 {
+  margin-bottom: 0.8rem;
+}
+/* ----------------------------------- */
+
+/* Sidenote =============== 
+   On small screens, sidenotes are hidden until clicked */
+.sidenote,
+.marginnote {
+  display: none;
+  font-size: 12px;
+  word-wrap: break-word;
+}
+
+.margin-toggle:checked + .sidenote,
+.margin-toggle:checked + .marginnote {
+  display: block;
+  clear: both;
+  padding: 0.5em 0.5em 0.5em 1.5em;
+  position: relative;
+}
+input.margin-toggle { /* hide the checkbox */
+  display: none;
+}
+.marginnote-symbol:after {
+  /* ⊕ */
+  content: "\2295";
+}
+.sidenote-number {
+  counter-increment: sidenote-counter;
+}
+.sidenote-number:after,
+.sidenote:before {
+  font-size: 10px;
+  top: -0.5rem;
+  left: 0.1rem;
+  position: relative;
+  vertical-align: baseline;
+}
+.sidenote-number:after {
+  content: "[" counter(sidenote-counter) "] ";
+}
+.sidenote:before {
+  content: counter(sidenote-counter) " ";
+  font-size: 10px;
+  top: -0.5rem;
+}
 
 footer {
   width: 100%;
@@ -474,8 +587,26 @@ footer {
 }
 
 /* ---- Large screens ---- */
-@media only screen and (min-width: 992px) {
-  
+@media only screen and (min-width: 1120px) {
+  /* Sidenote ===============
+   * Large screens show sidenotes in the margin */
+    .sidenote,
+    .marginnote {
+        float: right;
+        clear: right;
+        margin-right: -50%;
+        width: 40%;
+        margin-top: 0.3rem;
+        margin-bottom: 0;
+        line-height: 1.3;
+        vertical-align: baseline;
+        position: relative;
+        display: inline;
+    }
+    /* Don't show margin note symbol on large screens */
+    label.margin-toggle:not(.sidenote-number) {
+      display: none;
+    }
 }
 
 /* ====================================================

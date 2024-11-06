@@ -314,21 +314,29 @@ function move_tmp_images($filenames, $key) {
 		content:'Publish';
 	}
 	
-	.submit-row {
+	.bottom-row {
 		position: sticky;
 		bottom: 0px;
 		background-color: var(--bgcolor);
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
 		align-items: center;
 		column-gap: 0.875rem;
 		border-top: 1px solid var(--footer-bg-color);
 		z-index: 10;
+		font-size: 10px;
+		flex-wrap: wrap;
 	}
-	#form_status {
-		display: inline;
-		margin-right: auto;
-	
+	#status_bar {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem;
+	}
+	#file_bar {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 	
 	/* overiding summernote's css */
@@ -583,11 +591,17 @@ function move_tmp_images($filenames, $key) {
 
 		
 		<!-- Files | Save | Delete buttons -->
-		<div class="col s12 submit-row">
-			<div id="form_status"></div>
-			<input type="button" id="files_button" value="Files">
-			<input type="button" onclick="save()" value="Save Edit">
-			<input type="button" onclick="delete_post()" value="DELETE" style="background-color: #6a0909;color: white;">
+		<div class="bottom-row">
+			<div id="status_bar">
+				<div id="curr_element"></div>
+				<div id="word_count"></div>
+				<div id="general_msg"></div>
+			</div>
+			<di id="file_bar">
+				<input type="button" id="files_button" value="Files">
+				<input type="button" onclick="save()" value="Save Edit">
+				<input type="button" onclick="delete_post()" value="DELETE" style="background-color: #6a0909;color: white;">
+			</div>
 		</div>
 	  
 
@@ -852,6 +866,51 @@ function move_tmp_images($filenames, $key) {
   <!-- Initialize text editor --->
    
   <script>
+	// ==========================================
+	//       Custom Buttons (before init)
+	// ==========================================
+	// Button to generate outline
+	var outline_btn = function(context) {
+		var ui = $.summernote.ui;
+		var button = ui.button({
+			contents: 'Outline',
+			tooltip: 'Generate Outline',
+			click: function () {
+				generate_outline();
+			},
+			container : $(".note-editor.note-frame") // prevent on-top error
+		});
+		return button.render();
+	};
+	// Button to insert sidenotes/margin notes
+	var sidenote_btn = function(context) {
+        var ui = $.summernote.ui;
+		console.log(context);
+        var sidenote_menu = ui.buttonGroup([
+            ui.button({
+                contents: '[i] <span class="note-icon-caret"></span>',
+                tooltip: 'Insert sidenote or margin note',
+                data: {
+                    toggle: 'dropdown'
+                },
+				container : $(".note-editor.note-frame")
+            }),
+            ui.dropdown({
+                items: [
+                    'Sidenote', 'Margin Note'
+                ],
+				click: function (e) {
+					e.preventDefault(); // stop jumping in page
+					var btn = e.target.getAttribute('data-value'); // 'Sidenote' or 'Margin Note'
+					insert_note(btn);
+				},
+				container : $(".note-editor.note-frame")
+            })
+        ]
+		);
+
+        return sidenote_menu.render();
+	};
 
 	// ==========================================
 	//         Setup Summernote Editor
@@ -873,23 +932,13 @@ function move_tmp_images($filenames, $key) {
 		  ['para', ['ul', 'ol', 'paragraph']],
 		  ['table', ['table']],
 		  ['insert', ['link', 'picture']],
-		  ['custom', ['outline_btn']],
+		  ['custom', ['outline_btn', 'sidenote_btn']],
 		  ['help', ['help']],
 		  ['view', ['codeview']]
 		],
 		buttons: {
-			outline_btn: function(context) {
-				var ui = $.summernote.ui;
-				var button = ui.button({
-					contents: 'Outline',
-					tooltip: 'Generate Outline',
-					click: function () {
-						generate_outline();
-					},
-					container : $(".note-editor.note-frame")
-				});
-				return button.render();
-			}
+			'outline_btn': outline_btn,
+			'sidenote_btn': sidenote_btn
 		},
 		// Include CodeMirror as default src code editor.
 		// Much nicer than default editor. Syntax highlighting etc.
@@ -899,6 +948,7 @@ function move_tmp_images($filenames, $key) {
           lineNumbers: true,
           theme: 'blackboard'
         },
+		codeviewFilter: false, // allow script tags
 		callbacks: {
 			// Add upload event handler.
 			// [0] because only supports 1 at a time.
@@ -936,7 +986,7 @@ function move_tmp_images($filenames, $key) {
 	// ==========================================
 	
 	// ==========================================
-	//         Remove Inline Styling
+	//         Remove Paste Inline Styling
 	// ==========================================
 	function removeInlineStyling(htmlContent) {
 		// Create a temporary container to parse HTML
@@ -1197,8 +1247,27 @@ function move_tmp_images($filenames, $key) {
 	//         Show Status Messages
 	// ==========================================
 	function notify(message) {
-		form_status.innerHTML = message;
+		general_msg = document.getElementById("general_msg");
+		general_msg.innerHTML = message
 	}
+	// show current focused element tag type
+	function show_focused() {
+		var curr_element = window.getSelection().focusNode.parentElement;
+		curr_element = '<' + curr_element.tagName.toLowerCase() + '>';
+		document.getElementById("curr_element").innerText = curr_element + " |";
+	}
+	document.addEventListener('selectionchange', show_focused);
+	// show word count
+	function show_word_count() {
+		var content = $('#summernote').summernote('code');
+		var word_count = content.replace( /[^\w ]/g, "" ).split( /\s+/ ).length;
+		document.getElementById("word_count").innerText = word_count + " words" + " |";
+	}
+	// when content is changed
+	$('#summernote').on('summernote.change', function() {
+		show_word_count();
+	});
+
 	// ==========================================
 
 
@@ -1293,6 +1362,31 @@ function move_tmp_images($filenames, $key) {
 		outline.appendChild(level[0]);
 		console.log(outline);
 	}
+
+	// ==========================================
+	// 	   Insert Sidenotes/Margin Notes
+	// ==========================================
+	function insert_note(type) {
+		let random_id = Math.random().toString(36).substring(7);
+
+		// Show number for sidenotes, a fixed symbol for margin notes in text
+		let inline_symbol = type === 'Sidenote' ? ' sidenote-number' : ' marginnote-symbol';
+		// Show number within sidenote, nothing for margin note in margin
+		let note_type = type === 'Sidenote' ? 'sidenote' : 'marginnote';
+		let html = `
+		  	<label for="${random_id}" class="margin-toggle${inline_symbol}"></label>
+			<input type="checkbox" id="${random_id}" class="margin-toggle" />
+			<span class="${note_type}">
+				Placeholder text for new margin
+			</span>
+		`;
+		$('#summernote').summernote('pasteHTML', html);
+	}
+
+	// ==========================================
+	//       Set Summernote Font to Body
+	// ==========================================
+	document.querySelector('.note-editable').style.fontFamily = getComputedStyle(document.body).fontFamily;
   </script>
   
   
