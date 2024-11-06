@@ -311,6 +311,11 @@
                 </p>
 
                 <p>
+                    <a href="https://github.com/ubaada/scratch-transformer">Original Transformer Reimplementation:</a><br>
+                    Reimplementation and training of the original 2017 "Attention is all you need" transformer model from 2017.
+                </p>
+
+                <p>
                     <a href="http://vbe.ubaada.com/">VBE tool:</a><br>
                     A simple tool to convert Variable Byte Encoding to and from decimal numbers.
                 </p>
