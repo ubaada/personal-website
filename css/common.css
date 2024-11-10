@@ -312,6 +312,8 @@ u {
   width: -moz-fit-content;
   width: fit-content;
   border: 1px solid var(--textcolor);
+  box-sizing: border-box;
+  max-width: 600px;
 }
 .article .outline::before {
   content: "Outline";
