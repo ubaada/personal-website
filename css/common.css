@@ -295,7 +295,7 @@ u {
 	width: 100%;
 }
 .article p, .article ul, .article ol, .article blockquote, 
-.article pre, .article table, .article figure, .article div {
+.article pre, .article table, .article figure, .article div, .article img {
   width: 600px;
   max-width: 100%;
 }
