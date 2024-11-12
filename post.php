@@ -202,9 +202,9 @@ if (isset($_GET['key'])) {
 
 		@media print {
 
-			/* All your print styles go here */
+			/* All print styles go here */
 			@page {
-				margin: 2cm !important;
+				margin: 1.5cm !important;
 
 				@bottom-right {
 					content: counter(page) " of " counter(pages);
@@ -231,12 +231,11 @@ if (isset($_GET['key'])) {
 			}
 
 			html {
-				line-height: 1.3;
 			}
 
 			.article {
 				width: 100%;
-				font-size: 12pt;
+				font-size: 10pt;
 			}
 
 			h1 {
@@ -291,6 +290,9 @@ if (isset($_GET['key'])) {
 			pre {
 				page-break-inside: avoid
 			}
+			pre.collapsed {
+				height: unset;
+			}
 
 			ul,
 			ol,
@@ -298,11 +300,33 @@ if (isset($_GET['key'])) {
 				page-break-before: avoid
 			}
 
+			  /* Sidenote ===============
+			* Large screens show sidenotes in the margin */
+			.sidenote,
+				.marginnote {
+					float: right;
+					clear: right;
+					margin-right: -50%;
+					width: 40%;
+					margin-top: 0.3rem;
+					margin-bottom: 0;
+					line-height: 1.3;
+					vertical-align: baseline;
+					position: relative;
+					display: inline;
+					font-size: 8pt;
+				}
+				/* Don't show margin note symbol on large screens */
+				label.margin-toggle:not(.sidenote-number) {
+				display: none;
+				}
+
 			/* Thank you message */
 			.article:after {
 				border-top: 1px dashed;
 				padding-top: 2pt;
-				content: "Printed from ubaada.com. Glad you liked it enough to print :)";
+				content: 
+				"Printed from ubaada.com. Glad you liked it enough to print :)";
 			}
 		}
 	</style>
