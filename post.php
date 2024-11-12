@@ -119,11 +119,11 @@ if (isset($_GET['key'])) {
 
 	<style>
 		h1 {
-		transition: all 1s;
-		margin: 0;
-		padding: 2.8rem 0 1.68rem 0;
-		font-size: 3rem;
-		line-height: 110%;
+			transition: all 1s;
+			margin: 0;
+			padding: 2.8rem 0 1.68rem 0;
+			font-size: 2.3rem;
+			line-height: 110%;
 		}
 		#unpublished_msg {
 			/* show a message fixed at the top if post is unpublished */
@@ -191,6 +191,12 @@ if (isset($_GET['key'])) {
 				font-size: 16px;
 				bottom: 5px;
 				right: 5px;
+			}
+		}
+		/* ---- Large screens ---- */
+		@media only screen and (min-width: 1120px) {
+			h1 {
+				font-size: 3.2rem;
 			}
 		}
 
