@@ -29,7 +29,7 @@ function login($input_username, $input_pw) {
 			$new_token = bin2hex(random_bytes(32));
 			
 			// Set the TTL interval (in seconds) + current time
-			$ttl = 604800;
+			$ttl = 60*60*24*30; // 30 days
 			$ttl = time() + $ttl;
 			
 			# Insert session into sessions table
