@@ -7,7 +7,7 @@ from google.analytics.data_v1beta.types import (
 )
 
 
-def sample_run_report(property_id="YOUR-GA4-PROPERTY-ID"):
+def sample_run_report(property_id):
     """Runs a report to get all-time page views for all URLs on a Google Analytics 4 property."""
     client = BetaAnalyticsDataClient()
 
@@ -28,7 +28,7 @@ import os
 filedir = os.path.dirname(__file__)
 cred_file = filedir + "/blog-view-counter-cred.json"
 property_id_file = filedir + "/ga-property-id.txt"
-db_file = filedir + "/  ../data.db"
+db_file = filedir + "/../data.db"
 
 if __name__ == "__main__":
     import sqlite3
