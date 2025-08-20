@@ -13,7 +13,8 @@ if(isset($_COOKIE["session_token"])) {
 
 function login($input_username, $input_pw) {
 	# Check if username exists in table users
-	$pdo = new PDO('sqlite:../../data.db');
+	$db_path = __DIR__ . '/../../sqlite/data.db';
+    $pdo = new PDO('sqlite:' . $db_path);
 	$stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
 	$stmt->execute([$input_username]);
 
@@ -35,7 +36,13 @@ function login($input_username, $input_pw) {
 			# Insert session into sessions table
 			$stmt_i = $pdo->prepare('INSERT INTO sessions (username, token, ttl) VALUES (?, ?, ?)');
 			$stmt_i->execute([$user_details['username'], $new_token, $ttl]);
-			
+
+			if ($stmt_i->rowCount() < 1) {
+				// log failed session insert
+				error_log("Failed to insert session for user: " . $user_details['username'] . " - " . print_r($stmt_i->errorInfo(), true));
+				return false;
+			}
+
 			// Set session cookie
 			setcookie("session_token", $new_token, $ttl, "/");
 			return true;

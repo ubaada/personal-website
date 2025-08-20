@@ -383,7 +383,9 @@
                     <?php
                         $max_posts = 5;
                         // Connect to the database
-                        $pdo = new PDO('sqlite:../data.db');
+                        
+                        $db_path = __DIR__ . '/../sqlite/data.db';
+                        $pdo = new PDO('sqlite:' . $db_path);
                         $sql = 'SELECT * FROM posts WHERE status = "published" ORDER BY date DESC LIMIT ' . $max_posts;
                         $stmt = $pdo->prepare($sql);
                         // Execute the prepared statement and fetch all matching posts

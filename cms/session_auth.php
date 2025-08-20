@@ -10,7 +10,7 @@ function authenticate_session() {
 	if(isset($_COOKIE["session_token"])) {
 		$session_cookie = htmlspecialchars($_COOKIE["session_token"]);
 		// Check if Cookie matches in sessions table
-		$db_path = __DIR__ . '/../../data.db'; // __DIR__ always returns /cms regardless where its called from
+		$db_path = __DIR__ . '/../../sqlite/data.db'; // __DIR__ always returns /cms regardless where its called from
 		$pdo = new PDO('sqlite:'.$db_path);
 		$stmt = $pdo->prepare('SELECT * FROM sessions WHERE token = ?');
 		$stmt->execute([$session_cookie]);
