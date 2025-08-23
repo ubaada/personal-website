@@ -6,7 +6,8 @@
 // ========================================================
 if (isset($_GET['key'])) {
 	// DB connection
-	$pdo = new PDO('sqlite:../data.db');
+	$db_path = __DIR__ . '/../sqlite/data.db';
+    $pdo = new PDO('sqlite:' . $db_path);
 
 	// Get post (if its published)
 	$stmt = $pdo->prepare('SELECT * FROM posts WHERE post_id = ?');
