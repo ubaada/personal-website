@@ -8,7 +8,8 @@
 //  List all published posts. This is a public page.
 //  If 'tags' is set in the url, only posts with that tag are shown.
 // ========================================================
-$pdo = new PDO('sqlite:../data.db');
+$db_path = __DIR__ . '/../sqlite/data.db';
+$pdo = new PDO('sqlite:' . $db_path);
 
 $tag_filtered = false;
 // Check if tags are specified in the url
