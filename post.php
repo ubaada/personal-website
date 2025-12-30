@@ -355,13 +355,13 @@ if (isset($_GET['key'])) {
 					</span>
 				</a>
 				<!-- arrow -->
-				<span>&#9679;</span>
+				<span>&#124;</span>
 				<!-- Post date -->
 				<span id="article-date">
 					<?php echo date('d-m-Y', $post_details['date']); ?>
 				</span>
 				<!-- View count -->
-				<span>&#9679;</span>
+				<span>&#124;</span>
 				<span>
 					<?php 				
 					$views = $post_details['views'];
