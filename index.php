@@ -327,6 +327,14 @@
                     and their summaries.
                     BookSum dataset is used for training and evaluating summarization machine learning models.
                 </p>
+
+                <p>
+                    <a href="https://huggingface.co/datasets/ubaada/en-wiki-synth-qa-50k">Wikipedia Synthetic QA
+                        dataset:</a><br>
+                    A synthetic question-answer dataset generated from 49,268 high-importance English Wikipedia articles.
+                    The dataset contains over 927,000 grounded question-answer pairs and can be used for instruction-tuning
+                    and evaluating language models.
+                </p>
                 <p>
                     <a href="https://huggingface.co/collections/ubaada/my-booksum-models-6644bc3c3744e4bcd5b45078">
                         Summarization LLM Models:
