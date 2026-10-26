@@ -11,3 +11,9 @@
 cms/post_files
 utilities
 README.md
+secrets
+data
+state
+.com-data
+.com-cache
+cms/schema.sql

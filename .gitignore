@@ -1,2 +1,17 @@
 # ignore post image files and database file
 /cms/post_files/
+.env
+.env.*
+!.env.example
+secrets/
+data/
+state/
+*.pem
+*.key
+*.p12
+*.pfx
+*.db
+*.db-*
+*.sqlite*
+*-cred.json
+*credentials*.json
