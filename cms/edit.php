@@ -54,7 +54,7 @@ if (isset($_GET['key'])) { // Indvidual post address /?key=
 		
 		if ($stmt){
 			// Save successfull
-			notify("Saved");
+			echo "Saved";
 		} else {
 			// Post did not update.
 			http_response_code(404);
