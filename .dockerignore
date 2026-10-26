@@ -1,0 +1,13 @@
+.git
+.github
+.env
+.env.*
+**/*.key
+**/*.pem
+**/*.db
+**/*.db-*
+**/*.sqlite*
+**/*cred*.json
+cms/post_files
+utilities
+README.md
