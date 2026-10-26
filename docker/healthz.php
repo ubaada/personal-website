@@ -1,4 +1,9 @@
 <?php
+$cronPid = (int) @file_get_contents('/run/website/cron.pid');
+if ($cronPid <= 0 || !is_dir('/proc/' . $cronPid)) {
+    http_response_code(503);
+    exit('scheduler unavailable');
+}
 $database = getenv('DATABASE_PATH') ?: __DIR__ . '/../sqlite/data.db';
 if (!is_file($database) || !is_readable($database)) {
     http_response_code(503);

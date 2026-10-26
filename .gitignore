@@ -15,3 +15,5 @@ state/
 *.sqlite*
 *-cred.json
 *credentials*.json
+__pycache__/
+*.py[cod]

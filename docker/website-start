@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+mkdir -p /run/apache2 /run/lock/apache2 /run/website
+python3 - <<'PY'
+import json,os
+keys=['ANALYTICS_ENABLED','ANALYTICS_DB_PATH','GOOGLE_APPLICATION_CREDENTIALS','GA_PROPERTY_ID_FILE']
+with open('/run/analytics-environment.json','w') as f:
+    json.dump({k:os.environ[k] for k in keys if k in os.environ},f)
+os.chmod('/run/analytics-environment.json',0o600)
+PY
+cron -f &
+cron_pid=$!
+echo "$cron_pid" > /run/website/cron.pid
+chmod 0644 /run/website/cron.pid
+docker-php-entrypoint "$@" &
+web_pid=$!
+stop() {
+    kill -TERM "$cron_pid" 2>/dev/null || true
+    kill -WINCH "$web_pid" 2>/dev/null || true
+    wait "$cron_pid" "$web_pid" 2>/dev/null || true
+}
+trap 'stop; exit 0' TERM INT
+set +e
+wait -n "$cron_pid" "$web_pid"
+status=$?
+set -e
+stop
+exit "$status"

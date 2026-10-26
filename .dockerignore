@@ -9,7 +9,6 @@
 **/*.sqlite*
 **/*cred*.json
 cms/post_files
-utilities
 README.md
 secrets
 data
@@ -17,3 +16,5 @@ state
 .com-data
 .com-cache
 cms/schema.sql
+__pycache__
+**/__pycache__

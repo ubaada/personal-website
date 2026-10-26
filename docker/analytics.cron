@@ -1,0 +1,3 @@
+SHELL=/bin/sh
+PATH=/usr/local/bin:/usr/bin:/bin
+*/30 * * * * root flock -n /tmp/analytics.lock timeout 600 /opt/analytics/bin/python /opt/analytics/run-analytics.py >> /proc/1/fd/1 2>> /proc/1/fd/2

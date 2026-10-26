@@ -26,12 +26,14 @@ def sample_run_report(property_id):
 
 import os
 filedir = os.path.dirname(__file__)
-cred_file = filedir + "/blog-view-counter-cred.json"
-property_id_file = filedir + "/ga-property-id.txt"
-db_file = filedir + "/../data.db"
+cred_file = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", filedir + "/blog-view-counter-cred.json")
+property_id_file = os.environ.get("GA_PROPERTY_ID_FILE", filedir + "/ga-property-id.txt")
+db_file = os.environ.get("ANALYTICS_DB_PATH", filedir + "/../sqlite/data.db")
 
 if __name__ == "__main__":
     import sqlite3
+    if not os.path.isfile(db_file):
+        raise FileNotFoundError("Analytics database is missing")
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cred_file
 
     with open(property_id_file, "r") as f:
@@ -40,7 +42,7 @@ if __name__ == "__main__":
     response = sample_run_report(property_id)
 
     # update the view count in the database
-    conn = sqlite3.connect(db_file)
+    conn = sqlite3.connect(db_file, timeout=30)
     for row in response.rows:
         url = row.dimension_values[0].value
         views = row.metric_values[0].value
@@ -57,5 +59,4 @@ if __name__ == "__main__":
                 cursor.execute("UPDATE posts SET views=? WHERE post_id=?", (views, post_id))
                 conn.commit()
     conn.close()
-
 
